@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_10efa3455ffenyLdgrOO5cOGtY",
+    "slug": "neon-island",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-22T19-55-04-956Z/openslimedit-helper-read-write-ledger-1/repo",
+    "path": "",
+    "title": "future.v1:helper-read-write-ledger:openslimedit:run-1",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 355995,
+      "output": 5271,
+      "reasoning": 474,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782160149418,
+      "updated": 1782160415721
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782160150113
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/helper-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/helper-read-write-ledger.md\n===================================================================\n--- bench-artifacts/helper-read-write-ledger.md\t\n+++ bench-artifacts/helper-read-write-ledger.md\t\n@@ -0,0 +1,177 @@\n+# Helper Read/Write Ledger\n+\n+## src/helper/factory/index.ts\n+- Main exports or names: CreateHandlersInterface, Factory, createFactory, createMiddleware\n+- Reads as: Hono (../../hono), HonoOptions (/hono-base), Env, H, HandlerResponse, Input, IntersectNonAnyTypes, MiddlewareHandler (/types)\n+- Neighbor files: src/helper/factory/index.test.ts\n+- Safe summary: Factory helper provides createHandlers with variable-length arguments (x1-x10 handlers) to combine handlers and middleware, plus createFactory function with initApp and defaultOptions.\n+\n+## src/helper/route/index.ts\n+- Main exports or names: matchedRoutes, routePath, baseRoutePath, basePath\n+- Reads as: Context (/context), GET_MATCH_RESULT (/request/constants), RouterRoute (/types), getPattern, splitRoutingPath (/utils/url)\n+- Neighbor files: src/helper/route/index.test.ts\n+- Safe summary: Route helper for inspecting registered routes, includes functions to get matched routes and path info from context with optional index parameter for navigation.\n+\n+## src/helper/websocket/index.ts\n+- Main exports or names: WSEvents, UpgradeWebSocket, WSReadyState, WSContext, SendOptions, defineWebSocketHelper, WSMessageReceive, createWSMessageEvent\n+- Reads as: Context (/context), MiddlewareHandler, TypedResponse (/types), StatusCode (/utils/http-status)\n+- Neighbor files: src/helper/websocket/index.test.ts\n+- Safe summary: WebSocket helper for Hono including upgrade handler, context class for send/close operations, WSEvents interface, and defineWebSocketHelper factory function.\n+\n+## src/helper/cookie/index.ts\n+- Main exports or names: getCookie, getSignedCookie, generateCookie, setCookie, generateSignedCookie, setSignedCookie, deleteCookie\n+- Reads as: Context (/context), parse, parseSigned, serialize, serializeSigned (/utils/cookie)\n+- Neighbor files: src/helper/cookie/index.test.ts\n+- Safe summary: Cookie helper for reading and writing cookies, includes signed cookie functions with server-side secrets, supports Secure and Host prefixes.\n+\n+## src/helper/testing/index.ts\n+- Main exports or names: testClient\n+- Reads as: hc (/client), Client, ClientRequestOptions (/client/types), Context (/context), Hono (/hono), Schema (/types), UnionToIntersection (/utils/types)\n+- Neighbor files: src/helper/testing/index.test.ts\n+- Safe summary: Testing helper that creates test clients by wrapping the app with a custom fetch implementation using hc, binds app environment and execution context.\n+\n+## src/helper/adapter/index.ts\n+- Main exports or names: env, knownUserAgents, getRuntimeKey, checkUserAgentEquals, Runtime type\n+- Reads as: Context (/context)\n+- Neighbor files: src/helper/adapter/index.test.ts\n+- Safe summary: Adapter helper detects runtime environment (node, deno, bun, workerd, fastly, edge-light, other) via user agent or global properties, provides env accessor with runtime context.\n+\n+## src/helper/css/index.ts\n+- Main exports or names: css, cx, keyframes, viewTransition, Style, createCssContext\n+- Reads as: raw (/helper/html), DOM_RENDERER (/jsx/constants), createCssJsxDomObjects (/jsx/dom/css)\n+- Neighbor files: src/helper/css/common.ts\n+- Reads from neighbors: CLASS_NAME, DEFAULT_STYLE_ID, PSEUDO_GLOBAL_SELECTOR, SELECTOR, SELECTORS, STYLE_STRING, cssCommon, cxCommon, keyframesCommon, viewTransitionCommon (/css/common)\n+- Safe summary: CSS helper for reactive styles with class name hashing, provides css/cx/keyframes/viewTransition/Style exports, includes createCssContext factory for custom configuration.\n+\n+## src/helper/css/common.ts\n+- Main exports or names: minify, cssCommon, cxCommon, keyframesCommon, viewTransitionCommon, rawCssString, defaultExtensionMap\n+- Reads as: none\n+- Neighbor files: src/helper/css/index.ts\n+- Writes to neighbors: (see above)\n+- Safe summary: Common CSS utilities including minification and building style strings from template literals, generates hashed class names, provides view transition support.\n+\n+## src/helper/proxy/index.ts\n+- Main exports or names: proxy, hopByHopHeaders, ALLOWED_TOKEN_PATTERN\n+- Reads as: HTTPException (/http-exception), RequestHeader (/utils/headers)\n+- Neighbor files: src/helper/proxy/index.test.ts\n+- Safe summary: Proxy fetch implementation with RFC 9110 compliance, strips hop-by-hop headers, validates Connection header, returns proxied responses with modified headers.\n+\n+## src/helper/dev/index.ts\n+- Main exports or names: showRoutes, inspectRoutes, getRouterName\n+- Reads as: Hono (/hono), Env, RouterRoute (/types), getColorEnabled (/utils/color), findTargetHandler, isMiddleware (/utils/handler)\n+- Neighbor files: src/helper/dev/index.test.ts\n+- Safe summary: Dev helper for displaying and inspecting route definitions with support for colorized output, optionally shows middleware with verbose flag, extracts router name.\n+\n+## src/helper/html/index.ts\n+- Main exports or names: html, raw\n+- Reads as: escapeToBuffer, raw, resolveCallbackSync, stringBufferToString (/utils/html)\n+- Neighbor files: src/helper/html/index.test.ts, src/helper/css/index.ts\n+- Writes to neighbors: raw (/helper/css/index.ts)\n+- Safe summary: HTML rendering helper combining template literals with automatic escaping, supports nested async children with callback resolution.\n+\n+## src/helper/ssg/index.ts\n+- Main exports or names: ssg\n+- Reads as: plugins.ts\n+- Neighbor files: src/helper/ssg/middleware.ts, src/helper/ssg/plugins.ts, src/helper/ssg/ssg.ts, src/helper/ssg/utils.ts\n+- Safe summary: SSG index re-exports toSSG from ssg.ts and testing helpers from middleware.\n+\n+## src/helper/ssg/ssg.ts\n+- Main exports or names: fetchRoutesContent, saveContentToFile, toSSG, ToSSGInterface, ToSSGAdaptorInterface, ToSSGResult, FileSystemModule, SSGPlugin, ToSSGOptions, combineBeforeRequestHooks, combineAfterResponseHooks, combineAfterGenerateHook, defaultExtensionMap, determineExtension, DEFAULT_CONCURRENCY, DEFAULT_CONTENT_TYPE, DEFAULT_OUTPUT_DIR, beforeRequestHook, afterResponseHook, afterGenerateHook\n+- Reads as: createPool (/utils/concurrent), getExtension (/utils/mime), AddedSSGDataRequest, SSGParams, SSG_CONTEXT, X_HONO_DISABLE_SSG_HEADER_KEY (/ssg/middleware), defaultPlugin (/ssg/plugins), filterStaticGenerateRoutes, isDynamicRoute, joinPaths, dirname (/ssg/utils)\n+- Neighbor files: src/help

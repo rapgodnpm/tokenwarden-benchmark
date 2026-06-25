@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_10deb948fffe3BqbUXXGW9EHm1",
+    "slug": "sunny-squid",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-22T19-55-04-956Z/baseline-helper-read-write-ledger-3/repo",
+    "path": "",
+    "title": "future.v1:helper-read-write-ledger:baseline:run-3",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 99451,
+      "output": 4080,
+      "reasoning": 1321,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782177885040,
+      "updated": 1782178134303
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782177885803
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/helper-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/helper-read-write-ledger.md\n===================================================================\n--- bench-artifacts/helper-read-write-ledger.md\t\n+++ bench-artifacts/helper-read-write-ledger.md\t\n@@ -0,0 +1,146 @@\n+# Helper Read/Write Ledger\n+\n+## src/helper/factory/index.ts\n+- Main exports or names: CreateHandlersInterface, Factory, createFactory, createMiddleware\n+- Reads as: ../../hono (Hono), ../../hono-base (HonoOptions), ../../types (Env, H, HandlerResponse, Input, IntersectNonAnyTypes, MiddlewareHandler)\n+- Neighbor files: src/helper/websocket/index.ts, src/helper/cookie/index.ts, src/helper/testing/index.ts, src/helper/adapter/index.ts\n+- Safe summary: Factory helper creates app instances and handles multiple HTTP handlers. Imports Hono class and core types.\n+\n+## src/helper/route/index.ts\n+- Main exports or names: matchedRoutes, routePath, baseRoutePath, basePath\n+- Reads as: ../../context (Context), ../../request/constants (GET_MATCH_RESULT), ../../types (RouterRoute), ../../utils/url (getPattern, splitRoutingPath)\n+- Neighbor files: src/helper/factory/index.ts, src/helper/websocket/index.ts, src/helper/cookie/index.ts\n+- Safe summary: Exposes route matching utilities for analyzing request paths. Reads Context, types, URL utilities.\n+\n+## src/helper/websocket/index.ts\n+- Main exports or names: WSEvents, UpgradeWebSocket, WSReadyState, WSContext, WSMessageReceive, createWSMessageEvent, WebSocketHelperDefineContext, WebSocketHelperDefineHandler, defineWebSocketHelper\n+- Reads as: ../../context (Context), ../../types (MiddlewareHandler, TypedResponse), ../../utils/http-status (StatusCode)\n+- Neighbor files: src/helper/cookie/index.ts, src/helper/testing/index.ts, src/helper/adapter/index.ts\n+- Safe summary: WebSocket helper for implementing real-time connections. Defines ws:// events and helper functions.\n+\n+## src/helper/cookie/index.ts\n+- Main exports or names: getCookie, getSignedCookie, generateCookie, setCookie, generateSignedCookie, setSignedCookie, deleteCookie\n+- Reads as: ../../context (Context), ../../utils/cookie (parse, parseSigned, serialize, serializeSigned)\n+- Neighbor files: src/helper/testing/index.ts, src/helper/adapter/index.ts\n+- Safe summary: Utility functions for reading and writing cookies with support for signed/secure/hybrid prefixes.\n+\n+## src/helper/testing/index.ts\n+- Main exports or names: testClient\n+- Reads as: ../../client (hc), ../../client/types (Client, ClientRequestOptions), ../../context (ExecutionContext), ../../hono (Hono), ../../types (Schema), ../../utils/types (UnionToIntersection)\n+- Neighbor files: src/helper/cookie/index.ts, src/helper/adapter/index.ts\n+- Safe summary: Creates test client from an Hono app for unit testing. Uses hc and custom execution context.\n+\n+## src/helper/adapter/index.ts\n+- Main exports or names: env, knownUserAgents, getRuntimeKey, checkUserAgentEquals\n+- Reads as: globalThis, navigator, Deno, typed types (Context)\n+- Neighbor files: src/helper/testing/index.ts, src/helper/cookie/index.ts, src/helper/route/index.ts\n+- Safe summary: Adaptive runtime detection helper. Identifies Node, Bun, Deno, workerd, Fastly, or Edge Runtime.\n+\n+## src/helper/css/index.ts\n+- Main exports or names: createCssContext, css, cx, keyframes, viewTransition, Style, raw, rawCssString\n+- Reads as: ../../helper/html (raw), ../../jsx/constants (DOM_RENDERER), ../../jsx/dom/css (createCssJsxDomObjects), ../../utils/html (HtmlEscapedCallback, HtmlEscapedString), ./common (Css class types, styles)\n+- Neighbor files: src/helper/route/index.ts, src/helper/websocket/index.ts, src/helper/testing/index.ts, src/helper/adapter/index.ts\n+- Safe summary: CSS-in-JS helper for server-side rendering. Generates styles dynamically with class hashing.\n+\n+## src/helper/css/common.ts\n+- Main exports or names: PSEUDO_GLOBAL_SELECTOR, DEFAULT_STYLE_ID, minify, cssCommon, cxCommon, keyframesCommon, viewTransitionCommon, rawCssString\n+- Reads as: regex patterns, symbol types\n+- Neighbor files: src/helper/css/index.ts\n+- Safe summary: Core CSS utilities with minification and class name generation. Shares with css/index.ts.\n+\n+## src/helper/proxy/index.ts\n+- Main exports or names: proxy\n+- Reads as: ../../http-exception (HTTPException), ../../utils/headers (RequestHeader), fetch\n+- Neighbor files: src/helper/adapter/index.ts, src/helper/testing/index.ts\n+- Safe summary: HTTP proxy helper supporting RFC 2616/9110. Handles hop-by-hop headers and connection parsing.\n+\n+## src/helper/dev/index.ts\n+- Main exports or names: inspectRoutes, showRoutes, getRouterName\n+- Reads as: ../../hono (Hono), ../../types (Env, RouterRoute), ../../utils/color (getColorEnabled), ../../utils/handler (findTargetHandler, isMiddleware)\n+- Neighbor files: src/helper/adapter/index.ts, src/helper/testing/index.ts\n+- Safe summary: Development helper for inspecting routes and router names. Colorized output with verbose mode.\n+\n+## src/helper/html/index.ts\n+- Main exports or names: raw, html\n+- Reads as: ../../utils/html (escapeToBuffer, raw, resolveCallbackSync, stringBufferToString)\n+- Neighbor files: src/helper/adapter/index.ts, src/helper/testing/index.ts\n+- Safe summary: HTML escaping and streaming helper. Processes template literals with interpolated values.\n+\n+## src/helper/ssg/index.ts\n+- Main exports or names: ssg and re-exports\n+- Reads as: ./ssg, ./middleware\n+- Neighbor files: src/helper/adapter/index.ts, src/helper/testing/index.ts, src/helper/streaming/index.ts\n+- Safe summary: Main SSG index, re-exports helper functions from ssg.ts and middleware module.\n+\n+## src/helper/streaming/index.ts\n+- Main exports or names: stream, streamSSE (via sse), streamText, SSEMessage, SSEStreamingApi\n+- Reads as: ./stream, ./sse, ./text\n+- Neighbor files: src/helper/ssg/index.ts, src/helper/adapter/index.ts, src/helper/testing/index.ts\n+- Safe summary: Streaming helper index combining stream, streamSSE, and streamText capabilities.\n+\n+## src/helper/streaming/stream.ts\n+- Main exports or names: stream\n+- Reads as: ../../context (Context), ../../utils/stream (StreamingApi), ./utils (isOldBunVersion)\n+- Neighbor files: src/helper/streaming/sse.ts, src/helper/streaming/text.ts\n+- Safe summary: Base streaming helper for chunked responses. Reads Stream API and Bun compatibility check.\n+\n+## src/helper/streaming/sse.ts\n+- Main exports or names: streamSSE, SSEStreamingApi, SSEMessage\n+- Reads as: ../../context (Context), ../../utils/html (resolveCallback), ../../utils/stream (StreamingApi), .

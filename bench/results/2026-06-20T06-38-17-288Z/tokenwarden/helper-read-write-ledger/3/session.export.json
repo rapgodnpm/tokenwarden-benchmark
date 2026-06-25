@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_11af075d4ffeSwcQg9NZiyKEuU",
+    "slug": "jolly-comet",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-20T06-38-17-288Z/tokenwarden-helper-read-write-ledger-3/repo",
+    "path": "",
+    "title": "future.v1:helper-read-write-ledger:tokenwarden:run-3",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.8",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 201984,
+      "output": 5196,
+      "reasoning": 1612,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1781959461419,
+      "updated": 1781959680161
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1781959462069
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/helper-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/helper-read-write-ledger.md\n===================================================================\n--- bench-artifacts/helper-read-write-ledger.md\t\n+++ bench-artifacts/helper-read-write-ledger.md\t\n@@ -0,0 +1,165 @@\n+# Helper Read/Write Ledger\n+\n+## src/helper/factory/index.ts\n+- Main exports or names: dynamic(), Factory, FactoryDefaultProps\n+- Reads as: imports Context, HandlerClass, ContextConfig, Env, Any, Schema\n+- Neighbor files: src/helper/websocket/, src/helper/cookie/, src/helper/testing/, src/helper/adapter/\n+- Safe summary: Creates dynamic helper class that adapts handlers with runtime configuration\n+\n+## src/helper/route/index.ts\n+- Main exports or names: matchedRoutes(), routePath(), baseRoutePath(), basePath()\n+- Reads as: imports Context, GET_MATCH_RESULT, RouterRoute, getPattern, splitRoutingPath\n+- Neighbor files: src/helper/websocket/, src/helper/cookie/, src/helper/testing/, src/helper/adapter/\n+- Safe summary: Route inspection utilities for retrieving matched route information\n+\n+## src/helper/websocket/index.ts\n+- Main exports or names: WSEvents, UpgradeWebSocket, WSReadyState, WSContext, createWSMessageEvent, defineWebSocketHelper\n+- Reads as: imports Context, MiddlewareHandler, TypedResponse\n+- Neighbor files: src/helper/adapter/, src/helper/route/, src/helper/testing/\n+- Safe summary: WebSocket helper for creating upgrade handler with event listeners\n+\n+## src/helper/cookie/index.ts\n+- Main exports or names: getCookie, getSignedCookie, setCookie, setSignedCookie, deleteCookie\n+- Reads as: imports Context, imports from utils/cookie, imports type Cookie utilities\n+- Neighbor files: src/helper/adapter/, src/helper/route/, src/helper/testing/\n+- Safe summary: Cookie manipulation helpers for session management\n+\n+## src/helper/testing/index.ts\n+- Main exports or names: testClient\n+- Reads as: imports hc, Client, ClientRequestOptions, ExecutionContext, UnionToIntersection\n+- Neighbor files: src/helper/client/, src/helper/adapter/\n+- Safe summary: Helper to create test client instance from Hono app\n+\n+## src/helper/adapter/index.ts\n+- Main exports or names: Runtime (type), env, knownUserAgents, getRuntimeKey, checkUserAgentEquals\n+- Reads as: imports Context, uses globalThis for environment detection\n+- Neighbor files: src/helper/websocket/, src/helper/cookie/, src/helper/route/\n+- Safe summary: Runtime detection and environment accessor for edge platforms\n+\n+## src/helper/css/index.ts\n+- Main exports or names: css, cx, raw, cssClass, rawCssString, viewTransition\n+- Reads as: imports from helper/html, imports from helper/css/common, imports DOM constants\n+- Neighbor files: src/helper/html/, src/helper/css/common/, src/helper/jsx/dom/css/\n+- Safe summary: CSS-in-JSX helper with class utility and responsive styles\n+\n+## src/helper/css/common.ts\n+- Main exports or names: PSEUDO_GLOBAL_SELECTOR, DEFAULT_STYLE_ID, SELECTOR (symbol), CLASS_NAME (symbol), STYLE_STRING (symbol), cssCommon, cxCommon, keyframesCommon, viewTransitionCommon\n+- Reads as: exports symbols, exports CSS string helpers, exports class utility\n+- Neighbor files: src/helper/css/index/, src/helper/hono-jsx/\n+- Safe summary: Shared CSS utilities, symbols, and common helper functions\n+\n+## src/helper/proxy/index.ts\n+- Main exports or names: proxy, ProxyHandler, ProxyHandlerFactory\n+- Reads as: imports HTTPException, uses Node http module for proxying\n+- Neighbor files: src/helper/streaming/, src/helper/adapter/, src/helper/route/\n+- Safe summary: HTTP request proxy middleware for forwarding requests to backend\n+\n+## src/helper/dev/index.ts\n+- Main exports or names: inspectRoutes, showRoutes, getRouterName\n+- Reads as: imports Hono, getColorEnabled, findTargetHandler, isMiddleware\n+- Neighbor files: src/helper/websocket/, src/helper/cookie/, src/helper/adapter/\n+- Safe summary: Development utilities for inspecting and displaying routes\n+\n+## src/helper/html/index.ts\n+- Main exports or names: html, raw\n+- Reads as: imports escapeToBuffer, resolveCallbackSync, stringBufferToString from utils/html\n+- Neighbor files: src/helper/websocket/, src/helper/cookie/, src/helper/testing/\n+- Safe summary: Template literal HTML escaping helper with built-in raw option\n+\n+## src/helper/ssg/index.ts\n+- Main exports or names: staticGeneration, staticRender, ssgParams, isSSGContext, disableSSG, onlySSG, ssg, defaultPlugin, redirectPlugin\n+- Reads as: exports star from ./ssg, re-exports from ./middleware, exports from ./plugins\n+- Neighbor files: src/helper/ssg/ssg.ts, src/helper/ssg/middleware.ts, src/helper/ssg/plugins/, src/helper/streaming/\n+- Safe summary: Static site generation (SSG) helper with multiple plugin support\n+\n+## src/helper/ssg/ssg.ts\n+- Main exports or names: saveContentToFile, writeContentToFile, saveContentFromCache, removeContentFromCache, writeContentFromCache, getStaticGenerationInfo, saveCacheFile\n+- Reads as: implements save hooks, implements before hooks, handles file operations\n+- Neighbor files: src/helper/ssg/middleware.ts, src/helper/ssg/utils.ts, src/helper/streaming/\n+- Safe summary: Core SSG logic with file saving and caching functionality\n+\n+## src/helper/ssg/utils.ts\n+- Main exports or names: dirname, joinPaths, filterStaticGenerateRoutes, isDynamicRoute, ensureWithinOutDir\n+- Reads as: imports Hono, METHOD_NAME_ALL, imports findTargetHandler, isMiddleware\n+- Neighbor files: src/helper/ssg/ssg.ts, src/helper/ssg/middleware.ts, src/helper/router/\n+- Safe summary: Utility functions for SSG file path and route filtering\n+\n+## src/helper/ssg/middleware.ts\n+- Main exports or names: SSG_CONTEXT, X_HONO_DISABLE_SSG_HEADER_KEY, ssgParams, isSSGContext, disableSSG, onlySSG\n+- Reads as: imports from ./utils, uses isDynamicRoute for dynamic route detection\n+- Neighbor files: src/helper/ssg/ssg.ts, src/helper/ssg/utils.ts, src/helper/streaming/\n+- Safe summary: SSG context middleware for pre-rendering and disable flags\n+\n+## src/helper/streaming/index.ts\n+- Main exports or names: stream, streamSSE, streamText\n+- Reads as: exports stream from ./stream, exports streamSSE from ./sse, exports streamText from ./text\n+- Neighbor files: src/helper/streaming/stream.ts, src/helper/streaming/sse.ts, src/helper/streaming/text.ts\n+- Safe summary: Main streaming helper module combining all streaming types\n+\n+## src/helper/streaming/stream.ts\n+- Main exports or names: stream, StreamingApi, isOldBunVersion\n+- Reads as: imports Context, imports StreamingApi, uses isOldBunVersion\n+- Neighbor 

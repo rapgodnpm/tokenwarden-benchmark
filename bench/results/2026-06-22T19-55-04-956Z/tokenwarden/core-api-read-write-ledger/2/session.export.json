@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_10e61c69fffe2yOv43TnoARt4S",
+    "slug": "neon-wolf",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-22T19-55-04-956Z/tokenwarden-core-api-read-write-ledger-2/repo",
+    "path": "",
+    "title": "future.v1:core-api-read-write-ledger:tokenwarden:run-2",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 171230,
+      "output": 4819,
+      "reasoning": 336,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782170138976,
+      "updated": 1782170296993
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782170139644
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/core-api-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/core-api-read-write-ledger.md\n===================================================================\n--- bench-artifacts/core-api-read-write-ledger.md\t\n+++ bench-artifacts/core-api-read-write-ledger.md\t\n@@ -0,0 +1,148 @@\n+# Core API Read/Write Ledger\n+\n+## src/index.ts\n+- Public surface: exports default app, exports types and Hono class\n+- Internal names noticed: Hono\n+- Imports or neighbors: ./hono, ./context, ./request, ./client\n+- Plain-English summary: main entry point re-exports everything\n+- Copy-safe detail: default export uses ./hono; re-exports Context class and types\n+\n+## src/types.ts\n+- Public surface: type definitions for Hono modules\n+- Internal names noticed: Bindings, Variables, Env, Next, Input, BlankSchema, BlankInput, RouterRoute, HandlerResponse, Handler, MiddlewareHandler, H, NotFoundResponse, NotFoundHandler, HTTPResponseError, ErrorHandler, HandlerInterface, MiddlewareHandlerInterface, OnHandlerInterface, ToSchema, Schema, AddSchemaIfHasSchema, Endpoint, ExtractParams, MergeSchemaPath, AddParam, AddDollar, MergePath, KnownResponseFormat, ResponseFormat, TypedResponse, MergeTypedResponse, ExtractTypedResponseOnly, MergeMiddlewareResponse, FormValue, ParsedFormValue, ValidationTargets, ParamKey, ParamKeys, ParamKeyToRecord, InputToDataByTarget, RemoveQuestion, ExtractSchema, ExtractSchemaForStatusCode, ExtractHandlerResponse, ProcessHead, IntersectNonAnyTypes, FetchEventLike\n+- Imports or neighbors: ./context, ./hono-base, ./utils/headers, ./utils/http-status, ./router\n+- Plain-English summary: comprehensive type definitions\n+- Copy-safe detail: exports multiple type aliases and interfaces including core Env/Handler types\n+\n+## src/hono.ts\n+- Public surface: Hono class exported as default\n+- Internal names noticed: Hono\n+- Imports or neighbors: ./hono-base, ./router/reg-exp-router, ./router/smart-router, ./router/trie-router, ./types\n+- Plain-English summary: main application class extending HonoBase\n+- Copy-safe detail: class Hono extends HonoBase with router injection\n+\n+## src/hono-base.ts\n+- Public surface: HonoBase class\n+- Internal names noticed: NotAllowedHeader, notFoundHandler, errorHandler, GetPath, HonoOptions, MountOptionHandler, MountReplaceRequest, MountOptions, Hono, Router, RouterRoute, basePath, route, onError, use, fetch, clone, RegExpRouter, TrieRouter, SmartRouter\n+- Imports or neighbors: ./compose, ./context, ./context, ./router, ./utils/constants, ./utils/url, ./http-exception\n+- Plain-English summary: base framework with router pattern matching\n+- Copy-safe detail: class Hono provides routing middleware composition and fetch handling; exports as HonoBase\n+\n+## src/context.ts\n+- Public surface: Context class\n+- Internal names noticed: Data, ExecutionContext, ContextVariableMap, ContextRenderer, Renderer, PropsForRenderer, Layout, Get, Set, NewResponse, BodyRespond, TextRespond, JSONRespond, HTMLRespond, ResponseOrInit, setDefaultContentType, createResponseInstance, context, ResponseHeadersInit, ResolvedMime\n+- Imports or neighbors: ./request, ./router, ./utils/headers, ./utils/html, ./utils/http-status, ./utils/mime, ./utils/types\n+- Plain-English summary: request context with response handling\n+- Copy-safe detail: class Context manages request/response lifecycle with variables and cookies\n+\n+## src/request.ts\n+- Public surface: HonoRequest class\n+- Internal names noticed: HonoRequest, GET_MATCH_RESULT, Body, BodyCache, OptionalRequestInitProperties, RequiredRequestInit, cloneRawRequest, param, params, query, queries, header, headers, raw, url, method, valid, json, text, arrayBuffer, bytes, blob, formData, get, set\n+- Imports or neighbors: ./http-exception, ./request/constants, ./router, ./utils/body, ./utils/headers, ./utils/types, ./utils/url, ./utils/url\n+- Plain-English summary: request parsing and validation utility\n+- Copy-safe detail: class HonoRequest parses URL params, queries, headers, and request body; exports cloneRawRequest helper\n+\n+## src/request/constants.ts\n+- Public surface: GET_MATCH_RESULT symbol export\n+- Internal names noticed: GET_MATCH_RESULT\n+- Imports or neighbors: none\n+- Plain-English summary: constant symbol for HTTP matching result\n+- Copy-safe detail: exports unique symbol for match result detection\n+\n+## src/utils/body.ts\n+- Public surface: parseBody function\n+- Internal names noticed: BodyData, BodyDataValueDot, BodyDataValueDotAll, SimplifyBodyData, BodyDataValueComponent, BodyDataValueObject, BodyDataValue, ParseBody, ParseBodyOptions\n+- Imports or neighbors: ../request\n+- Plain-English summary: parses request body data from form data\n+- Copy-safe detail: parseBody async function parses FormData with dot/flatten options\n+\n+## src/compose.ts\n+- Public surface: compose function\n+- Internal names noticed: compose, dispatch\n+- Imports or neighbors: ./context, ./types\n+- Plain-English summary: middleware function composition utility\n+- Copy-safe detail: compose takes array of functions returns single composed function\n+\n+## src/http-exception.ts\n+- Public surface: HTTPException class\n+- Internal names noticed: HTTPException, HTTPExceptionOptions\n+- Imports or neighbors: ./utils/http-status\n+- Plain-English summary: exception class for HTTP errors with response\n+- Copy-safe detail: class HTTPException extends Error with status and body properties\n+\n+## src/client/index.ts\n+- Public surface: exports hc, parseResponse, DetailedError type\n+- Internal names noticed: hc, parseResponse\n+- Imports or neighbors: ./client, ./utils\n+- Plain-English summary: client API exports\n+- Copy-safe detail: re-exports hc and utils helpers\n+\n+## src/client/client.ts\n+- Public surface: hc function, ClientRequestImpl class\n+- Internal names noticed: hc, ClientRequestImpl, Callback, createProxy, deepMerge, buildSearchParams, replaceUrlParam, replaceUrlProtocol, removeIndexString, isObject, mergePath\n+- Imports or neighbors: ../hono, ../types, ./types, ../utils/cookie, ./utils, ./utils/cookie, ./utils/types\n+- Plain-English summary: request builder generating dynamic client calls\n+- Copy-safe detail: hc generates request implementations based on app routes and options\n+\n+## src/client/types.ts\n+- Public surface: Client type, Fetch type, ClientRequest type\n+- Internal names noticed: BuildSearchParamsFn, ClientRequestOptions, Client, Callback, CallbackOptions, ObjectType, ToEndpoints, ModRoute, ModSchema, PickSchema, ApplyGlobalResponse, PickRoute, PickByResponse, PickResponseByStatusCode, ClientResponse, ClientResponse

@@ -5,7 +5,10 @@ export const TASKS_DIR = new URL("../tasks/", import.meta.url)
 export async function loadSuite(suiteID) {
   const suite = JSON.parse(await readFile(new URL(`${suiteID}.json`, TASKS_DIR), "utf8"))
   if (!Array.isArray(suite.tasks) || suite.tasks.length === 0) throw new Error(`${suiteID}: suite has no tasks`)
-  return suite
+  return {
+    ...suite,
+    tasks: suite.tasks.map((task) => normalizeTask(suite, task))
+  }
 }
 
 export function selectTasks(suite, taskIDs = []) {
@@ -28,4 +31,16 @@ export function renderPrompt(task, context = {}) {
     "- Prefer the smallest safe code change when edits are required.",
     "- Include exact file paths, commands run, and verification status in the final answer."
   ].join("\n")
+}
+
+function normalizeTask(suite, task) {
+  return {
+    ...task,
+    repo: task.repo ?? suite.repo,
+    defaultBranch: task.defaultBranch ?? suite.defaultBranch,
+    commit: task.commit ?? suite.commit,
+    setup: task.setup ?? [],
+    verify: task.verify ?? [],
+    artifacts: task.artifacts ?? []
+  }
 }

@@ -1,0 +1,1 @@
+Created `/private/tmp/tokenwarden-bench/2026-06-22T19-55-04-956Z/dcp-helper-read-write-ledger-1/repo/bench-artifacts/helper-read-write-ledger.md` (23 files). Final answer: `/private/tmp/tokenwarden-bench/2026-06-22T19-55-04-956Z/dcp-helper-read-write-ledger-1/repo/bench-artifacts/helper-read-write-ledger.md` | verified: exists

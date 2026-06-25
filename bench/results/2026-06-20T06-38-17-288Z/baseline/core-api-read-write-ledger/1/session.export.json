@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_11bf22322ffeWPDxfeAhnGEvxI",
+    "slug": "crisp-comet",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-20T06-38-17-288Z/baseline-core-api-read-write-ledger-1/repo",
+    "path": "",
+    "title": "future.v1:core-api-read-write-ledger:baseline:run-1",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.8",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 544623,
+      "output": 4339,
+      "reasoning": 760,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1781942574301,
+      "updated": 1781943005095
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1781942575022
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/core-api-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/core-api-read-write-ledger.md\n===================================================================\n--- bench-artifacts/core-api-read-write-ledger.md\t\n+++ bench-artifacts/core-api-read-write-ledger.md\t\n@@ -0,0 +1,157 @@\n+# Core API Read/Write Ledger\n+\n+## src/index.ts\n+- Public surface: exports Hono class, Context, types, and helper types\n+- Internal names noticed: Hono, Env, ErrorHandler, Handler, MiddlewareHandler, Input, Schema\n+- Imports or neighbors: ./hono, ./types, ./context, ./request, ./client\n+- Plain-English summary: main entry point re-exporting core classes and types from other modules\n+- Copy-safe detail: re-exports 11+ items from ./hono and ./types and ./client modules\n+\n+## src/types.ts\n+- Public surface: defines Env, Input, Handler, NotFoundHandler, ErrorHandler, HTTPResponseError\n+- Internal names noticed: RouterRoute, HandlerResponse, IntersectNonAnyTypes, MergePath, MergeSchemaPath\n+- Imports or neighbors: ./context, ./hono-base, ./utils/headers, ./utils/types\n+- Plain-English summary: comprehensive type definitions for routes, handlers, environments, and schema\n+- Copy-safe detail: defines 100+ type aliases and interfaces including HandlerInterface and MiddlewareHandlerInterface\n+\n+## src/hono.ts\n+- Public surface: Hono class\n+- Internal names noticed: HonoBase, RegExpRouter, SmartRouter, TrieRouter, BlankEnv, BlankSchema\n+- Imports or neighbors: ./hono-base, ./router/reg-exp-router, ./router/smart-router, ./router/trie-router, ./types\n+- Plain-English summary: main Hono app class with options for router selection\n+- Copy-safe detail: extends HonoBase, instantiates SmartRouter with RegExpRouter and TrieRouter as fallbacks\n+\n+## src/hono-base.ts\n+- Public surface: get, post, put, delete, options, patch, all, on, use, route, basePath, onError, notFound, mount, request, fire\n+- Internal names noticed: compose, Context, Router, HonoOptions, Env, H, HandlerInterface, MiddlewareHandler, NotFoundHandler\n+- Imports or neighbors: ./compose, ./context, ./router, ./types, ./utils/constants, ./utils/url\n+- Plain-English summary: base implementation with method route handlers and request dispatch logic\n+- Copy-safe detail: defines router, errorHandler, notFoundHandler, routes array, paths for each HTTP method\n+\n+## src/context.ts\n+- Public surface: Context class, env, error, event, executionCtx, res, set, get, var, header, body, text, json, html, redirect, notFound\n+- Internal names noticed: HonoRequest, Result, Env, Input, NotFoundHandler, RouterRoute, TypedResponse\n+- Imports or neighbors: ./request, ./router, ./types, ./utils/headers, ./utils/html, ./utils/http-status, ./utils/mime, ./utils/types\n+- Plain-English summary: request context with state for vars, headers, and response object\n+- Copy-safe detail: stores execution context, route match result, prepared headers, layout and renderer, status, error, finalized flag\n+\n+## src/request.ts\n+- Public surface: HonoRequest class, cloneRawRequest\n+- Internal names noticed: HTTPException, GET_MATCH_RESULT, Result, ValidationTargets, Body\n+- Imports or neighbors: ./http-exception, ./router, ./utils/body, ./utils/headers, ./utils/url, ./types\n+- Plain-English summary: parses request URL, method, query params, path params, and body\n+- Copy-safe detail: caches body parsing as text/json/arrayBuffer/blob/bytes, handles decoded params, matches router routes\n+\n+## src/request/constants.ts\n+- Public surface: GET_MATCH_RESULT symbol\n+- Internal names noticed: Symbol\n+- Imports or neighbors: none\n+- Plain-English summary: exports a unique symbol for match result access\n+- Copy-safe detail: single symbol export\n+\n+## src/utils/body.ts\n+- Public surface: parseBody function\n+- Internal names noticed: BodyData, BodyDataValueDot, BodyDataValueComponent, BodyDataValueObject\n+- Imports or neighbors: ../request\n+- Plain-English summary: parses POST body content for json, form-data, and url-encoded inputs\n+- Copy-safe detail: handles dot notation nesting and all:true flag for multi-value fields\n+\n+## src/compose.ts\n+- Public surface: compose\n+- Internal names noticed: Context, Env, ErrorHandler, Next, NotFoundHandler\n+- Imports or neighbors: ./context, ./types\n+- Plain-English summary: middleware composition engine similar to koa-compose\n+- Copy-safe detail: dispatches middleware array linearly, captures error or not-found handlers mid-stack, sets context.res on completion\n+\n+## src/http-exception.ts\n+- Public surface: HTTPException class\n+- Internal names noticed: ContentfulStatusCode, Response\n+- Imports or neighbors: ./utils/http-status\n+- Plain-English summary: throws structured HTTP errors with custom response options\n+- Copy-safe detail: stores status code and response, provides getResponse() method\n+\n+## src/client/index.ts\n+- Public surface: hc, parseResponse, DetailedError\n+- Internal names noticed: hc client builder, parseResponse wrapper for fetch\n+- Imports or neighbors: ./client, ./utils/fetch-result-please, ./client/types, ./client/utils\n+- Plain-English summary: exports HTTP client and response parsing utilities\n+- Copy-safe detail: re-exports hc function, parseResponse and DetailedError classes\n+\n+## src/client/client.ts\n+- Public surface: hc\n+- Internal names noticed: ClientRequestImpl, BuildSearchParamsFn, ClientRequestOptions, Client\n+- Imports or neighbors: ../hono, ../utils/cookie, ./types, ./utils (buildSearchParams, deepMerge, mergePath, etc)\n+- Plain-English summary: proxy-based HTTP client builder with method chaining\n+- Copy-safe detail: creates proxy around callback, builds URL with params/headers, supports JSON/form/query/body\n+\n+## src/client/types.ts\n+- Public surface: BuildSearchParamsFn, ClientRequestOptions, ClientResponse, Client, ApplyGlobalResponse, PickResponseByStatusCode, Fetch, InferResponseType, InferRequestType\n+- Internal names noticed: MethodNameAll, StandardMethods, Endpoint, ExpandAllMethod, BuildPath, BuildSearch\n+- Imports or neighbors: ../hono, ../hono-base, ../router, ../types, ../utils/http-status, ../utils/types\n+- Plain-English summary: type definitions for client-side HTTP routing and request/response inference\n+- Copy-safe detail: 30+ generic types for method expansion, URL building, request/response type inference\n+\n+## src/client/fetch-result-please.ts\n+- Public surface: fetchRP, DetailedError\n+- Internal names noticed: nullBodyResponses, DetailedError with statusCode/detail/log fields\n+- Imports or neighbors: none\n+- Plain-English summary: smart response parser t

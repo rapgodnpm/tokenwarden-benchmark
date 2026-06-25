@@ -1,0 +1,160 @@
+{
+  "runID": "2026-06-22T14-18-01-250Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "dcp",
+  "pluginLabel": "Dynamic Context Pruning",
+  "task": "next-api-route-fix",
+  "run": 1,
+  "dryRun": false,
+  "prepareOnly": false,
+  "model": "lmstudio/qwen/qwen3.5-9b",
+  "resultDir": "/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/results/2026-06-22T14-18-01-250Z/dcp/next-api-route-fix/1",
+  "promptPath": "/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/results/2026-06-22T14-18-01-250Z/dcp/next-api-route-fix/1/prompt.md",
+  "workspace": "/tmp/tokenwarden-bench/2026-06-22T14-18-01-250Z/dcp-next-api-route-fix-1",
+  "durationMs": 56135,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "pluginsEnabled": [
+    "@tarquinen/opencode-dcp"
+  ],
+  "adapterPackages": [
+    "@tarquinen/opencode-dcp"
+  ],
+  "adapterPackageVersions": [
+    {
+      "package": "@tarquinen/opencode-dcp",
+      "version": "3.1.13"
+    }
+  ],
+  "installActions": [
+    {
+      "type": "npm",
+      "packages": [
+        "@ai-sdk/openai-compatible"
+      ],
+      "reason": "provider"
+    },
+    {
+      "type": "npm",
+      "packages": [
+        "@tarquinen/opencode-dcp"
+      ]
+    }
+  ],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 63,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/fixtures'/future/create-fixture.mjs next-api-route-fix",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 24,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "opencodeVersion": {
+    "command": "opencode",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 210,
+    "stdoutBytes": 7,
+    "stderrBytes": 0
+  },
+  "opencode": {
+    "command": "opencode",
+    "args": [
+      "run",
+      "--format",
+      "json",
+      "--model",
+      "lmstudio/qwen/qwen3.5-9b",
+      "--dir",
+      "/tmp/tokenwarden-bench/2026-06-22T14-18-01-250Z/dcp-next-api-route-fix-1/repo",
+      "--title",
+      "future.v1:next-api-route-fix:dcp:run-1",
+      "Benchmark task: next-api-route-fix\nRepository: https://github.com/honojs/hono.git\n\nFix validation and error handling in bench-targets/next-api/app/api/users/route.mjs. Read the route and bench-targets/next-api/route.test.mjs before editing. Malformed JSON and missing required fields should return HTTP 400, while valid payloads should return HTTP 201. Keep the API route shape intact. Run node --test bench-targets/next-api/route.test.mjs when done.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer."
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 44649,
+    "stdoutBytes": 25866,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "node --test bench-targets/next-api/route.test.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 63,
+        "stdoutBytes": 414,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "sessionExport": {
+    "command": "opencode",
+    "args": [
+      "export",
+      "ses_10ffd2049ffehZbyh8IV3ORfsW"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 430,
+    "stdoutBytes": 16384,
+    "stderrBytes": 50
+  },
+  "changedFiles": [
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-targets/next-api/app/api/users/route.mjs",
+      "exists": true
+    }
+  ],
+  "permissionPrompts": [],
+  "usage": {
+    "inputTokens": 57356,
+    "outputTokens": 1086,
+    "cacheReadTokens": 0,
+    "cacheWriteTokens": 0,
+    "totalTokens": 58612,
+    "estimatedCostUsd": 0,
+    "sessionIDs": [
+      "ses_10ffd2049ffehZbyh8IV3ORfsW"
+    ],
+    "answer": "The issue is clear:\n1. Line 6: `request.json()` can throw on malformed JSON - no try/catch\n2. Missing `body.name` validation in line 7 - should require it\n\nFixing both issues:\n\n\n\n\n\n\n\nThe JSON parsing didn't handle malformed input properly - the catch is too early. Need to validate after parsing and return early on invalid JSON. Let me fix this properly:\n\n\n\n\n\n\n\nTests pass. File fixed:\n\n- **bench-targets/next-api/app/api/users/route.mjs**\n  - Added `let body` declaration and `try/catch` around `await request.json()` to handle malformed JSON\n  - Added `!body.name` validation to require both `email` and `name` fields\n  - Missing/invalid fields now return HTTP 400, valid payloads return HTTP 201",
+    "rawEventCount": 24
+  },
+  "timedOut": false
+}

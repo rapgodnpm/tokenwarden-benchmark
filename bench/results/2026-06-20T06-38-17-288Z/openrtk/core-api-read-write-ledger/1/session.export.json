@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_11bdbf909ffe6NNvpmxC7Fh2Xy",
+    "slug": "stellar-cabin",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-20T06-38-17-288Z/openrtk-core-api-read-write-ledger-1/repo",
+    "path": "",
+    "title": "future.v1:core-api-read-write-ledger:openrtk:run-1",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.8",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 1012118,
+      "output": 9309,
+      "reasoning": 843,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1781944026870,
+      "updated": 1781944621280
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1781944027553
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/core-api-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/core-api-read-write-ledger.md\n===================================================================\n--- bench-artifacts/core-api-read-write-ledger.md\t\n+++ bench-artifacts/core-api-read-write-ledger.md\t\n@@ -0,0 +1,120 @@\n+# Core API Read/Write Ledger\n+\n+## src/index.ts\n+- Public surface: Exports Hono, Context, HonoRequest, InferRequestType, InferResponseType, ClientRequestOptions\n+- Internal names noticed: Hono, HonoBase, types exports\n+- Imports or neighbors: ./hono, ./types, ./context, ./request, ./client\n+- Plain-English summary: Main entry point re-exporting all public APIs from Hono submodules\n+- Copy-safe detail: Re-exports all public APIs - Hono class, Context class, HonoRequest type, and client types\n+\n+## src/types.ts\n+- Public surface: Bindings, Variables, Env, Next, Input, Schema, ToSchema, TypedResponse, Context, NotFoundResponse, ErrorHandler, Handler, MiddlewareHandler, RouterRoute, HandlerInterface, MiddlewareHandlerInterface, OnHandlerInterface\n+- Internal names noticed: HonoBase, Context, Env, IntersectNonAnyTypes, IsAny, JSONValue, RemoveBlankRecord, Simplify, UnionToIntersection, CustomHeader, RequestHeader, IfAnyThenEmptyObject, MergeTypedResponse, MergeMiddlewareResponse, MergePath, IfSchemaIsResponse, AddSchemaIfHasResponse, ToSchema, ResponseFormat\n+- Imports or neighbors: ./context, ./hono-base, ./utils/headers, ./utils/types, ./utils/url\n+- Plain-English summary: Contains all core type definitions for Hono modules including types, handlers, middleware, and interfaces\n+- Copy-safe detail: All type exports are compile-time only stable across versions\n+\n+## src/hono.ts\n+- Public surface: Hono class\n+- Internal names noticed: HonoOptions, Router, RegExpRouter, SmartRouter, TrieRouter, BlankEnv, BlankSchema, Env, Schema\n+- Imports or neighbors: ./hono-base, ./router/reg-exp-router, ./router/smart-router, ./router/trie-router, ./types\n+- Plain-English summary: Hono class extends HonoBase with router initialization and default SmartRouter configuration\n+- Copy-safe detail: Public API exports the Hono class with constructor accepting HonoOptions\n+\n+## src/hono-base.ts\n+- Public surface: get, post, put, delete, options, patch, all, on, use, route, basePath, onError, notFound, mount, fetch, request, fire\n+- Internal names noticed: HonoBase class, compose, Context, Router, METHODS, METHOD_NAME_ALL, H, MergePath, MergeSchemaPath, MiddlewareHandler, BlankSchema, Env, NotFoundHandler, ErrorHandler, FetchEventLike, getPath, getPathNoStrict, mergePath, COMPOSED_HANDLER\n+- Imports or neighbors: ./compose, ./context, ./router, ./types, ./utils/constants, ./utils/url\n+- Plain-English summary: Base Hono class with all HTTP method handlers, middleware support, error/not-found handlers, mounting capabilities, routing, and fetch/request methods\n+- Copy-safe detail: Class methods are public API - get/post/put/delete/options/patch/all/on/use/route/basePath/onError/notFound/mount/fetch/request\n+\n+## src/context.ts\n+- Public surface: Context class, ExecutionContext, ContextVariableMap, ContextRenderer, Renderer, PropsForRenderer, Layout, Get, Set, NewResponse, BodyRespond, TextRespond, JSONRespond, HTMLRespond, response methods (header, status, set, get, var, body, text, json, html, redirect, notFound)\n+- Internal names noticed: Get, Set, NewResponse, BodyRespond, TextRespond, JSONRespond, Body, Data, ResponseHeader, DefaultRenderer, ResponseOrInit, ResponseHeadersInit, ResponseInit, COMPOSED_HANDLER, HtmlEscapedCallbackPhase\n+- Imports or neighbors: ./request, ./router, ./types, ./utils/html, ./utils/http-status, ./utils/mime, ./utils/resolveCallback\n+- Plain-English summary: The request context class providing access to variables, headers, request object, environment bindings, and response methods for creating HTTP responses\n+- Copy-safe detail: Context class API and helper interfaces are public\n+\n+## src/request.ts\n+- Public surface: HonoRequest class, cloneRawRequest\n+- Internal names noticed: Body, BodyCache, GET_MATCH_RESULT, ValidationTargets, ParamKeys, ParamKeyToRecord, RemoveQuestion, Input, InputToDataByTarget, ParseBodyOptions, BodyData, Body, RequestHeader, CustomHeader, HTTPException, decodeURIComponent_, getQueryParam, getQueryParams, tryDecode, HonoRequest\n+- Imports or neighbors: ./http-exception, ./request/constants, ./router, ./types, ./utils/body, ./utils/headers, ./utils/url\n+- Plain-English summary: The request object class with property accessors for getting parsed query params, path params, headers, body (JSON/text/formData), and URL/method\n+- Copy-safe detail: Public class HonoRequest and cloneRawRequest utility function\n+\n+## src/request/constants.ts\n+- Public surface: GET_MATCH_RESULT (unique symbol)\n+- Internal names noticed: None visible\n+- Imports or neighbors: None\n+- Plain-English summary: Contains a unique symbol for exposing match result property on HonoRequest\n+- Copy-safe detail: Single symbol export stable across versions\n+\n+## src/utils/body.ts\n+- Public surface: parseBody, BodyData, ParseBodyOptions\n+- Internal names noticed: parseFormData, convertFormDataToBodyData, handleParsingAllValues, handleParsingNestedValues, BodyDataValueDot, SimplifyBodyData, BodyDataValueComponent, BodyDataValue, ParseBodyOptions, BodyData\n+- Imports or neighbors: ./request\n+- Plain-English summary: Utilities for parsing form data and URL-encoded body into typed objects with dot notation and all-options support\n+- Copy-safe detail: parseBody function and type exports are public API\n+\n+## src/compose.ts\n+- Public surface: compose\n+- Internal names noticed: dispatch, compose, Context, Env, ErrorHandler, Next, NotFoundHandler\n+- Imports or neighbors: ./context, ./types\n+- Plain-English summary: Middleware composition function based on koa-compose pattern, executing handlers in sequence with error and not-found handling\n+- Copy-safe detail: Single compose function export taking middleware array, onError handler, and onNotFound handler\n+\n+## src/http-exception.ts\n+- Public surface: HTTPException class\n+- Internal names noticed: ContentfulStatusCode, HTTPExceptionOptions, HTTPException\n+- Imports or neighbors: ./utils/http-status\n+- Plain-English summary: HTTPException extends Error to provide responses for authentication failures and other errors with status codes and optional response objects\n+- Copy-safe detail: HTTPException class is public API for throwing HTTP errors with custom status codes and messages\n+\n+## src/utils/body.ts - ADDED (duplicate)\n+\n+## src/adapter/

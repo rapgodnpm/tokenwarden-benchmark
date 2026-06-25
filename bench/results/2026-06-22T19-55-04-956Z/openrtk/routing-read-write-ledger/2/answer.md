@@ -1,0 +1,1 @@
+Created `bench-artifacts/routing-read-write-ledger.md` with all 24 file sections and cross-file router family checklist. File created at `/private/tmp/tokenwarden-bench/2026-06-22T19-55-04-956Z/openrtk-routing-read-write-ledger-2/repo/bench-artifacts/routing-read-write-ledger.md` (9.6K).

@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_10942bedeffef4jyjpnGL6hqas",
+    "slug": "swift-pixel",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-23T16-47-14-546Z/dcp-core-api-read-write-ledger-3/repo",
+    "path": "",
+    "title": "future.v1:core-api-read-write-ledger:dcp:run-3",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 173153,
+      "output": 4843,
+      "reasoning": 175,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782256058657,
+      "updated": 1782256514537
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782256059343
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/core-api-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/core-api-read-write-ledger.md\n===================================================================\n--- bench-artifacts/core-api-read-write-ledger.md\t\n+++ bench-artifacts/core-api-read-write-ledger.md\t\n@@ -0,0 +1,147 @@\n+# Core API Read/Write Ledger\n+\n+## src/index.ts\n+- Public surface: Exports Hono class and re-exports types from types, context, request, and client modules\n+- Internal names noticed: Hono, Env, ErrorHandler, Handler, MiddlewareHandler, Next, NotFoundResponse, NotFoundHandler, ValidationTargets, Input, Schema, ToSchema, TypedResponse, Context, HonoRequest, InferRequestType, InferResponseType, ClientRequestOptions\n+- Imports or neighbors: './hono', './types', './context', './request', './client'\n+- Plain-English summary: Main entry point that exports the Hono framework class and all public types for users\n+- Copy-safe detail: Entry file exports Hono from hono.ts and re-exports all major types from related modules for public consumption\n+\n+## src/types.ts\n+- Public surface: Defines Env, Variables, Next, Handler, MiddlewareHandler, HandlerResponse, NotFoundHandler, ErrorHandler, and HandlerInterface with multiple method overloads\n+- Internal names noticed: RouterRoute, BlankEnv, BlankSchema, BlankInput, MergePath, MergeSchemaPath, ToSchema, MergeTypedResponse, MergeMiddlewareResponse, AddSchemaIfHasResponse, IntersectNonAnyTypes, IfAnyThenEmptyObject, IsAny, JSONValue, RemoveBlankRecord, Simplify, UnionToIntersection, StatusCode, CustomHeader, RequestHeader, Context, HonoBase\n+- Imports or neighbors: './context', './hono-base', './utils/headers', './utils/http-status', './utils/types'\n+- Plain-English summary: Type definitions for environment, routes, handlers, middleware, error handling, and routing schemas\n+- Copy-safe detail: Contains extensive generic type definitions for handler interfaces supporting 1-10 middleware chains with path merging and schema composition\n+\n+## src/hono.ts\n+- Public surface: Exports Hono class\n+- Internal names noticed: HonoBase, HonoOptions, RegExpRouter, SmartRouter, TrieRouter, BlankEnv, BlankSchema, Env, Schema\n+- Imports or neighbors: './hono-base', './router/reg-exp-router', './router/smart-router', './router/trie-router', './types'\n+- Plain-English summary: Hono class wrapping HonoBase with default SmartRouter containing RegExpRouter and TrieRouter fallback\n+- Copy-safe detail: Minimal wrapper class that configures router in constructor using options or defaults to SmartRouter with [RegExpRouter, TrieRouter]\n+\n+## src/hono-base.ts\n+- Public surface: HonoBase class with get, post, put, delete, options, patch, all, on, use methods and route, basePath, onError, notFound, mount, fetch, request, fire methods\n+- Internal names noticed: compose, Context, ExecutionContext, Router, METHODS, METHOD_NAME_ALL, METHOD_NAME_ALL_LOWERCASE, Env, HandlerInterface, MiddlewareHandlerInterface, OnHandlerInterface, BlankSchema, Schema, IntersectNonAnyTypes, MergePath, NotFoundHandler, H, RouterRoute, COMPOSED_HANDLER, getPath, getPathNoStrict, mergePath, notFoundHandler, errorHandler, HonoOptions, MountOptionHandler, MountReplaceRequest, MountOptions, IntersectNonAnyTypes, MergeTypedResponse, MergeMiddlewareResponse, MergeSchemaPath, AddSchemaIfHasResponse\n+- Imports or neighbors: './compose', './context', './router', './types', './utils/constants', './utils/url'\n+- Plain-English summary: Core framework class providing routing, middleware composition, error handling, and request dispatching\n+- Copy-safe detail: Abstract-like class with private router, defines method shorthands, implements compose middleware pattern, handles basePath nesting, mounting, and has get, post, put, delete, all, on, use, route, mount, onError, notFound, fetch, and request entry points\n+\n+## src/context.ts\n+- Public surface: Context class with req, event, executionCtx, res, render, setLayout, getLayout, setRenderer, header, status, set, get, var, body, text, json, html, redirect, notFound, newResponse methods\n+- Internal names noticed: Data, ExecutionContext, ContextVariableMap, ContextRenderer, DefaultRenderer, Renderer, PropsForRenderer, Layout, Get, Set, NewResponse, BodyRespond, TextRespond, JSONRespond, JSONRespondReturn, HTMLRespond, ResponseOrInit, ResponseHeadersInit, ResponseInit, TEXT_PLAIN, HeaderRecord, ContentfulStatusCode, RedirectStatusCode, StatusCode, BaseMime, InvalidJSONValue, IsAny, JSONParsed, JSONValue, HtmlEscapedCallbackPhase, resolveCallback, HonoRequest, Result, Env, H, Input, NotFoundHandler, TypedResponse, FetchEventLike, RouterRoute, SetHeaders, SetHeadersOptions\n+- Imports or neighbors: './request', './utils/headers', './utils/html', './utils/http-status', './utils/mime', './utils/types', './types'\n+- Plain-English summary: Request context object providing env access, response building, headers, status, JSON/text/html/text/plain rendering, redirects, and variable storage\n+- Copy.safe detail: Private fields for rawRequest, req, var map, status, executionCtx, res, preparedHeaders, matchResult, path; implements set/get for variables, multiple response builders, finalization tracking, and layout rendering\n+\n+## src/request.ts\n+- Public surface: HonoRequest class with raw, path, param, query, queries, header, parseBody, json, text, arrayBuffer, bytes, blob, formData, valid, url, method, matchedRoutes, routePath properties\n+- Internal names noticed: HTTPException, GET_MATCH_RESULT, Result, ValidationTargets, InputToDataByTarget, ParamKeyToRecord, ParamKeys, RemoveQuestion, BodyData, ParseBodyOptions, Body, BodyCache, OptionalRequestInitProperties, RequiredRequestInit, tryDecode, getQueryParam, getQueryParams, tryDecodeURIComponent, cloneRawRequest, COMPOSED_HANDLER, Simplify, UnionToIntersection, decodeURIComponent_, RequestHeader, CustomHeader\n+- Imports or neighbors: './http-exception', './request/constants', './router', './types', './utils/body', './utils/headers', './utils/url'\n+- Plain-English summary: Request wrapper providing url, method, headers, query params, path params, body parsing (json/text/formData), and body caching for cloning\n+- Copy-safe detail: Caches body reads to enable raw request cloning after consumption, provides decoded param access, query parsing, header access, validation targets, and match result for routing metadata\n+\n+## src/request/constants.ts\n+- Public surface: Exports GET_MATCH_RESULT symbol\n+- Internal names noticed: GET_MATCH_RESULT\n+- Imports or neighbors: none\n+- Plain-English summary: Symbol for accessing match result from HonoRequest\n+- Copy-safe

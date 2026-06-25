@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_1095d998bffeUdkewhfMyCG01f",
+    "slug": "nimble-mountain",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-23T16-47-14-546Z/dcp-helper-read-write-ledger-3/repo",
+    "path": "",
+    "title": "future.v1:helper-read-write-ledger:dcp:run-3",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 152783,
+      "output": 4249,
+      "reasoning": 143,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782254298740,
+      "updated": 1782254597198
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782254299418
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/helper-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/helper-read-write-ledger.md\n===================================================================\n--- bench-artifacts/helper-read-write-ledger.md\t\n+++ bench-artifacts/helper-read-write-ledger.md\t\n@@ -0,0 +1,164 @@\n+# Helper Read/Write Ledger\n+\n+## src/helper/factory/index.ts\n+- Main exports or names: Factory, createFactory, createMiddleware\n+- Reads as: TypeScript interface-heavy file with handler x2-x10 overloads\n+- Neighbor files: ../../hono, ../../hono-base, ../../types\n+- Safe summary: Factory helper class that creates apps and handlers with overloaded handler combinations from x2 to x10\n+\n+## src/helper/route/index.ts\n+- Main exports or names: matchedRoutes, routePath, baseRoutePath, basePath\n+- Reads as: Context-dependent routing information retrieval\n+- Neighbor files: ../../context, ../../request/constants, ../../types, ../../utils/url\n+- Safe summary: Helper to inspect matched routes, get route paths, and calculate basePath with parameters in Hono apps\n+\n+## src/helper/websocket/index.ts\n+- Main exports or names: defineWebSocketHelper, WSContext, WSEvents, UpgradeWebSocket\n+- Reads as: WebSocket upgrade and event handling with typed contexts\n+- Neighbor files: ../../context, ../../types, ../../utils/http-status\n+- Safe summary: WebSocket upgrade helper with events, messages, and typed context for handling WebSocket connections\n+\n+## src/helper/cookie/index.ts\n+- Main exports or names: getCookie, getSignedCookie, setCookie, setSignedCookie, deleteCookie, generateCookie\n+- Reads as: Cookie parsing and setting with signed/unsigned support and __Secure/__Host prefixes\n+- Neighbor files: ../../context, ../../utils/cookie\n+- Safe summary: Cookie helper functions for reading, writing, and deleting cookies with signed support and secure prefixes\n+\n+## src/helper/testing/index.ts\n+- Main exports or names: testClient\n+- Reads as: Testing client wrapper around Hono with typed request generation\n+- Neighbor files: ../../client, ../../client/types, ../../context, ../../hono, ../../types, ../../utils/types\n+- Safe summary: Helper to create typed test clients for Hono apps with custom fetch implementation\n+\n+## src/helper/adapter/index.ts\n+- Main exports or names: env, getRuntimeKey, checkUserAgentEquals, knownUserAgents\n+- Reads as: Runtime detection for Node/Deno/Edge/Lambda/etc with environment access\n+- Neighbor files: ../../context\n+- Safe summary: Detects runtime environment (Node, Deno, Bun, Cloudflare Workers, etc) and provides typed access to runtime bindings\n+\n+## src/helper/css/index.ts\n+- Main exports or names: css, cx, keyframes, viewTransition, Style, createCssContext\n+- Reads as: Experimental CSS-in-JS with template literals and class hashing\n+- Neighbor files: ../../helper/html, ../../jsx/constants, ../../jsx/dom/css, ../../utils/html, ./common\n+- Safe summary: CSS helper with dynamic class name generation, keyframes, view transitions, and template string styles\n+\n+## src/helper/css/common.ts\n+- Main exports or names: cssCommon, cxCommon, keyframesCommon, viewTransitionCommon, minify, rawCssString, toHash\n+- Reads as: Shared CSS utility functions for class name generation and minification\n+- Neighbor files: (self-contained utilities with no external imports)\n+- Safe summary: Core CSS utilities for building class names from template strings, minifying CSS, and handling @keyframes\n+\n+## src/helper/proxy/index.ts\n+- Main exports or names: proxy\n+- Reads as: HTTP proxy client with RFC 9110 compliance for Connection headers\n+- Neighbor files: ../../http-exception, ../../utils/headers\n+- Safe summary: Proxy fetch wrapper that forwards requests with hop-by-hop header management and optional strict RFC compliance\n+\n+## src/helper/dev/index.ts\n+- Main exports or names: inspectRoutes, showRoutes, getRouterName\n+- Reads as: Development helper to display app routes with optional colorization\n+- Neighbor files: ../../hono, ../../types, ../../utils/color, ../../utils/handler\n+- Safe summary: Dev-time helper to inspect and display Hono app routes with handler names and method/path formatting\n+\n+## src/helper/html/index.ts\n+- Main exports or names: html, raw\n+- Reads as: HTML string builder with escaping and callback support\n+- Neighbor files: ../../utils/html\n+- Safe summary: Helper to create escaped HTML strings from template literals with support for HTML entities and callbacks\n+\n+## src/helper/ssg/index.ts\n+- Main exports or names: toSSG, fetchRoutesContent, saveContentToFile, ssgParams, disableSSG, onlySSG, defaultPlugin\n+- Reads as: Static site generation module with file system interface\n+- Neighbor files: ./ssg, ./middleware, ./plugins\n+- Safe summary: Static site generation helper that fetches route content and saves to filesystem with dynamic route support\n+\n+## src/helper/ssg/ssg.ts\n+- Main exports or names: toSSG, fetchRoutesContent, saveContentToFile, ToSSGOptions, SSGPlugin, ToSSGResult\n+- Reads as: Main SSG implementation with concurrency, hooks, and plugin architecture\n+- Neighbor files: ../../client/utils, ../../hono, ../../types, ./utils, ../../utils/concurrent, ../../utils/mime, ./middleware, ./plugins\n+- Safe summary: Core SSG engine that generates static files by fetching routes, handling concurrency, and supporting hooks and plugins\n+\n+## src/helper/ssg/utils.ts\n+- Main exports or names: dirname, joinPaths, filterStaticGenerateRoutes, isDynamicRoute, ensureWithinOutDir\n+- Reads as: Path manipulation utilities for SSG file paths\n+- Neighbor files: ../../hono, ../../router, ../../types, ../../utils/handler\n+- Safe summary: Utility functions for path operations on dynamic/static routes in SSG, including path joining and route filtering\n+\n+## src/helper/ssg/middleware.ts\n+- Main exports or names: ssgParams, isSSGContext, disableSSG, onlySSG, SSGContext\n+- Reads as: Middleware for SSG context detection and parameter injection for dynamic routes\n+- Neighbor files: ../../context, ../../types, ./utils\n+- Safe summary: Middleware helpers that mark SSG contexts and handle dynamic route parameters for static generation\n+\n+## src/helper/streaming/index.ts\n+- Main exports or names: stream, streamSSE, streamText\n+- Reads as: API entry point re-exporting streaming utilities\n+- Neighbor files: ./stream, ./sse, ./text\n+- Safe summary: Index file that exports main streaming helpers for response streaming to clients\n+\n+## src/helper/streaming/stream.ts\n+- Main exports or names: stream\n+- Reads as: Base streaming response with TransformStream and error handling\n+- Neig

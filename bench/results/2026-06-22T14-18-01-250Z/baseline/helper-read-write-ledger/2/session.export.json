@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_10fb5d365ffexzyiXOvgi0Gje5",
+    "slug": "misty-planet",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-22T14-18-01-250Z/baseline-helper-read-write-ledger-2/repo",
+    "path": "",
+    "title": "future.v1:helper-read-write-ledger:baseline:run-2",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 298196,
+      "output": 7052,
+      "reasoning": 2409,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782147853466,
+      "updated": 1782148226434
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782147854158
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/helper-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/helper-read-write-ledger.md\n===================================================================\n--- bench-artifacts/helper-read-write-ledger.md\t\n+++ bench-artifacts/helper-read-write-ledger.md\t\n@@ -0,0 +1,164 @@\n+# Helper Read/Write Ledger\n+\n+## src/helper/factory/index.ts\n+- Main exports or names: Factory, createFactory, createMiddleware, CreateHandlersInterface\n+- Reads as: Hono, HonoOptions, Env, H, HandlerResponse, Input, IntersectNonAnyTypes, MiddlewareHandler\n+- Neighbor files: src/helper/factory/index.ts, src/hono, src/hono-base, src/types\n+- Safe summary: Factory helper provides initApp, createApp, createMiddleware functions plus CreateHandlersInterface for combining handlers with support for 1-10 handlers.\n+\n+## src/helper/route/index.ts\n+- Main exports or names: matchedRoutes, routePath, baseRoutePath, basePath\n+- Reads as: Context, GET_MATCH_RESULT, RouterRoute, getPattern, splitRoutingPath\n+- Neighbor files: src/helper/route/index.ts, src/context, src/request/constants, src/types, src/utils/url\n+- Safe summary: Route helper provides functions to get matched routes and path information from context for debugging and logging.\n+\n+## src/helper/websocket/index.ts\n+- Main exports or names: WSEvents, UpgradeWebSocket, WSReadyState, WSContext, createWSMessageEvent, WebSocketHelperDefineContext, defineWebSocketHelper\n+- Reads as: Context, MiddlewareHandler, TypedResponse, StatusCode\n+- Neighbor files: src/helper/websocket/index.ts, src/context, src/types, src/utils/http-status\n+- Safe summary: WebSocket helper provides WSContext interface and defineWebSocketHelper for creating WebSocket connections with event handling.\n+\n+## src/helper/cookie/index.ts\n+- Main exports or names: getCookie, getSignedCookie, generateCookie, setCookie, generateSignedCookie, setSignedCookie, deleteCookie\n+- Reads as: Context, parse, parseSigned, serialize, serializeSigned\n+- Neighbor files: src/helper/cookie/index.ts, src/context, src/utils/cookie\n+- Safe summary: Cookie helper provides functions for getting, setting, and deleting cookies including signed cookies with prefix options.\n+\n+## src/helper/testing/index.ts\n+- Main exports or names: testClient\n+- Reads as: hc, Client types, ClientRequestOptions, Hono, Schema, ExecutionContext\n+- Neighbor files: src/helper/testing/index.ts, src/client, src/client/types, src/context, src/hono, src/types\n+- Safe summary: Testing helper creates a testClient wrapper that wraps the hc function with custom fetch for testing.\n+\n+## src/helper/adapter/index.ts\n+- Main exports or names: env, getRuntimeKey, checkUserAgentEquals, knownUserAgents\n+- Reads as: Context, Runtime\n+- Neighbor files: src/helper/adapter/index.ts, src/context\n+- Safe summary: Adapter helper provides an env function that detects and returns runtime environment variables for different platforms (node, deno, bun, workerd, fastly, edge-light).\n+\n+## src/helper/css/index.ts\n+- Main exports or names: createCssContext, css, cx, keyframes, viewTransition, Style, rawCssString, ClassNameSlug, OnInvalidSlug\n+- Reads as: html raw, DOM constants, createCssJsxDomObjects, common exports\n+- Neighbor files: src/helper/css/index.ts, src/helper/html, src/jxs/constants, src/jxs/dom/css, src/helper/css/common.ts\n+- Safe summary: Experimental CSS helper provides css, cx, keyframes, viewTransition functions for server-side rendering, exports common utility functions.\n+\n+## src/helper/css/common.ts\n+- Main exports or names: PSEUDO_GLOBAL_SELECTOR, isPseudoGlobalSelectorRe, DEFAULT_STYLE_ID, SELECTOR, CLASS_NAME, STYLE_STRING, SELECTORS, EXTERNAL_CLASS_NAMES, rawCssString, minify, cssCommon, cxCommon, keyframesCommon, viewTransitionCommon\n+- Reads as: no direct reads, internal css utilities\n+- Neighbor files: src/helper/css/common.ts, src/helper/css/index.ts\n+- Safe summary: Internal CSS helper functions for common CSS-in-JS operations, class name generation via hashes, CSS minification, and building style strings from templates.\n+\n+## src/helper/proxy/index.ts\n+- Main exports or names: proxy\n+- Reads as: HTTPException, Request Header\n+- Neighbor files: src/helper/proxy/index.ts, src/http-exception, src/utils/headers\n+- Safe summary: Proxy helper wraps fetch with hop-by-hop header removal, content-encoding deletion, and strict RFC 9110 compliance option for header validation.\n+\n+## src/helper/dev/index.ts\n+- Main exports or names: inspectRoutes, showRoutes, getRouterName\n+- Reads as: Hono, Env types, RouterRoute, color utility, handler utils\n+- Neighbor files: src/helper/dev/index.ts, src/hono, src/types, src/utils/color, src/utils/handler\n+- Safe summary: Dev helper prints routes in a nice table format with handler names, supports verbose mode and color output, detects router name.\n+\n+## src/helper/html/index.ts\n+- Main exports or names: html, raw\n+- Reads as: escapeToBuffer, raw, resolveCallbackSync, stringBufferToString\n+- Neighbor files: src/helper/html/index.ts, src/utils/html\n+- Safe summary: HTML helper provides raw and html functions for creating escaped HTML strings with callback support for lazy rendering.\n+\n+## src/helper/ssg/index.ts\n+- Main exports or names: re-exports ssg module, middleware exports (SSGConstants, ssgParams, isSSGContext, disableSSG, onlySSG), plugins (defaultPlugin, redirectPlugin)\n+- Reads as: ssg.ts, middleware exports, plugins\n+- Neighbor files: src/helper/ssg/index.ts, src/helper/ssg/ssg.ts, src/helper/ssg/middleware.ts, src/helper/ssg/plugins\n+- Safe summary: SSG helper entry point that re-exports main SSG module functionality, SSG middleware functions, and default plugins for static site generation.\n+\n+## src/helper/ssg/ssg.ts\n+- Main exports or names: generateFilePath, parseResponseContent, defaultExtensionMap, determineExtension, combineBeforeRequestHooks, combineAfterResponseHooks, combineAfterGenerateHooks, SSGPlugin, ToSSGInterface, ToSSGAdaptorInterface, toSSG\n+- Reads as: client utils, Hono, Env, Schema, pool utils, mime utils, SSG middleware, plugins, utils functions\n+- Neighbor files: src/helper/ssg/ssg.ts, src/client/utils, src/hono, src/types, src/utils/concurrent, src/utils/mime, src/helper/ssg/middleware.ts, src/helper/ssg/plugins, src/helper/ssg/utils.ts\n+- Safe summary: Main SSG logic fetches route content via pool of requests parallelization, converts responses to files, supports hooks and plugins, handles errors gracefully, ensures files stay in output directory.\n+\n+## src/helper/ssg/utils.ts\n+- Main exports or names: dirname, joinPaths, filterStaticGenerateR

@@ -1,0 +1,1 @@
+Created `/private/tmp/tokenwarden-bench/2026-06-19T22-15-13-025Z/baseline-routing-read-write-ledger-1/repo/bench-artifacts/routing-read-write-ledger.md`. File is 129 lines with 12 per-file sections and Cross-File Checklist. Exact file paths included. `bench-artifacts` directory created only file: `routing-read-write-ledger.md`.

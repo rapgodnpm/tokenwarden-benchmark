@@ -1,0 +1,1 @@
+`bench-artifacts/core-api-read-write-ledger.md` created at `/private/tmp/tokenwarden-bench/2026-06-20T06-38-17-288Z/tokenwarden-core-api-read-write-ledger-2/repo/bench-artifacts/core-api-read-write-ledger.md`. Only this one file was created. Verification: file exists at the specified path.

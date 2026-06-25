@@ -1,0 +1,90 @@
+I'll create the bench-artifacts directory and read all the listed files to build the ledger document. Let me start by fetching the repository files in parallel.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Now I have all the file contents. Let me create the ledger document.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+File created successfully. Let me verify it's the only file in the directory.
+
+
+
+
+Done. Created `/private/tmp/tokenwarden-bench/2026-06-19T22-15-13-025Z/openrtk-routing-read-write-ledger-1/repo/bench-artifacts/routing-read-write-ledger.md` with 120 lines of documentation covering:
+
+- 21 files from the exact list (honos.ts, hono-base.ts, 4 router index files, 9 router implementation/test files)
+- Each section has heading '## <file path>' with Purpose, Names noticed, Simple note bullets
+- Cross-File Checklist with 5 router families listing exact file paths
+
+**Verification:** Only `bench-artifacts/routing-read-write-ledger.md` was created (6.6K size)

@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_109f41847ffeYVjbmy4au32nUo",
+    "slug": "lucky-pixel",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-23T16-47-14-546Z/baseline-helper-read-write-ledger-2/repo",
+    "path": "",
+    "title": "future.v1:helper-read-write-ledger:baseline:run-2",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 227860,
+      "output": 4490,
+      "reasoning": 424,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782244435896,
+      "updated": 1782244754555
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782244436693
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/helper-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/helper-read-write-ledger.md\n===================================================================\n--- bench-artifacts/helper-read-write-ledger.md\t\n+++ bench-artifacts/helper-read-write-ledger.md\t\n@@ -0,0 +1,165 @@\n+# Helper Read/Write Ledger\n+\n+## src/helper/factory/index.ts\n+- Main exports or names: Factory, createFactory, createMiddleware\n+- Reads as: TypeScript module, 375 lines, exports class and functions\n+- Neighbor files: imports Hono from ../../hono, types from ../../types\n+- Safe summary: Factory helper for creating Hono app instances and handlers with typed interfaces for 1-10 handler combinations\n+\n+## src/helper/route/index.ts\n+- Main exports or names: matchedRoutes, routePath, baseRoutePath, basePath\n+- Reads as: TypeScript module, 141 lines, Context utility\n+- Neighbor files: imports Context from ../../context, types from ../../types, url utils from ../../utils/url\n+- Safe summary: Runtime route inspection utilities for getting matched route info within handlers\n+\n+## src/helper/websocket/index.ts\n+- Main exports or names: defineWebSocketHelper, WSContext, WSEvents, UpgradeWebSocket\n+- Reads as: TypeScript module, 140 lines, WebSocket upgrade helper\n+- Neighbor files: imports Context from ../../context, types from ../../types, status codes from ../../utils/http-status\n+- Safe summary: WebSocket upgrade helper for defining event handlers and managing WebSocket connections\n+\n+## src/helper/cookie/index.ts\n+- Main exports or names: getCookie, setCookie, getSignedCookie, setSignedCookie, deleteCookie, generateCookie, generateSignedCookie\n+- Reads as: TypeScript module, 145 lines, cookie manipulation utilities\n+- Neighbor files: imports Context from ../../context, cookie utils from ../../utils/cookie\n+- Safe summary: Cookie set/get/signed utilities with support for __Secure- and __Host- prefixed cookies\n+\n+## src/helper/testing/index.ts\n+- Main exports or names: testClient\n+- Reads as: TypeScript module, 27 lines, client for testing\n+- Neighbor files: imports client from ../../client, Hono from ../../hono, types from ../../types, context from ../../context\n+- Safe summary: Creates typed HTTP client for testing Hono applications\n+\n+## src/helper/adapter/index.ts\n+- Main exports or names: env, getRuntimeKey, knownUserAgents, checkUserAgentEquals\n+- Reads as: TypeScript module, 90 lines, runtime detection utilities\n+- Neighbor files: imports Context from ../../context\n+- Safe summary: Detects execution runtime (node/deno/bun/workerd/fastly/edge-light) and provides environment access\n+\n+## src/helper/css/index.ts\n+- Main exports or names: css, cx, keyframes, viewTransition, Style, createCssContext\n+- Reads as: TypeScript module, 252 lines, experimental CSS-in-JS helper\n+- Neighbor files: imports html helper from ../../helper/html, jsx constants from ../../jsx/constants, css dom objects from ../../jsx/dom/css, types from ./common\n+- Safe summary: Experimental CSS-in-JS engine with class name generation, keyframes, and view transitions for Hono\n+\n+## src/helper/css/common.ts\n+- Main exports or names: cssCommon, cxCommon, keyframesCommon, viewTransitionCommon, rawCssString, toHash, minify\n+- Reads as: TypeScript module, 328 lines, shared CSS utilities\n+- Neighbor files: referenced by index.ts, provides core functions and type definitions\n+- Safe summary: Core CSS utility functions including hash generation, minification, and shared CSS helpers\n+\n+## src/helper/proxy/index.ts\n+- Main exports or names: proxy, HTTPException\n+- Reads as: TypeScript module, 190 lines, HTTP proxy utilities\n+- Neighbor files: imports HTTPException from ../../http-exception, headers from ../../utils/headers\n+- Safe summary: Proxy fetch wrapper with RFC 9110 compliance, hop-by-hop header filtering, and header manipulation\n+\n+## src/helper/dev/index.ts\n+- Main exports or names: inspectRoutes, showRoutes, getRouterName\n+- Reads as: TypeScript module, 79 lines, development utilities\n+- Neighbor files: imports Hono from ../../hono, types from ../../types, color utils from ../../utils/color, handler utils from ../../utils/handler\n+- Safe summary: Development utilities for displaying route information and router names with optional colorization\n+\n+## src/helper/html/index.ts\n+- Main exports or names: html, raw\n+- Reads as: TypeScript module, 57 lines, HTML string utilities\n+- Neighbor files: imports html utils from ../../utils/html\n+- Safe summary: Template string tag for creating escaped HTML strings with callback support\n+\n+## src/helper/ssg/index.ts\n+- Main exports or names: exports from ./ssg, ssgParams, isSSGContext, disableSSG, onlySSG, defaultPlugin, redirectPlugin\n+- Reads as: TypeScript module, 14 lines, SSG aggregator\n+- Neighbor files: re-exports from ./ssg, ./middleware, and ./plugins\n+- Safe summary: Static site generation helper that exports main SSG functions and middleware utilities\n+\n+## src/helper/ssg/ssg.ts\n+- Main exports or names: toSSG, fetchRoutesContent, saveContentToFile, defaultPlugin\n+- Reads as: TypeScript module, 470 lines, core SSG logic\n+- Neighbor files: imports client utils from ../../client/utils, Hono from ../../hono, types from ../../types, concurrent utils from ../../utils/concurrent, mime utils from ../../utils/mime, and ./middleware, ./utils, ./plugins\n+- Safe summary: Static site generation engine for fetching routes, generating content, and saving to filesystem\n+\n+## src/helper/ssg/utils.ts\n+- Main exports or names: dirname, joinPaths, filterStaticGenerateRoutes, isDynamicRoute, ensureWithinOutDir\n+- Reads as: TypeScript module, 87 lines, path utilities\n+- Neighbor files: imports Hono from ../../hono, router from ../../router, types from ../../types, handler utils from ../../utils/handler\n+- Safe summary: Utility functions for path manipulation including dynamic route detection and static content filtering\n+\n+## src/helper/ssg/middleware.ts\n+- Main exports or names: ssgParams, isSSGContext, disableSSG, onlySSG, SSG_CONTEXT, X_HONO_DISABLE_SSG_HEADER_KEY\n+- Reads as: TypeScript module, 83 lines, SSG middleware utilities\n+- Neighbor files: imports Context from ../../context, types from ../../types, and isDynamicRoute from ./utils\n+- Safe summary: Middleware for controlling SSG execution and managing SSG context state\n+\n+## src/helper/streaming/index.ts\n+- Main exports or names: stream, streamSSE, streamText, SSEMessage\n+- Reads as: TypeScript module, 9 lines, streaming aggregator\n+- Neighbor files: re-exports from ./stream, ./sse, and ./text\n+- Safe summa

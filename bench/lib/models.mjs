@@ -30,6 +30,7 @@ export async function selectBenchmarkModel(options = {}) {
   const rl = createInterface({ input, output })
   try {
     output.write("\nSelect benchmark model:\n")
+    if (options.selectFromOpencodeModels) output.write("0. Select from OpenCode available models\n")
     for (const [index, model] of BENCHMARK_MODELS.entries()) {
       const suffix = model.default ? " (default)" : ""
       const displayModel = model.displayModel ? `, model ${model.displayModel}` : ""
@@ -39,6 +40,10 @@ export async function selectBenchmarkModel(options = {}) {
     while (true) {
       const answer = (await rl.question(`Model [1-${BENCHMARK_MODELS.length}, default 1]: `)).trim()
       if (!answer) return DEFAULT_BENCHMARK_MODEL
+      if ((answer === "0" || answer.toLowerCase() === "opencode") && options.selectFromOpencodeModels) {
+        const selected = await options.selectFromOpencodeModels({ question: (message) => rl.question(message) })
+        if (selected) return selected
+      }
 
       const selectedIndex = Number(answer)
       if (Number.isInteger(selectedIndex) && selectedIndex >= 1 && selectedIndex <= BENCHMARK_MODELS.length) {

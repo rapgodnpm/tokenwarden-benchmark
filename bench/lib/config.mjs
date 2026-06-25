@@ -5,6 +5,29 @@ import { DEFAULT_BENCHMARK_MODEL } from "./models.mjs"
 
 export { DEFAULT_BENCHMARK_MODEL }
 export const DEFAULT_BENCHMARK_RUNS = 3
+export const DEFAULT_AI_TIMEOUT_MS = 1_800_000
+export const DEFAULT_CLONE_TIMEOUT_MS = 300_000
+export const DEFAULT_INSTALL_TIMEOUT_MS = 600_000
+export const DEFAULT_SETUP_TIMEOUT_MS = 120_000
+export const DEFAULT_VERIFY_TIMEOUT_MS = 120_000
+export const DEFAULT_UTILITY_TIMEOUT_MS = 60_000
+
+export const BENCHMARK_PERMISSION = {
+  read: "allow",
+  edit: "allow",
+  glob: "allow",
+  grep: "allow",
+  list: "allow",
+  bash: "allow",
+  todowrite: "allow",
+  question: "deny",
+  task: "deny",
+  external_directory: "deny",
+  webfetch: "deny",
+  websearch: "deny",
+  plan_enter: "deny",
+  plan_exit: "deny"
+}
 
 export function createOpenCodeConfig(adapter, options = {}) {
   const model = options.model ?? DEFAULT_BENCHMARK_MODEL
@@ -13,7 +36,8 @@ export function createOpenCodeConfig(adapter, options = {}) {
     lsp: false,
     model,
     small_model: model,
-    plugin: adapter.plugins
+    plugin: adapter.plugins,
+    permission: options.permission ?? BENCHMARK_PERMISSION
   }
   if (options.provider && Object.keys(options.provider).length) config.provider = options.provider
   return config

@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_10fa75c3effeNWuDQigqsn9poT",
+    "slug": "cosmic-cactus",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-22T14-18-01-250Z/dcp-helper-read-write-ledger-2/repo",
+    "path": "",
+    "title": "future.v1:helper-read-write-ledger:dcp:run-2",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 280454,
+      "output": 5150,
+      "reasoning": 205,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782148801473,
+      "updated": 1782149064968
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782148802192
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/helper-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/helper-read-write-ledger.md\n===================================================================\n--- bench-artifacts/helper-read-write-ledger.md\t\n+++ bench-artifacts/helper-read-write-ledger.md\t\n@@ -0,0 +1,167 @@\n+# Helper Read/Write Ledger\n+\n+## src/helper/factory/index.ts\n+- Main exports or names: Factory, createFactory, createMiddleware, CreateHandlersInterface\n+- Reads as: exports\n+- Neighbor files: src/helper/hono, src/helper/hono-base, src/helper/types\n+- Safe summary: Factory helper for creating app factories and handler factories with multiple signatures (x1 to x10) and custom middleware.\n+\n+## src/helper/route/index.ts\n+- Main exports or names: matchedRoutes, routePath, baseRoutePath, basePath\n+- Reads as: exports\n+- Neighbor files: src/helper/context, src/helper/request, src/helper/types, src/helper/utils/url\n+- Safe summary: Route helper for getting matched routes and path information from context during request handling.\n+\n+## src/helper/websocket/index.ts\n+- Main exports or names: defineWebSocketHelper, WSEvents, WSContext, WSReadyState, SendOptions, WebSocketHelperDefineHandler, UpgradeWebSocket\n+- Reads as: exports\n+- Neighbor files: src/helper/context, src/helper/types, src/helper/utils/http-status\n+- Safe summary: WebSocket upgrade helper with event handling support, providing WSContext for sending messages and control operations.\n+\n+## src/helper/cookie/index.ts\n+- Main exports or names: getCookie, getSignedCookie, generateCookie, setCookie, generateSignedCookie, setSignedCookie, deleteCookie\n+- Reads as: imports src/helper/utils/cookie → exports directly\n+- Neighbor files: src/helper/context, src/helper/utils/cookie\n+- Safe summary: Cookie management helper for getting, setting, generating, and deleting signed/unsigned cookies with prefix support.\n+\n+## src/helper/testing/index.ts\n+- Main exports or names: testClient\n+- Reads as: imports src/helper/client → exports directly\n+- Neighbor files: src/helper/client, src/helper/types\n+- Safe summary: Testing helper for creating test clients from Hono apps, wrapping hc with custom fetch using app.request.\n+\n+## src/helper/adapter/index.ts\n+- Main exports or names: env, knownUserAgents, getRuntimeKey, checkUserAgentEquals\n+- Reads as: exports directly\n+- Neighbor files: src/helper/context\n+- Safe summary: Runtime adapter helper for detecting environment (Node, Deno, Bun, Cloudflare Workers, etc.) and accessing bindings.\n+\n+## src/helper/css/index.ts\n+- Main exports or names: css, cx, keyframes, viewTransition, Style, createCssContext\n+- Reads as: imports src/helper/html, src/helper/jsx, ./css/common → exports directly\n+- Neighbor files: src/helper/html, src/helper/jsx, src/helper/css/common\n+- Safe summary: CSS-in-JS helper for server-rendered HTML with class names, styles, and view transitions, supports async class names.\n+\n+## src/helper/css/common.ts\n+- Main exports or names: cssCommon, cxCommon, keyframesCommon, viewTransitionCommon, rawCssString, toHash, minify, buildStyleString\n+- Reads as: exports directly\n+- Neighbor files: src/helper/css/index, src/helper/jsx/dom\n+- Safe summary: Shared CSS utilities for generating class names, building style strings from template literals, minifying CSS, and CSS-in-JS operations.\n+\n+## src/helper/proxy/index.ts\n+- Main exports or names: proxy, buildRequestInitFromRequest, preprocessRequestInit\n+- Reads as: imports src/helper/http-exception, src/helper/utils/headers → exports directly\n+- Neighbor files: src/helper/http-exception, src/helper/utils/headers\n+- Safe summary: Proxy helper for forwarding requests via fetch with RFC 9110 compliant header stripping and custom fetch support.\n+\n+## src/helper/dev/index.ts\n+- Main exports or names: showRoutes, inspectRoutes, getRouterName\n+- Reads as: imports src/helper/hono, src/helper/types, src/helper/utils/color, src/helper/utils/handler → exports directly\n+- Neighbor files: src/helper/hono, src/helper/types, src/helper/utils/color, src/helper/utils/handler\n+- Safe summary: Development helper for displaying app routes and inspecting route data with optional colorization and verbosity.\n+\n+## src/helper/html/index.ts\n+- Main exports or names: html, raw\n+- Reads as: exports directly\n+- Neighbor files: src/helper/utils/html\n+- Safe summary: HTML helper for building escaped HTML strings with template literals and callback support.\n+\n+## src/helper/ssg/index.ts\n+- Main exports or names: re-exports from ./ssg, ssgParams, isSSGContext, disableSSG, onlySSG, defaultPlugin, redirectPlugin\n+- Reads as: re-exports ./ssg and ./middleware → re-exports from ./plugins\n+- Neighbor files: src/helper/ssg, src/helper/ssg/ssg.ts, src/helper/ssg/middleware.ts\n+- Safe summary: SSG helper re-export index; main SSG is in ssg.ts, middleware in middleware.ts, plugins include defaultPlugin and redirectPlugin.\n+\n+## src/helper/ssg/ssg.ts\n+- Main exports or names: toSSG, fetchRoutesContent, saveContentToFile, defaultExtensionMap, ToSSGResult, ToSSGInterface, ToSSGAdaptorInterface, SSGPlugin\n+- Reads as: imports ./ssg/middleware, ./ssg/utils, ./client/utils, src/helper/utils/concurrent, src/helper/utils/mime → re-exports ./plugins\n+- Neighbor files: src/helper/ssg/middleware.ts, src/helper/ssg/utils.ts, src/helper/client/utils, src/helper/utils/concurrent, src/helper/ssg/plugins\n+- Safe summary: Core SSG implementation for server-side static generation including route fetching, content saving, concurrency, and plugin support.\n+\n+## src/helper/ssg/utils.ts\n+- Main exports or names: dirname, joinPaths, filterStaticGenerateRoutes, isDynamicRoute, ensureWithinOutDir\n+- Reads as: imports src/helper/hono, src/helper/router, src/helper/types, src/helper/utils/handler → exports directly\n+- Neighbor files: src/helper/hono, src/helper/router, src/helper/types, src/helper/utils/handler, src/helper/ssg\n+- Safe summary: SSG utility functions for path joining, directory name extraction, route filtering for static generation, and dynamic route detection.\n+\n+## src/helper/ssg/middleware.ts\n+- Main exports or names: ssgParams, isSSGContext, disableSSG, onlySSG, SSGParams, SSGContext, AddedSSGDataRequest, SSGDisabledResponse (deprecated)\n+- Reads as: imports src/helper/ssg/utils → exports directly\n+- Neighbor files: src/helper/utils/handler, src/helper/ssg/utils, src/helper/ssg\n+- Safe summary: Middleware for SSG request handling with SSG context, dynamic route parameter generation, and SSG disable/disable flags.\n+\n+## src/helper/streaming/index.ts\n+- Main ex

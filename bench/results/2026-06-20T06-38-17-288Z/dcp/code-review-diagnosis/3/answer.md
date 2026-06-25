@@ -1,0 +1,1 @@
+Created `/bench-artifacts/code-review-diagnosis.md` with 6 findings (missing amount validation, no gateway error handling, no refund amount validation, ignored return value, no error context) and a residual risks table.

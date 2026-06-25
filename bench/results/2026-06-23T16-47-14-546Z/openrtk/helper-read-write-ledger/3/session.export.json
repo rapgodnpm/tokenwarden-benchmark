@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_10958d550ffeOmH9qHb2OaJl0c",
+    "slug": "cosmic-cactus",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-23T16-47-14-546Z/openrtk-helper-read-write-ledger-3/repo",
+    "path": "",
+    "title": "future.v1:helper-read-write-ledger:openrtk:run-3",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 290434,
+      "output": 5199,
+      "reasoning": 530,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782254611120,
+      "updated": 1782254972463
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782254611756
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/helper-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/helper-read-write-ledger.md\n===================================================================\n--- bench-artifacts/helper-read-write-ledger.md\t\n+++ bench-artifacts/helper-read-write-ledger.md\t\n@@ -0,0 +1,165 @@\n+# Helper Read/Write Ledger\n+\n+## src/helper/factory/index.ts\n+- Main exports or names: Factory, createFactory, createMiddleware, createHandlersInterface\n+- Reads as: TypeScript interface definitions for handler composition (x1-x10), Hono class, types from ../../hono and ../../types\n+- Neighbor files: ../../hono, ../../hono-base, ../../types, ../../utils/url\n+- Safe summary: Factory helper provides handler composition utilities with type-safe interfaces for chaining 1-10 handlers, exposing createApp/createMiddleware/createHandlers methods\n+\n+## src/helper/route/index.ts\n+- Main exports or names: matchedRoutes, routePath, baseRoutePath, basePath\n+- Reads as: Context imports from ../../context, constants from ../../request/constants, types from ../../types, url utilities from ../../utils/url\n+- Neighbor files: ../../context, ../../request/constants, ../../types, ../../utils/url\n+- Safe summary: Route helper provides runtime route inspection utilities for matched routes, path retrieval, and base path calculation with caching\n+\n+## src/helper/websocket/index.ts\n+- Main exports or names: WSEvents, UpgradeWebSocket, WSContext, WSReadyState, defineWebSocketHelper, WSContextInit, SendOptions\n+- Reads as: Context, MiddlewareHandler, TypedResponse from ../../types, statusCode from ../../utils/http-status\n+- Neighbor files: ../../context, ../../types, ../../utils/http-status\n+- Safe summary: WebSocket helper defines event types, upgrade handler function, WSContext class for message control, and defineWebSocketHelper for adapter creation\n+\n+## src/helper/cookie/index.ts\n+- Main exports or names: getCookie, getSignedCookie, generateCookie, setCookie, generateSignedCookie, setSignedCookie, deleteCookie\n+- Reads as: parse/parseSigned/serialize from ../../utils/cookie, types from ../../utils/cookie\n+- Neighbor files: ../../context, ../../utils/cookie\n+- Safe summary: Cookie helper provides functions for reading/setting cookies with signed support, secure/host prefixes, and deletion capabilities\n+\n+## src/helper/testing/index.ts\n+- Main exports or names: testClient\n+- Reads as: hc from ../../client, Client types from ../../client/types, ExecutionContext from ../../context, Hono type from ../../hono\n+- Neighbor files: ../../client, ../../client/types, ../../context, ../../hono, ../../types, ../../utils/types\n+- Safe summary: Testing helper creates testClient function that generates hc client instances with custom fetch for local Hono app testing\n+\n+## src/helper/adapter/index.ts\n+- Main exports or names: env, Runtime, knownUserAgents, getRuntimeKey, checkUserAgentEquals\n+- Reads as: Context from ../../context\n+- Neighbor files: ../../context\n+- Safe summary: Adapter helper detects runtime environment (node/deno/bun/workerd/fastly/edge-light), exports environment binding and user agent detection utilities\n+\n+## src/helper/css/index.ts\n+- Main exports or names: createCssContext, css, cx, keyframes, viewTransition, Style, defaultContext\n+- Reads as: raw from ../../helper/html, DOM_RENDERER from ../../jsx/constants, createCssJsxDomObjects from ../../jsx/dom/css, types from ../../utils/html and ./common\n+- Neighbor files: ../../helper/html, ../../jsx/constants, ../../jsx/dom/css, ../../utils/html, ./common\n+- Safe summary: CSS helper provides styled-components-like API with server/hydration support through createCssContext, exports css/cx/keyframes/viewTransition/Style\n+\n+## src/helper/css/common.ts\n+- Main exports or names: rawCssString, cssCommon, cxCommon, keyframesCommon, viewTransitionCommon, DEFAULT_STYLE_ID, PSEUDO_GLOBAL_SELECTOR, minify, buildStyleString\n+- Reads as: No external imports, internal symbols for type-safe CSS class building\n+- Neighbor files: ./css\n+- Safe summary: CSS helper common functions providing utility for class name generation, styling string building, minification, and keyframe/transition name handling\n+\n+## src/helper/proxy/index.ts\n+- Main exports or names: proxy, hopByHopHeaders, buildRequestInitFromRequest, preprocessRequestInit, HTTPException\n+- Reads as: HTTPException from ../../http-exception, RequestHeader types from ../../utils/headers\n+- Neighbor files: ../../http-exception, ../../utils/headers\n+- Safe summary: Proxy helper provides fetch wrapper for proxying requests with automatic hop-by-hop header removal, Connection header validation, and strict RFC 9110 mode option\n+\n+## src/helper/dev/index.ts\n+- Main exports or names: inspectRoutes, showRoutes, getRouterName, handlerName, RouteData, ShowRoutesOptions\n+- Reads as: Hono from ../../hono, Env/RouterRoute from ../../types, color utilities from ../../utils/color, handler utilities from ../../utils/handler\n+- Neighbor files: ../../hono, ../../types, ../../utils/color, ../../utils/handler\n+- Safe summary: Dev helper provides route inspection and logging utilities including inspectRoutes for route data and showRoutes for formatted console output\n+\n+## src/helper/html/index.ts\n+- Main exports or names: html, raw, escapeToBuffer, HtmlEscapedString, StringBufferWithCallbacks\n+- Reads as: escapeToBuffer/raw/resolveCallbackSync/stringBufferToString from ../../utils/html, HtmlEscaped types from ../../utils/html\n+- Neighbor files: ../../utils/html\n+- Safe summary: HTML helper provides template string rendering with escaping, exports html function and raw utility for HTML string interpolation in Hono apps\n+\n+## src/helper/ssg/index.ts\n+- Main exports or names: toSSG, ssgParams, isSSGContext, disableSSG, onlySSG, defaultPlugin, redirectPlugin\n+- Reads as: Re-exports from ./ssg and ./middleware and ./plugins\n+- Neighbor files: ./ssg, ./middleware, ./plugins\n+- Safe summary: SSG helper exports main toSSG function, middleware utilities (ssgParams/isSSGContext/disableSSG/onlySSG), and plugins (defaultPlugin/redirectPlugin)\n+\n+## src/helper/ssg/ssg.ts\n+- Main exports or names: toSSG, fetchRoutesContent, saveContentToFile, FileSystemModule, ToSSGResult, ToSSGOptions, SSGPlugin, combineBeforeRequestHooks, combineAfterResponseHooks\n+- Reads as: replaceUrlParam from ../../client/utils, Hono from ../../hono, Env/Schema from ../../types, createPool from ../../utils/concurrent, getExtension from ../../utils/mime, types from ./middleware and ./plugins and ./utils\n+- Neighbor files: ../../client/utils, ../../hono, ../../types, .

@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_109eb272bffeEDQxPPf2aIOwV4",
+    "slug": "neon-lagoon",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-23T16-47-14-546Z/openslimedit-helper-read-write-ledger-2/repo",
+    "path": "",
+    "title": "future.v1:helper-read-write-ledger:openslimedit:run-2",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 209069,
+      "output": 4597,
+      "reasoning": 297,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782245021908,
+      "updated": 1782245336206
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782245022579
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/helper-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/helper-read-write-ledger.md\n===================================================================\n--- bench-artifacts/helper-read-write-ledger.md\t\n+++ bench-artifacts/helper-read-write-ledger.md\t\n@@ -0,0 +1,165 @@\n+# Helper Read/Write Ledger\n+\n+## src/helper/factory/index.ts\n+- Main exports or names: Factory class, createFactory, createMiddleware, CreateHandlersInterface\n+- Reads as: TypeScript class with generics, template literal types for handler combinations\n+- Neighbor files: No direct reads, uses Hono from '../hono', types from '../../types'\n+- Safe summary: Factory helper provides factory pattern for creating Hono apps with handler grouping from 1-10\n+\n+## src/helper/route/index.ts\n+- Main exports or names: matchedRoutes, routePath, baseRoutePath, basePath\n+- Reads as: TypeScript functions with Context parameter, uses utils from '../../utils/url'\n+- Neighbor files: No direct reads, imports Context from '../../context', GET_MATCH_RESULT from '../../request/constants'\n+- Safe summary: Route helper exposes metadata about matched routes including path, base path, and parameterized routes\n+\n+## src/helper/websocket/index.ts\n+- Main exports or names: defineWebSocketHelper, WSContext, WSEvents, UpgradeWebSocket, WSContextInit\n+- Reads as: TypeScript interfaces, classes, and type definitions for WebSocket functionality\n+- Neighbor files: No direct reads, imports Context from '../../context', types from '../../types'\n+- Safe summary: WebSocket helper provides upgrade middleware and context management for WebSocket connections\n+\n+## src/helper/cookie/index.ts\n+- Main exports or names: getCookie, getSignedCookie, setCookie, setSignedCookie, deleteCookie, generateCookie, generateSignedCookie\n+- Reads as: TypeScript functions wrapping cookie utilities from '../../utils/cookie'\n+- Neighbor files: No direct reads, imports Context from '../../context', cookie utilities from '../../utils/cookie'\n+- Safe summary: Cookie helper abstracts cookie reading, writing, and signed cookie operations with support for prefix types\n+\n+## src/helper/testing/index.ts\n+- Main exports or names: testClient\n+- Reads as: TypeScript function returning hc client wrapper\n+- Neighbor files: No direct reads, imports client from '../../client', types from '../../client/types', ExecutionContext from '../../context'\n+- Safe summary: Testing helper provides test client generation for Hono apps using hc with custom fetch\n+\n+## src/helper/adapter/index.ts\n+- Main exports or names: env, getRuntimeKey, checkUserAgentEquals, knownUserAgents\n+- Reads as: TypeScript functions for runtime detection and environment extraction\n+- Neighbor files: No direct reads, imports Context from '../../context'\n+- Safe summary: Adapter helper detects runtime environment (node, deno, bun, workerd, etc.) and extracts environment bindings\n+\n+## src/helper/css/index.ts\n+- Main exports or names: css, cx, keyframes, viewTransition, Style, createCssContext\n+- Reads as: TypeScript functions and interfaces for CSS-in-JS style generation\n+- Neighbor files: Reads from '../../helper/html', '../../jsx/constants', '../../jsx/dom/css', '../../utils/html', './common'\n+- Safe summary: CSS helper provides dynamic style generation with class name hashing and view transitions for Hono apps\n+\n+## src/helper/css/common.ts\n+- Main exports or names: cssCommon, cxCommon, keyframesCommon, viewTransitionCommon, toHash, minify, rawCssString\n+- Reads as: TypeScript utility functions for CSS string building and processing\n+- Neighbor files: No direct reads, provides shared utilities for css/index.ts\n+- Safe summary: Common CSS utilities for building, hashing, minifying CSS strings and handling class names from css helper\n+\n+## src/helper/proxy/index.ts\n+- Main exports or names: proxy\n+- Reads as: TypeScript async function with Request handling\n+- Neighbor files: No direct reads, imports HTTPException from '../../http-exception', RequestHeader from '../../utils/headers'\n+- Safe summary: Proxy helper wraps fetch for proxy requests with header filtering and Hop-by-Hop header handling per RFC 9110\n+\n+## src/helper/dev/index.ts\n+- Main exports or names: showRoutes, inspectRoutes, getRouterName\n+- Reads as: TypeScript functions for route inspection and display\n+- Neighbor files: No direct reads, imports Hono from '../../hono', types from '../../types', utils from '../../utils/color', '../../utils/handler'\n+- Safe summary: Dev helper provides route inspection and pretty printing of Hono app routes with optional color support\n+\n+## src/helper/html/index.ts\n+- Main exports or names: html, raw\n+- Reads as: TypeScript function handling template string interpolation with escaping\n+- Neighbor files: No direct reads, imports utils from '../../utils/html'\n+- Safe summary: HTML helper escapes template strings to prevent XSS while allowing HtmlEscapedString callbacks for dynamic content\n+\n+## src/helper/ssg/index.ts\n+- Main exports or names: toSSG, fetchRoutesContent, saveContentToFile, defaultPlugin, redirectPlugin, ssgParams, disableSSG, onlySSG\n+- Reads as: TypeScript exports re-exporting from './ssg', './middleware', './plugins'\n+- Neighbor files: Reads ssg from './ssg', middleware from './middleware', plugins from './plugins'\n+- Safe summary: SSG helper generates static HTML by fetching and saving page content to filesystem with hooks and plugins\n+\n+## src/helper/ssg/ssg.ts\n+- Main exports or names: toSSG, fetchRoutesContent, saveContentToFile, ToSSGInterface, ToSSGAdaptorInterface, ToSSGResult, SSGPlugin\n+- Reads as: TypeScript generator functions and async functions for static site generation\n+- Neighbor files: Reads from '../../client/utils', '../../hono', '../../utils/concurrent', '../../utils/mime', './middleware', './plugins', './utils'\n+- Safe summary: Core SSG implementation generates static routes by fetching content at runtime and saving to filesystem using pool concurrency\n+\n+## src/helper/ssg/utils.ts\n+- Main exports or names: dirname, joinPaths, filterStaticGenerateRoutes, isDynamicRoute, ensureWithinOutDir\n+- Reads as: TypeScript utility functions for path manipulation and route filtering\n+- Neighbor files: No direct reads, imports path logic, types from '../../hono', '../../types', '../../utils/handler'\n+- Safe summary: SSG utilities handle path operations, dynamic route detection, and output directory safety checks\n+\n+## src/helper/ssg/middleware.ts\n+- Main exports or names: ssgParams, isSSGContext, disableSSG, onlySSG, SSGParamsMiddleware, AddedSSGDat

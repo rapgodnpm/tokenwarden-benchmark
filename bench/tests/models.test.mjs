@@ -1,5 +1,6 @@
 import test from "node:test"
 import assert from "node:assert/strict"
+import { Readable, Writable } from "node:stream"
 import { BENCHMARK_MODELS, DEFAULT_BENCHMARK_MODEL, benchmarkModelAliases, resolveBenchmarkModel, selectBenchmarkModel } from "../lib/models.mjs"
 
 test("benchmark model registry includes OpenRouter and LM Studio choices", () => {
@@ -26,4 +27,16 @@ test("benchmark model aliases include LM Studio display ID", () => {
 
 test("benchmark model selector falls back to the default when non-interactive", async () => {
   assert.equal(await selectBenchmarkModel({ interactive: false }), DEFAULT_BENCHMARK_MODEL)
+})
+
+test("benchmark model selector can delegate to OpenCode model selection", async () => {
+  const input = Readable.from(["0\n"])
+  const output = new Writable({ write(_chunk, _encoding, callback) { callback() } })
+
+  assert.equal(await selectBenchmarkModel({
+    interactive: true,
+    input,
+    output,
+    selectFromOpencodeModels: async () => "lmstudio/qwen/qwen3-30b-a3b-2507"
+  }), "lmstudio/qwen/qwen3-30b-a3b-2507")
 })

@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_10a6e24b5ffe3MmN4ia1TzS6t3",
+    "slug": "clever-planet",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-23T16-47-14-546Z/openrtk-helper-read-write-ledger-1/repo",
+    "path": "",
+    "title": "future.v1:helper-read-write-ledger:openrtk:run-1",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 282512,
+      "output": 4393,
+      "reasoning": 329,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782236437322,
+      "updated": 1782236749078
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782236437981
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/helper-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/helper-read-write-ledger.md\n===================================================================\n--- bench-artifacts/helper-read-write-ledger.md\t\n+++ bench-artifacts/helper-read-write-ledger.md\t\n@@ -0,0 +1,164 @@\n+# Helper Read/Write Ledger\n+\n+## src/helper/factory/index.ts\n+- Main exports or names: Factory, createFactory, createMiddleware, CreateHandlersInterface\n+- Reads as: TypeScript interface definitions with handler overloads (x1 to x10), class Factory, factory function exports\n+- Neighbor files: src/hono, src/hono-base, src/types, src/utils/types\n+- Safe summary: Factory helper provides createApp, createHandlers for registering multiple handlers with combined types\n+\n+## src/helper/route/index.ts\n+- Main exports or names: matchedRoutes, routePath, baseRoutePath, basePath\n+- Reads as: Function implementations using Context and request pattern matching\n+- Neighbor files: src/context, src/request/constants, src/types, src/utils/url\n+- Safe summary: Route helper functions to get matched routes, path info, and base paths from context\n+\n+## src/helper/websocket/index.ts\n+- Main exports or names: WSEvents, UpgradeWebSocket, WSContextInit, WSContext, defineWebSocketHelper, WSReadyState\n+- Reads as: TypeScript interfaces, WSContext class, helper factory function\n+- Neighbor files: src/context, src/types, src/utils/http-status\n+- Safe summary: WebSocket upgrade helper for Hono with event listeners and context management\n+\n+## src/helper/cookie/index.ts\n+- Main exports or names: getCookie, getSignedCookie, generateCookie, setCookie, generateSignedCookie, setSignedCookie, deleteCookie\n+- Reads as: Cookie handling functions using parser/serializers from utils/cookie\n+- Neighbor files: src/context, src/utils/cookie\n+- Safe summary: Cookie helper for getting, setting, and deleting HTTP cookies with signed support\n+\n+## src/helper/testing/index.ts\n+- Main exports or names: testClient\n+- Reads as: Client factory using hc from client module with custom fetch\n+- Neighbor files: src/client, src/client/types, src/context, src/hono, src/types, src/utils/types\n+- Safe summary: Testing helper creates HTTP client for testing routes with typed requests\n+\n+## src/helper/adapter/index.ts\n+- Main exports or names: env, getRuntimeKey, checkUserAgentEquals, knownUserAgents, Runtime type\n+- Reads as: Runtime detection functions using navigator.userAgent and global properties\n+- Neighbor files: src/context\n+- Safe summary: Adapter helper for runtime detection (node, deno, bun, workerd, fastly, edge-light)\n+\n+## src/helper/css/index.ts\n+- Main exports or names: createCssContext, css, cx, keyframes, viewTransition, Style\n+- Reads as: CSS helper implementation with context creation and DOM object generation\n+- Neighbor files: src/helper/html, src/jsx/constants, src/jsx/dom/css, src/utils/html, src/helper/css/common\n+- Safe summary: CSS-in-JS helper for styled-components with class name generation and style management\n+\n+## src/helper/css/common.ts\n+- Main exports or names: minify, cssCommon, cxCommon, keyframesCommon, viewTransitionCommon, rawCssString, ClassNameSlug, OnInvalidSlug\n+- Reads as: CSS utility functions for parsing, minifying, and class name generation\n+- Neighbor files: src/helper/css\n+- Safe summary: Common CSS utilities for class name hashing, style string building, and minification\n+\n+## src/helper/proxy/index.ts\n+- Main exports or names: proxy, ProxyFetch\n+- Reads as: Fetch API wrapper for proxy requests with hop-by-hop header handling\n+- Neighbor files: src/http-exception, src/utils/headers\n+- Safe summary: Proxy helper fetches remote URLs with automatic hop-by-hop header removal (RFC 2616/9110)\n+\n+## src/helper/dev/index.ts\n+- Main exports or names: inspectRoutes, showRoutes, getRouterName\n+- Reads as: Route inspection and display functions using handler utilities\n+- Neighbor files: src/hono, src/types, src/utils/color, src/utils/handler\n+- Safe summary: Dev helper for displaying registered routes and handler names in console\n+\n+## src/helper/html/index.ts\n+- Main exports or names: html, raw\n+- Reads as: HTML templating with escapeToBuffer and callback resolution\n+- Neighbor files: src/utils/html\n+- Safe summary: HTML helper for template string rendering with auto-escaping and nested value support\n+\n+## src/helper/ssg/index.ts\n+- Main exports or names: toSSG exports via re-exports\n+- Reads as: Module exports from ssg and middleware files\n+- Neighbor files: src/helper/ssg/ssg, src/helper/ssg/middleware, src/helper/ssg/plugins\n+- Safe summary: SSG helper entry point exporting static site generation utilities\n+\n+## src/helper/ssg/ssg.ts\n+- Main exports or names: toSSG, fetchRoutesContent, saveContentToFile, generateFilePath, isSSGContext\n+- Reads as: Static site generation execution with concurrent content fetching and file saving\n+- Neighbor files: src/client/utils, src/hono, src/types, src/utils/concurrent, src/utils/mime, src/helper/ssg/middleware, src/helper/ssg/plugins, src/helper/ssg/utils\n+- Safe summary: Main SSG logic for fetching route content, generating files, and handling plugins/hooks\n+\n+## src/helper/ssg/utils.ts\n+- Main exports or names: dirname, joinPaths, filterStaticGenerateRoutes, isDynamicRoute, ensureWithinOutDir\n+- Reads as: Path utilities and route filtering for SSG\n+- Neighbor files: src/hono, src/router, src/types, src/utils/handler, src/helper/ssg\n+- Safe summary: SSG utility functions for path manipulation and dynamic route detection\n+\n+## src/helper/ssg/middleware.ts\n+- Main exports or names: ssgParams, isSSGContext, disableSSG, onlySSG, SSGContext, X_HONO_DISABLE_SSG_HEADER_KEY\n+- Reads as: Middleware for marking context as SSG, disabling/enabling SSG per route\n+- Neighbor files: src/context, src/types, src/helper/ssg/utils\n+- Safe summary: SSG middleware for context propagation and route-level SSG control\n+\n+## src/helper/streaming/index.ts\n+- Main exports or names: stream, streamSSE, streamText\n+- Reads as: Re-exports from stream, sse, and text modules\n+- Neighbor files: src/helper/streaming/stream, src/helper/streaming/sse, src/helper/streaming/text\n+- Safe summary: Streaming helper entry point for text, SSE, and generic stream responses\n+\n+## src/helper/streaming/stream.ts\n+- Main exports or names: stream, StreamingApi\n+- Reads as: Generic streaming response with TransformStream and error handling\n+- Neighbor files: src/context, src/utils/stream\n+- Safe summary: Generic streaming helper using TransformStream with abort signal handling\

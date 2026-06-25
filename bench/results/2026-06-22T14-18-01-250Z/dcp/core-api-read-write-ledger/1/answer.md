@@ -1,0 +1,1 @@
+Task completed. Created `bench-artifacts/core-api-read-write-ledger.md` with entries for all 18 specified files. The file starts with '# Core API Read/Write Ledger', each file has a heading with five bullet points, and ends with a Path Inventory section. No source-code changes were made.

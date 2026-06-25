@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_10e9e8658ffeFFdS91KOVnX1k3",
+    "slug": "proud-nebula",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-22T19-55-04-956Z/baseline-routing-read-write-ledger-2/repo",
+    "path": "",
+    "title": "future.v1:routing-read-write-ledger:baseline:run-2",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 385969,
+      "output": 8386,
+      "reasoning": 697,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782166157735,
+      "updated": 1782166604953
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782166158407
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/routing-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/routing-read-write-ledger.md\n===================================================================\n--- bench-artifacts/routing-read-write-ledger.md\t\n+++ bench-artifacts/routing-read-write-ledger.md\t\n@@ -0,0 +1,153 @@\n+# Routing Read/Write Ledger\n+\n+## src/hono.ts\n+\n+- Purpose: Main Hono entry point exporting the Hono class that extends HonoBase and sets up default routing with SmartRouter containing RegExpRouter and TrieRouter.\n+- Names noticed: Hono, HonoBase, RegExpRouter, SmartRouter, TrieRouter, BlankEnv, BlankSchema, Env, Schema.\n+- Simple note: 34 lines total. Constructor accepts router option or uses default SmartRouter.\n+\n+## src/hono-base.ts\n+\n+- Purpose: Base module for Hono containing the core Hono class implementation with request handling middleware composition and routing via the router instance.\n+- Names noticed: HonoBase, compose, Context, METHOD_NAME_ALL, METHODS, Env, HandlerInterface, MergePath, mergePath, NotFoundHandler, ErrorHandler, COMPOSED_HANDLER, HonoOptions, RouterRoute, GetPath, getPath, getPathNoStrict.\n+- Simple note: 545 lines total. Implements request/response lifecycle, error handling, middleware composition, and route registration via #addRoute.\n+\n+## src/router/pattern-router/index.ts\n+\n+- Purpose: Module index for PatternRouter exporting the PatternRouter class.\n+- Names noticed: PatternRouter.\n+- Simple note: 6 lines total. Simple re-export from router.ts.\n+\n+## src/router/pattern-router/router.ts\n+\n+- Purpose: Pattern-based router that compiles routes into regular expressions for matching.\n+- Names noticed: Params, Result, Router, METHOD_NAME_ALL, UnsupportedPathError, emptyParams.\n+- Simple note: 60 lines total. Routes are stored as [[pattern, method, handler]]. Patterns are converted to regex at add time. Matching iterates all routes and returns all matches.\n+\n+## src/router/linear-router/index.ts\n+\n+- Purpose: Module index for LinearRouter exporting the LinearRouter class.\n+- Names noticed: LinearRouter.\n+- Simple note: 6 lines total. Simple re-export from router.ts.\n+\n+## src/router/linear-router/router.ts\n+\n+- Purpose: Linear sequential router that stores routes as strings and checks them in order.\n+- Names noticed: Params, Result, Router, METHOD_NAME_ALL, UnsupportedPathError, checkOptionalParameter, emptyParams, ROUTES_LOOP.\n+- Simple note: 144 lines total. Stores routes as [[method, path, handler]] arrays. Supports static paths, named parameters with :label, and wildcards. Throws UnsupportedPathError for multi-match ambiguity.\n+\n+## src/router/reg-exp-router/index.ts\n+\n+- Purpose: Module index for RegExpRouter exporting the main router and PreparedRegExpRouter for serialization.\n+- Names noticed: RegExpRouter, PreparedRegExpRouter, buildInitParams, serializeInitParams.\n+- Simple note: 7 lines total. Re-exports router class and initialization utilities.\n+\n+## src/router/reg-exp-router/router.ts\n+\n+- Purpose: Compiles routes into a trie structure with regex patterns and static mappings for efficient matching.\n+- Names noticed: ParamIndexMap, Router, MESSAGE_MATCHER_IS_ALREADY_BUILT, METHOD_NAME_ALL, UnsupportedPathError, match, emptyParam, PATH_ERROR, HandlerData, StaticMap, Matcher, MatcherMap, Trie, buildInitParams.\n+- Simple note: 252 lines total. Routes are stored during add phase using trie. Matching compiles matchers lazily. Supports full regex patterns with capture groups and param index tracking.\n+\n+## src/router/reg-exp-router/matcher.ts\n+\n+- Purpose: Defines matcher types and provides the match function for runtime routing.\n+- Names noticed: ParamIndexMap, Result, Router, METHOD_NAME_ALL, HandlerData, StaticMap, Matcher, MatcherMap, match, emptyParam.\n+- Simple note: 33 lines total. match() builds all matchers once, then uses static lookup or regex matching. Returns [[handlers, params], stash].\n+\n+## src/router/reg-exp-router/prepared-router.ts\n+\n+- Purpose: Prepares RegExpRouter matchers upfront for faster runtime matching without lazy compilation.\n+- Names noticed: Params, Result, Router, METHOD_NAME_ALL, HandlerData, Matcher, MatcherMap, StaticMap, match, emptyParam, buildInitParams, serializeInitParams, RelocateMap.\n+- Simple note: 165 lines total. Constructor takes pre-built matchers and relocate map. add() uses relocate map to update internal state. Used with serialization for edge deployment.\n+\n+## src/router/reg-exp-router/node.ts\n+\n+- Purpose: Trie node implementation for building regex patterns from route paths.\n+- Names noticed: ParamAssocArray, Node, Context, PATH_ERROR, Only_Wildcard_Exp, Label_Exp.\n+- Simple note: 162 lines total. Node has children record and varIndex for params. insert() builds trie structure. buildRegExpStr() generates regex pattern.\n+\n+## src/router/reg-exp-router/trie.ts\n+\n+- Purpose: Trie class for organizing routes and generating replacement map for param index tracking.\n+- Names noticed: ParamAssocArray, Context, Node, ReplacementMap, PATH_ERROR.\n+- Simple note: 74 lines total. insert() processes path string into tokens. buildRegExp() generates final regex with index and param replacement maps.\n+\n+## src/router/smart-router/index.ts\n+\n+- Purpose: Module index for SmartRouter exporting the SmartRouter class.\n+- Names noticed: SmartRouter.\n+- Simple note: 6 lines total. Simple re-export from router.ts.\n+\n+## src/router/smart-router/router.ts\n+\n+- Purpose: Router that adapts between multiple underlying routers dynamically during add/match time.\n+- Names noticed: Result, Router, MESSAGE_MATCHER_IS_ALREADY_BUILT, UnsupportedPathError.\n+- Simple note: 70 lines total. Uses an array of routers and adds routes to them. On first successful match, fixes the active router and binds match method.\n+\n+## src/router/trie-router/index.ts\n+\n+- Purpose: Module index for TrieRouter exporting the TrieRouter class.\n+- Names noticed: TrieRouter.\n+- Simple note: 6 lines total. Simple re-export from router.ts.\n+\n+## src/router/trie-router/router.ts\n+\n+- Purpose: Trie-based router that builds a tree structure from path segments for exact and pattern matching.\n+- Names noticed: Result, Router, checkOptionalParameter, Node.\n+- Simple note: 28 lines total. checkOptionalParameter expands paths. insert() into node tree. match() traverses tree.\n+\n+## src/router/trie-router/node.ts\n+\n+- Purpose: Trie node class storing methods, handler sets, patterns, and shared params for exact path matching with parameters.\n+- Names noticed: Params, METHOD_NAME_ALL, Pattern, getPattern, splitPath, splitRoutingP

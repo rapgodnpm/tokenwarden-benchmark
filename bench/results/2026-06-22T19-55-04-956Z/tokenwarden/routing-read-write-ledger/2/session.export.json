@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_10e978210ffe1fcBhyWkvmR53v",
+    "slug": "brave-harbor",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-22T19-55-04-956Z/tokenwarden-routing-read-write-ledger-2/repo",
+    "path": "",
+    "title": "future.v1:routing-read-write-ledger:tokenwarden:run-2",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 200418,
+      "output": 4329,
+      "reasoning": 1209,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782166617583,
+      "updated": 1782166794541
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782166618308
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/routing-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/routing-read-write-ledger.md\n===================================================================\n--- bench-artifacts/routing-read-write-ledger.md\t\n+++ bench-artifacts/routing-read-write-ledger.md\t\n@@ -0,0 +1,123 @@\n+# Routing Read/Write Ledger\n+\n+## src/hono.ts\n+- Purpose: Main Hono entry point that exports Hono class with default router support.\n+- Names noticed: Hono, HonoBase, RegExpRouter, SmartRouter, TrieRouter, HonoOptions, Env, Schema.\n+- Simple note: Thin wrapper exporting HonoBase and router implementations, sets default routers based on export order.\n+\n+## src/hono-base.ts\n+- Purpose: Core Hono base class providing request handling, routing, middleware composition, and context.\n+- Names noticed: HonoBase, Hono, Context, Router, Compose, Request, Response, match, handle, basePath, clone, use.\n+- Simple note: Abstract base class implementing HTTP handling; accepts custom router in constructor; composes middleware arrays.\n+\n+## src/router/pattern-router/index.ts\n+- Purpose: Router factory index.\n+- Names noticed: PatternRouter.\n+- Simple note: Re-exports PatternRouter from router.ts.\n+\n+## src/router/pattern-router/router.ts\n+- Purpose: Router using URL pattern matching with regex compilation at route registration time.\n+- Names noticed: PatternRouter, Route, Params, Result, Router, match, preprocessedRoutes, exec, path.match.\n+- Simple note: Pre-compiles routes to regex during initialization; stores handlers; matches paths at request time.\n+\n+## src/router/linear-router/index.ts\n+- Purpose: Router factory index.\n+- Names noticed: LinearRouter.\n+- Simple note: Re-exports LinearRouter from router.ts.\n+\n+## src/router/linear-router/router.ts\n+- Purpose: Router using string-based linear route matching with wildcard support.\n+- Names noticed: LinearRouter, Router, Route, Params, Result, match, routes, indexOf, wildcards, parameter extraction.\n+- Simple note: Scans route arrays linearly at match time; supports * wildcard and :param with lookahead regex.\n+\n+## src/router/reg-exp-router/index.ts\n+- Purpose: Router factory index.\n+- Names noticed: RegExpRouter, PreparedRegExpRouter.\n+- Simple note: Re-exports RegExpRouter class and PreparedRegExpRouter build functions.\n+\n+## src/router/reg-exp-router/router.ts\n+- Purpose: Router building trie structure and compiling it to regex at initialization.\n+- Names noticed: RegExpRouter, Trie, Matcher, MatcherMap, HandlerData, StaticMap, buildAndExportAllMatchers, buildRegExp, buildAllMatchers.\n+- Simple note: Two-phase: build trie from routes, compile to regex; exports matchers per HTTP method for fast lookup.\n+\n+## src/router/reg-exp-router/matcher.ts\n+- Purpose: Defines matcher types and match function using pre-built regex matchers.\n+- Names noticed: Matcher, MatcherMap, HandlerData, StaticMap, match, emptyParam, buildAllMatchers.\n+- Simple note: Matchers are [RegExp, HandlerData[], StaticMap][]; match function builds index time matchers.\n+\n+## src/router/reg-exp-router/prepared-router.ts\n+- Purpose: Optimizer class for prepared route matching; reuses pre-built matchers.\n+- Names noticed: PreparedRegExpRouter, buildInitParams, serializeInitParams, RelocateMap RegExpRouter.\n+- Simple note: Builds relocateMap at setup time for O(1) route selection during matching.\n+\n+## src/router/reg-exp-router/node.ts\n+- Purpose: Node class representing trie structure with children, methods, and patterns.\n+- Names noticed: Node, PATH_ERROR, ParamAssocArray, Context, getPattern, splitRoutingPath, addRoute, handle.\n+- Simple note: Trie node stores method-based handler sets with pattern matching for dynamic segments.\n+\n+## src/router/reg-exp-router/trie.ts\n+- Purpose: Trie class for organizing routes into tree structure.\n+- Names noticed: Trie, Context, ParamAssocArray, buildRegExp.\n+- Simple note: Converts route trie into compiled regex patterns with parameter index mappings.\n+\n+## src/router/smart-router/index.ts\n+- Purpose: Router factory index.\n+- Names noticed: SmartRouter.\n+- Simple note: Re-exports SmartRouter from router.ts.\n+\n+## src/router/smart-router/router.ts\n+- Purpose: Router that routes methods or paths dynamically to specialized routers.\n+- Names noticed: SmartRouter, Router, Result, MESSAGE_MATCHER_IS_ALREADY_BUILT, UnsupportedPathError, routers, routes, match.\n+- Simple note: Routes GET/HEAD to path-based router, POST/OPTIONS/PATCH to method-based router; lazy router building.\n+\n+## src/router/trie-router/index.ts\n+- Purpose: Router factory index.\n+- Names noticed: TrieRouter.\n+- Simple note: Re-exports TrieRouter from router.ts.\n+\n+## src/router/trie-router/router.ts\n+- Purpose: Router using trie-based path matching.\n+- Names noticed: TrieRouter, Result, Router, Node, checkOptionalParameter, search, match, splitPath.\n+- Simple note: Trie of path segments; walks trie on request; handles trailing slashes and optional parameters.\n+\n+## src/router/trie-router/node.test.ts\n+- Purpose: Tests for Node class trie behavior.\n+- Names noticed: Node, search, get, post, put, delete, parameters, static, dynamic routes, childKeys.\n+- Simple note: Test suite for trie node search with various route/parameter configurations.\n+\n+## src/router/pattern-router/router.test.ts\n+- Purpose: Tests for PatternRouter.\n+- Names noticed: PatternRouter, runTest, UnsupportedPathError, match, GET, wildcard, param.\n+- Simple note: Tests pattern matching with wildcards and parameters; uses common case test harness.\n+\n+## src/router/linear-router/router.test.ts\n+- Purpose: Tests for LinearRouter.\n+- Names noticed: LinearRouter, runTest, UnsupportedPathError, match, wildcard, param, index.\n+- Simple note: Tests linear matching with index-based substring search and lookahead regex.\n+\n+## src/router/reg-exp-router/router.test.ts\n+- Purpose: Tests for RegExpRouter.\n+- Names noticed: RegExpRouter, runTest, match, buildAndExportAllMatchers, STATIC, WILDCARD, regex param, capture indices.\n+- Simple note: Tests trie-to-regex compilation with parameter capture and method matching.\n+\n+## src/router/smart-router/router.test.ts\n+- Purpose: Tests for SmartRouter.\n+- Names noticed: SmartRouter, runTest, RegExpRouter, TrieRouter.\n+- Simple note: Tests dynamic router routing based on method and path.\n+\n+## src/router/trie-router/router.test.ts\n+- Purpose: Tests for TrieRouter.\n+- Names noticed: TrieRouter, runTest, search, match.\n+- Simple note: TrieRouter matches only GET method; no support for non-GET operations.\n+\n+## src/router/common.case

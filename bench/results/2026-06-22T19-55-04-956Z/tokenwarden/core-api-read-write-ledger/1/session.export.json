@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_10ee9a924ffesEDmm0TA2s8qyP",
+    "slug": "tidy-squid",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-22T19-55-04-956Z/tokenwarden-core-api-read-write-ledger-1/repo",
+    "path": "",
+    "title": "future.v1:core-api-read-write-ledger:tokenwarden:run-1",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 294245,
+      "output": 13510,
+      "reasoning": 2584,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782161233627,
+      "updated": 1782161712018
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782161234362
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/core-api-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/core-api-read-write-ledger.md\n===================================================================\n--- bench-artifacts/core-api-read-write-ledger.md\t\n+++ bench-artifacts/core-api-read-write-ledger.md\t\n@@ -0,0 +1,155 @@\n+# Core API Read/Write Ledger\n+\n+## src/index.ts\n+- Public surface: Hono class export, type exports (Env, ErrorHandler, Handler, MiddlewareHandler, Next, NotFoundResponse, NotFoundHandler, ValidationTargets, Input, Schema, ToSchema, TypedResponse, Context, ContextVariableMap, ContextRenderer, ExecutionContext, HonoRequest, InferRequestType, InferResponseType, ClientRequestOptions)\n+- Internal names: Hono class, imports from ./hono, ./types, ./context, ./request, ./client\n+- Imports or neighbors: Hono, types, context, request, client\n+- Plain-English summary: Main entry point for Hono framework exporting core module\n+- Copy-safe detail: Re-exports Hono class from ./hono, exports types from ./types, exports Context class and types from ./context, exports HonoRequest type from ./request, exports InferRequestType, InferResponseType, ClientRequestOptions from ./client\n+\n+## src/types.ts\n+- Public surface: Env, Variables, BlankEnv, BlankSchema, BlankInput, RouterRoute, HandlerResponse, Handler, MiddlewareHandler, H, NotFoundResponse, NotFoundHandler, HTTPResponseError, ErrorHandler, HandlerInterface, MiddlewareHandlerInterface, OnHandlerInterface, ToSchema, Schema, Endpoint, MergeSchemaPath, AddParam, MergePath, KnownResponseFormat, ResponseFormat, TypedResponse, FormValue, ParsedFormValue, ValidationTargets, ParamKey, ParamKeys, ParamKeyToRecord, InputToDataByTarget, RemoveQuestion, ExtractSchema, ExtractSchemaForStatusCode, ExtractHandlerResponse, IntersectNonAnyTypes, FetchEventLike\n+- Internal names: ToSchemaOutput, AddSchemaIfHasResponse, AddDollar, MergeEndpointParamsWithPath, FlattenIfIntersect, MergePath, ExtractTypedResponseOnly, MergeMiddlewareResponse, ProcessHead, IntersectNonAnyTypes, utility types like UnionToIntersection, IsAny, JSONParsed, JSONValue, InvalidJSONValue\n+- Imports or neighbors: ./context (Context), ./hono-base (HonoBase), ./utils/headers (CustomHeader, RequestHeader), ./utils/http-status (StatusCode), ./utils/types\n+- Plain-English summary: Core type definitions for Hono framework\n+- Copy-safe detail: Defines Env/Variables types, Handler/HandlerResponse types, RouterRoute interface, HTTPResponseError/ErrorHandler types, Schema/ToSchema types with path/param utilities, FormValue type for form data, ValidationTargets, typed response types (TypedResponse), FetchEventLike interface for event handling\n+\n+## src/hono.ts\n+- Public surface: Hono class\n+- Internal names: Hono, HonoOptions, router, SmartRouter, RegExpRouter, TrieRouter, BlankEnv, BlankSchema, Env, Schema, HonoOptions, constructor, options, errorHandler, onError, get basePath, route, fetch, get post put delete patch trace options head, get get, use, set, render\n+- Imports or neighbors: ./hono-base, ./router/reg-exp-router, ./router/smart-router, ./router/trie-router, types (BlankEnv, BlankSchema, Env, Schema)\n+- Plain-English summary: Main Hono class extending HonoBase with router setup\n+- Copy-safe detail: Hono class extends HonoBase, sets default router to SmartRouter with RegExpRouter and TrieRouter on instantiation, implements constructor with optional options, re-exports as main Hono module\n+\n+## src/hono-base.ts\n+- Public surface: HonoBase, get, post, put, delete, patch, trace, options, head, fetch, basePath, route, onError, get var, set var, delete var, render, proxy, request\n+- Internal names: HonoBase, HonoOptions, compose, Context, ExecutionContext, NotFoundHandler, ErrorHandler, notFoundHandler, errorHandler, route, basePath, get, post, put, delete, patch, trace, options, head, fetch, request, handle, #handleError, #notFoundHandler, clone, _basePath, currentPath, pathPrefixLength, matchedRoutes, getMountNames, matchPath, getMatchResult, requestMethod, #dispatch, #handleRequest, #handleFetch, router, applicationHandler\n+- Imports or neighbors: ./compose, ./context, ./utils/constants, ./utils/url, ./router, utils/path, types (Env, NotFoundHandler, ErrorHandler), ./http-exception (HTTPException)\n+- Plain-English summary: Base Hono class with routing and request handling\n+- Copy-safe detail: HonoBase is abstract base class without router, exposes HTTP method handlers, basePath prefixes paths, route prefixes routes, mount applications, onError registers error handler, request handles incoming Fetch requests via #dispatch and compose, #handleError handles errors via custom handler or default, re-exports as HonoBase\n+\n+## src/context.ts\n+- Public surface: Context, newResponse, body, text, json, html, redirect, set, get, setHeaders, headers, status, url, cookie, addCookie, deleteCookie, getHeader, setHeader, cache, rendered, req, res, error, finalized, setRenderer, layout, render, fetch, getVar, setVar, deleteVar, getRuntime, passThroughOnException\n+- Internal names: Context, ExecutionContext, HonoRequest, Request, Response, Result, Data, ContextVariableMap, ContextRenderer, DefaultRenderer, Renderer, Layout, RenderOptions, Get, Set, SetGet, NewResponse, BodyRespond, TextRespond, JSONRespond, JSONRespondReturn, HTMLRespond, LayoutRespond, ContextOptions, SetHeadersOptions, SetHeaders, ResponseHeadersInit, ResponseInit, ResponseOrInit, TEXT_PLAIN, setDefaultContentType, createResponseInstance, #res, #preparedHeaders, #status, #renderer, #layout, #error\n+- Imports or neighbors: ./request (HonoRequest), types (Result, Env), ./utils/headers (ResponseHeader), ./utils/html, ./utils/http-status (ContentfulStatusCode, RedirectStatusCode, StatusCode), ./utils/mime (BaseMime), utils/types (InvalidJSONValue, IsAny, JSONParsed, JSONValue), ./http-exception (HTTPException), ./adapter/service-worker\n+- Plain-English summary: Request context with variables and response helpers\n+- Copy-safe detail: Context class manages request/response lifecycle, c.get/c.set access variables, c.req wraps HonoRequest for typed access, response helpers create text/json/html/redirect responses, setHeaders/getHeader/manageCookies manage headers, c.render supports custom renderers/layouts, fetch handles fetch event requests, .error holds thrown errors from middleware, errors handled via error property, throws if no FetchEvent or ExecutionContext\n+\n+## src/request.ts\n+- Public surface: HonoRequest\n+- Internal names: HonoRequest, Request, MethodNotSupported, parseQuery, parseBody, GET_MATCH_RESULT\n+- Imports or neighbors: ./http-exception (HTTPEx

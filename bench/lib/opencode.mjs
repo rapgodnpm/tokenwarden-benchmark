@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises"
 import { dirname } from "node:path"
+import { DEFAULT_AI_TIMEOUT_MS, DEFAULT_UTILITY_TIMEOUT_MS } from "./config.mjs"
 import { commandLine, runCommand } from "./process.mjs"
 import { parseUsageFromJsonLines } from "./usage.mjs"
 
@@ -17,11 +18,18 @@ export async function runOpencodeTask(input) {
     input.prompt
   ]
   const displayCommand = commandLine("opencode", [...args.slice(0, -1), "<prompt>"])
-  const result = await runCommand("opencode", args, { env: input.env })
+  const result = await runCommand("opencode", args, { env: input.env, timeoutMs: input.timeoutMs ?? DEFAULT_AI_TIMEOUT_MS, killProcessGroup: true })
   const usage = parseUsageFromJsonLines(result.stdout)
-  if (result.code !== 0) throw new Error(formatAiRequestFailure(displayCommand, result, "AI request failed"))
-  if (usage.rawEventCount === 0) throw new Error(formatAiRequestFailure(displayCommand, result, "AI request produced no parseable opencode JSON output"))
-  return { ...result, args, usage, commandLine: displayCommand }
+  const output = { ...result, args, usage, commandLine: displayCommand }
+  if (result.code !== 0) throw aiRequestError(displayCommand, output, result.timedOut ? "AI request timed out" : "AI request failed")
+  if (usage.rawEventCount === 0) throw aiRequestError(displayCommand, output, "AI request produced no parseable opencode JSON output")
+  return output
+}
+
+function aiRequestError(command, result, reason) {
+  const error = new Error(formatAiRequestFailure(command, result, reason))
+  error.result = result
+  return error
 }
 
 export function formatAiRequestFailure(command, result, reason) {
@@ -34,24 +42,28 @@ export function formatAiRequestFailure(command, result, reason) {
   return parts.join("\n\n")
 }
 
-export async function exportSession(sessionID, outputPath, env) {
+export async function exportSession(sessionID, outputPath, env, timeoutMs = DEFAULT_UTILITY_TIMEOUT_MS) {
   if (!sessionID) return { skipped: true, reason: "no session ID found" }
-  const result = await runCommand("opencode", ["export", sessionID], { env })
+  const result = await runCommand("opencode", ["export", sessionID], { env, timeoutMs, killProcessGroup: true })
   await mkdir(dirname(outputPath), { recursive: true })
   await writeFile(outputPath, result.stdout, "utf8")
   return result
 }
 
-export async function opencodeStats(projectPath, env) {
-  return runCommand("opencode", ["stats", "--project", projectPath, "--models"], { env })
+export async function opencodeStats(projectPath, env, timeoutMs = DEFAULT_UTILITY_TIMEOUT_MS) {
+  return runCommand("opencode", ["stats", "--project", projectPath, "--models"], { env, timeoutMs, killProcessGroup: true })
 }
 
-export async function opencodeAuthList(env) {
-  return runCommand("opencode", ["auth", "list"], { env })
+export async function opencodeVersion(env, timeoutMs = DEFAULT_UTILITY_TIMEOUT_MS) {
+  return runCommand("opencode", ["--version"], { env, timeoutMs })
 }
 
-export async function opencodeModels(providerID, env) {
-  return runCommand("opencode", ["models", providerID], { env })
+export async function opencodeAuthList(env, timeoutMs = DEFAULT_UTILITY_TIMEOUT_MS) {
+  return runCommand("opencode", ["auth", "list"], { env, timeoutMs })
+}
+
+export async function opencodeModels(providerID, env, timeoutMs = DEFAULT_UTILITY_TIMEOUT_MS) {
+  return runCommand("opencode", ["models", providerID], { env, timeoutMs })
 }
 
 export function hasOpenRouterAuth(result) {
@@ -110,6 +122,6 @@ function stripAnsi(value) {
   return value.replace(/\x1b\[[0-9;]*m/g, "")
 }
 
-export async function tokenWardenReport(dataDir, env) {
-  return runCommand("tokenwarden", ["report", "--data-dir", dataDir], { env })
+export async function tokenWardenReport(dataDir, env, timeoutMs = DEFAULT_UTILITY_TIMEOUT_MS) {
+  return runCommand("tokenwarden", ["report", "--data-dir", dataDir], { env, timeoutMs })
 }

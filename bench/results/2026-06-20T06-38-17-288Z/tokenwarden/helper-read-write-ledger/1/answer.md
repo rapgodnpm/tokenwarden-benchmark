@@ -1,0 +1,1 @@
+Created `/private/tmp/tokenwarden-bench/2026-06-20T06-38-17-288Z/tokenwarden-helper-read-write-ledger-1/repo/bench-artifacts/helper-read-write-ledger.md`. Verification: complete - file exists with 23 helper entries and simple index checklist.

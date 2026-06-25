@@ -1,0 +1,1 @@
+Created: `/private/tmp/tokenwarden-bench/2026-06-22T19-55-04-956Z/baseline-helper-read-write-ledger-3/repo/bench-artifacts/helper-read-write-ledger.md` — 23 sections with 12 helpers, 4 bullets each, and Simple Index checklist.

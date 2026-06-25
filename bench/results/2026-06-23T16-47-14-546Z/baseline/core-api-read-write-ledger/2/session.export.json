@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_109dc484dffeozdcsTi7anjHYc",
+    "slug": "playful-falcon",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-23T16-47-14-546Z/baseline-core-api-read-write-ledger-2/repo",
+    "path": "",
+    "title": "future.v1:core-api-read-write-ledger:baseline:run-2",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 389374,
+      "output": 4382,
+      "reasoning": 217,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782245996466,
+      "updated": 1782246427377
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782245997212
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/core-api-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/core-api-read-write-ledger.md\n===================================================================\n--- bench-artifacts/core-api-read-write-ledger.md\t\n+++ bench-artifacts/core-api-read-write-ledger.md\t\n@@ -0,0 +1,148 @@\n+# Core API Read/Write Ledger\n+\n+## src/index.ts\n+- Public surface: Exports Hono class, Context, HonoRequest type, InferRequestType, InferResponseType, ClientRequestOptions types\n+- Internal names noticed: Hono module, BlankEnv, BlankSchema, Env, Schema\n+- Imports or neighbors: types, context, request, client\n+- Plain-English summary: Main entry point that re-exports the Hono framework class and associated types for end-user consumption\n+- Copy-safe detail: Module exports Hono class and types for Env, Context, HonoRequest, client inference types\n+\n+## src/types.ts\n+- Public surface: Defines Env, Variables, BlankEnv, Handler, MiddlewareHandler, H, NotFoundHandler, ErrorHandler, HandlerInterface, MiddlewareHandlerInterface, OnHandlerInterface\n+- Internal names noticed: RouterRoute, Input, HandlerResponse, ToSchema, MergeTypedResponse, MergeMiddlewareResponse, IfAnyThenEmptyObject, IsAny, JSONValue\n+- Imports or neighbors: context, hono-base, utils/headers, utils/http-status, utils/types\n+- Plain-English summary: Comprehensive type definitions for handlers, middleware, routes, and environment variables used throughout the framework\n+- Copy-safe detail: Type-only module defining Extends Env, Handler interface shapes for 1-10 handler stacks\n+\n+## src/hono.ts\n+- Public surface: Exports Hono class\n+- Internal names noticed: HonoBase, BlankEnv, BlankSchema, Env, Schema, RegExpRouter, SmartRouter, TrieRouter, HonoOptions\n+- Imports or neighbors: hono-base, router/reg-exp-router, router/smart-router, router/trie-router, types\n+- Plain-English summary: Main Hono class that extends HonoBase and configures the router implementation\n+- Copy-safe detail: Single-class module instantiating SmartRouter with fallback routes\n+\n+## src/hono-base.ts\n+- Public surface: Provides get, post, put, delete, options, patch, all, on, use methods for route registration\n+- Internal names noticed: HonoOptions, Router, Context, compose, Env, H, NotFoundHandler, ErrorHandler, COMPOSED_HANDLER, getPath, getPathNoStrict, mergePath\n+- Imports or neighbors: compose, context, router, types, utils/constants, utils/url, request/constants\n+- Plain-English summary: Base Hono class implementing route registration, request dispatching, and error/notFound handlers\n+- Copy-safe detail: Implements routing via #addRoute, supports basePath, onError, notFound, mount, route composition\n+\n+## src/context.ts\n+- Public surface: Context class with env, req, res, event, executionCtx, header, status, set, get, var, body, text, json, html, redirect, notFound methods\n+- Internal names noticed: HonoRequest, Result, Env, NotFoundHandler, Input, RouterRoute, TypedResponse, ContentfulStatusCode, RedirectStatusCode, ResponseHeader, BaseMime, JsonValue, InvalidJSONValue, ExecutionContext, Renderer, Layout\n+- Imports or neighbors: request, router, types, utils/headers, utils/html, utils/http-status, utils/mime, utils/types\n+- Plain-English summary: Request-response lifecycle context providing access to env bindings, headers, response methods, and error handling\n+- Copy-safe detail: Manages #rawRequest, #req, #var map, #status, #res, #preparedHeaders, #matchResult, #notFoundHandler state\n+\n+## src/request.ts\n+- Public surface: HonoRequest class with raw, path, param, queries, header, parseBody, json, text, arrayBuffer, bytes, blob, formData, valid, url, method, matchedRoutes, routePath\n+- Internal names noticed: HTTPException, GET_MATCH_RESULT, Result, Input, ValidationTargets, InputToDataByTarget, BodyData, ParseBodyOptions, parseBody, CustomHeader, RequestHeader, decodeURIComponent_, getQueryParam, getQueryParams, tryDecode\n+- Imports or neighbors: http-exception, request/constants, types, utils/body, utils/url\n+- Plain-English summary: Request wrapper providing parameter extraction, query parsing, body reading, header access, and path matching results\n+- Copy-safe detail: Implements body caching via #cachedBody, validates via #validatedData, extracts #matchResult params\n+\n+## src/request/constants.ts\n+- Public surface: Exports GET_MATCH_RESULT symbol\n+- Internal names noticed: Symbol\n+- Imports or neighbors: none\n+- Plain-English summary: Single-symbols module exporting route matching access token\n+- Copy-safe detail: One unique symbol enabling typed access to router match result\n+\n+## src/utils/body.ts\n+- Public surface: Exports parseBody, BodyData, ParseBodyOptions\n+- Internal names noticed: HonoRequest, BodyDataValueDot, BodyDataValueDotAll, SimplifyBodyData, BodyDataValueComponent, BodyDataValueObject, BodyDataValue, parseFormData, convertFormDataToBodyData, handleParsingAllValues, handleParsingNestedValues\n+- Imports or neighbors: request\n+- Plain-English summary: Parses request body from multipart/form-data and application/x-www-form-urlencoded formats\n+- Copy-safe detail: Supports all/dot options for form field flattening and nested object construction\n+\n+## src/compose.ts\n+- Public surface: Exports compose function for middleware composition\n+- Internal names noticed: Env, ErrorHandler, Next, NotFoundHandler, Context, dispatch\n+- Imports or neighbors: context, types\n+- Plain-English schema for kofa-compose-like middleware stack\n+- Plain-English summary: Composes middleware handlers into single dispatch function with error/fallback handling\n+- Copy-safe detail: Tracks via #index for next call prevention, wraps handlers with error context assignment\n+\n+## src/http-exception.ts\n+- Public surface: Exports HTTPException class\n+- Internal names noticed: ContentfulStatusCode, HTTPExceptionOptions\n+- Imports or neighbors: utils/http-status\n+- Plain-English summary: Exception class for returning predefined HTTP responses on authentication or validation failure\n+- Copy-safe detail: Constructor accepts status code (default 500), message, res, cause; getResponse returns Response or creates new\n+\n+## src/client/index.ts\n+- Public surface: Exports hc, parseResponse, DetailedError, InferResponseType, InferRequestType, Fetch, ClientRequestOptions, ClientRequest, ClientResponse, ApplyGlobalResponse, PickResponseByStatusCode\n+- Internal names noticed: client, utils, types\n+- Imports or neighbors: client/client, client/utils, client/types\n+- Plain-English summary: HTTP client module providing functionally typed request builder and res

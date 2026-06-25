@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_10ddcf6fdffeLwDlpqY52Fk0p2",
+    "slug": "glowing-sailor",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-22T19-55-04-956Z/dcp-helper-read-write-ledger-3/repo",
+    "path": "",
+    "title": "future.v1:helper-read-write-ledger:dcp:run-3",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 240601,
+      "output": 4709,
+      "reasoning": 168,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782178842882,
+      "updated": 1782179102407
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782178843600
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/helper-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/helper-read-write-ledger.md\n===================================================================\n--- bench-artifacts/helper-read-write-ledger.md\t\n+++ bench-artifacts/helper-read-write-ledger.md\t\n@@ -0,0 +1,167 @@\n+# Helper Read/Write Ledger\n+\n+## src/helper/factory/index.ts\n+- Main exports or names: Factory, createFactory, createMiddleware, InitApp, CreateHandlersInterface\n+- Reads as: imports Hono from '../../hono', HonoOptions from '../../hono-base', Env/HandlerResponse/Input types from '../../types'\n+- Neighbor files: src/hono/, src/hono-base/, src/types/, src/helper/websocket/index.ts\n+- Safe summary: Creates handler factories with support for 1-10 handlers, merges environments, exports initApp and middleware helpers\n+\n+## src/helper/route/index.ts\n+- Main exports or names: matchedRoutes, routePath, baseRoutePath, basePath\n+- Reads as: imports Context from '../../context', GET_MATCH_RESULT from '../../request/constants', RouterRoute from '../../types', url utilities from '../../utils/url'\n+- Neighbor files: src/context/, src/request/constants/, src/types/, src/utils/url/\n+- Safe summary: Extracts route information (matched routes, paths) from request context, uses caching for basePath calculation\n+\n+## src/helper/websocket/index.ts\n+- Main exports or names: defineWebSocketHelper, WSContext, WSEvents, UpgradeWebSocket, WSReadyState\n+- Reads as: imports Context from '../../context', types from '../../types' and '../../utils/http-status'\n+- Neighbor files: src/context/, src/types/, src/helper/adapter/index.ts\n+- Safe summary: Creates WebSocket upgrade handlers with event listeners, manages connection state (open/close/message/error)\n+\n+## src/helper/cookie/index.ts\n+- Main exports or names: getCookie, getSignedCookie, generateCookie, setCookie, generateSignedCookie, setSignedCookie, deleteCookie\n+- Reads as: imports Context from '../../context', cookie utilities from '../../utils/cookie'\n+- Neighbor files: src/context/, src/utils/cookie/\n+- Safe summary: Provides cookie helpers for reading/writing/getting/deleting cookies including signing for security, supports prefix options (secure/host)\n+\n+## src/helper/testing/index.ts\n+- Main exports or names: testClient\n+- Reads as: imports hc from '../../client', Client from '../../client/types', types from '../../context' and '../../hono'\n+- Neighbor files: src/client/, src/client/types/, src/context/, src/hono/\n+- Safe summary: Creates a test client for Hono apps, wraps request logic using test client and hc, returns a typed client\n+\n+## src/helper/adapter/index.ts\n+- Main exports or names: env, getRuntimeKey, knownUserAgents, checkUserAgentEquals\n+- Reads as: imports Context from '../../context'\n+- Neighbor files: src/context/\n+- Safe summary: Detects runtime environment (node, deno, bun, workerd, fastly, edge-light), retrieves runtime-specific environment variables\n+\n+## src/helper/css/index.ts\n+- Main exports or names: css, cx, keyframes, viewTransition, Style, createCssContext\n+- Reads as: imports html utilities from '../../helper/html', JSX utilities from '../../jsx/', common functions from './common'\n+- Neighbor files: src/helper/html/, src/helper/css/common.ts, src/jsx/\n+- Safe summary: Provides styled-components-like API for CSS in Hono with unique class name generation, supports server-side CSS injection\n+\n+## src/helper/css/common.ts\n+- Main exports or names: cssCommon, cxCommon, keyframesCommon, viewTransitionCommon, rawCssString, minify, toHash\n+- Reads as: standalone utility functions\n+- Neighbor files: src/helper/css/common.ts\n+- Safe summary: Core CSS class name generation with hashing, style string building from template literals, minification, validates class names and keyframes\n+\n+## src/helper/proxy/index.ts\n+- Main exports or names: proxy\n+- Reads as: imports HTTPException from '../../http-exception', headers utilities from '../../utils/headers'\n+- Neighbor files: src/http-exception/, src/utils/headers/\n+- Safe summary: Proxy helper for forwarding requests to external servers, handles hop-by-hop headers, supports strict RFC 9110 compliance for connection headers\n+\n+## src/helper/dev/index.ts\n+- Main exports or names: showRoutes, inspectRoutes, getRouterName\n+- Reads as: imports Hono from '../../hono', types from '../../types', color utilities from '../../utils/color', handler utilities from '../../utils/handler'\n+- Neighbor files: src/hono/, src/types/, src/utils/color/, src/utils/handler/\n+- Safe summary: Displays app routes in a formatted table, identifies handler/middleware names, detects router implementation, optional colorization\n+\n+## src/helper/html/index.ts\n+- Main exports or names: html, raw\n+- Reads as: imports html utilities from '../../utils/html'\n+- Neighbor files: src/utils/html/\n+- Safe summary: Renders escaped HTML strings with automatic callback handling, escapes special characters, supports async children\n+\n+## src/helper/ssg/index.ts\n+- Main exports or names: ssg (exports from ssg.ts), ssgParams, disableSSG, onlySSG, plugins\n+- Reads as: re-exports from './ssg' and './middleware'\n+- Neighbor files: src/helper/ssg/ssg.ts, src/helper/ssg/middleware.ts, src/helper/ssg/plugins.ts\n+- Safe summary: Main SSG helper entry point, defines static site generation route handling logic, exports plugin and middleware functionality\n+\n+## src/helper/ssg/ssg.ts\n+- Main exports or names: toSSG, fetchRoutesContent, saveContentToFile, ToSSGResult, ToSSGOptions, defaultPlugin\n+- Reads as: imports Hono from '../../hono', client utilities from '../../client/utils', routing utilities from '../../types', pool/concurency from '../../utils/concurrent', MIME utilities, ssg middleware, ssg plugins, utils\n+- Neighbor files: src/client/, src/hono/, src/types/, src/utils/concurrent/, src/utils/mime/, src/helper/ssg/middleware.ts, src/helper/ssg/plugins.ts, src/helper/ssg/utils.ts\n+- Safe summary: Generates static HTML files by fetching routes and saving content, handles async route generation with concurrency, configurable output directory and plugins\n+\n+## src/helper/ssg/utils.ts\n+- Main exports or names: filterStaticGenerateRoutes, isDynamicRoute, dirname, joinPaths, ensureWithinOutDir\n+- Reads as: imports Hono from '../../hono', router utilities from '../../router', handler utilities from '../../utils/handler'\n+- Neighbor files: src/hono/, src/router/, src/utils/handler/, src/helper/ssg/ssg.ts\n+- Safe summary: Filters GET routes for SSG, detects dynamic routes with params/asterisks, provides path manipulation utilities with tra

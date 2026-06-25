@@ -1,0 +1,1 @@
+Created `/bench-artifacts/core-api-read-write-ledger.md` with 18 file entries. Verification: file exists (10,367 bytes), starts with `# Core API Read/Write Ledger`, includes all 18 required files in headings and path inventory.

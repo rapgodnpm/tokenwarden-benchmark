@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_10f9f5968ffep9ELMhv3EcKW3V",
+    "slug": "happy-cabin",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-22T14-18-01-250Z/baseline-core-api-read-write-ledger-2/repo",
+    "path": "",
+    "title": "future.v1:core-api-read-write-ledger:baseline:run-2",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 1580173,
+      "output": 12495,
+      "reasoning": 3119,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782149326487,
+      "updated": 1782150104015
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782149327294
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/core-api-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/core-api-read-write-ledger.md\n===================================================================\n--- bench-artifacts/core-api-read-write-ledger.md\t\n+++ bench-artifacts/core-api-read-write-ledger.md\t\n@@ -0,0 +1,100 @@\n+# Core API Read/Write Ledger\n+\n+## Path Inventory\n+\n+- src/index.ts\n+- src/types.ts\n+- src/hono.ts\n+- src/hono-base.ts\n+- src/context.ts\n+- src/request.ts\n+- src/request/constants.ts\n+- src/utils/body.ts\n+- src/compose.ts\n+- src/http-exception.ts\n+- src/client/index.ts\n+- src/client/client.ts\n+- src/client/types.ts\n+- src/client/utils.ts\n+- src/client/fetch-result-please.ts\n+- src/adapter/service-worker/index.ts\n+- src/adapter/service-worker/handler.ts\n+- src/adapter/service-worker/types.ts\n+\n+- **Public surface**: Re-exports Hono class, types for Env/Handler/Schema and Context types, HonoRequest type, and InferRequestType/InferResponseType/ClientRequestOptions from ./client\n+- **Internal names noticed**: Hono (exported from ./hono)\n+- **Imports or neighbors**: ./hono, ./types (exports), ./context (imports/exports), ./request (imports types), ./client (imports types)\n+- **Plain-English summary**: Main entry point that exports Hono framework along with shared types and re-exports helper modules\n+- **Copy-safe detail**: 53 lines of TypeScript, exports core Hono class and re-exports types from submodules\n+\n+## src/types.ts\n+\n+- **Public surface**: Env, Bindings/Variables, Input, RouterRoute, Handler, MiddlewareHandler, H handler type, NotFoundResponse/Handler, ErrorHandler, HTTPResponseError, and Handler/MiddlewareHandlerInterface\n+- **Internal names noticed**: BlankEnv, BlankSchema, BlankInput, Next, HandlerResponse, MergeSchemaPath, MergePath, MergeTypedResponse, ToSchema, TypedResponse, IntersectNonAnyTypes, Simplify, IfAnyThenEmptyObject, IsAny\n+- **Imports or neighbors**: ./context (imports), ./hono-base (imports), ./utils/headers, ./utils/http-status, ./utils/types\n+- **Plain-English summary**: Type definitions module containing core types for Hono's request/response system, handler interfaces, and schema handling\n+- **Copy-safe detail**: Extensive TypeScript types (1000+ lines), heavy generic type composition with many nested mapped types\n+\n+## src/hono.ts\n+\n+- **Public surface**: Hono class\n+- **Internal names noticed**: HonoOptions\n+- **Imports or neighbors**: ./hono-base (extends), ./router/reg-exp-router, ./router/smart-router, ./router/trie-router, ./types (imports types)\n+- **Plain-English summary**: Main Hono class that extends HonoBase and adds default router configuration in constructor\n+- **Copy-safe detail**: 34 lines, thin wrapper around HonoBase with router setup\n+\n+## src/hono-base.ts\n+\n+- **Public surface**: get, post, put, delete, options, patch, all, on, use methods via type assignment\n+- **Internal names noticed**: HonoOptions, H, HandlerInterface, MiddlewareHandler, MiddlewareHandlerInterface, OnHandlerInterface, NotFoundHandler, RouterRoute, Router, COMPOSED_HANDLER, getPath, getPathNoStrict, mergePath, notFoundHandler, errorHandler, routes, _basePath, #path\n+- **Imports or neighbors**: ./compose, ./context, ./router (imports), ./router/METHODS/METHOD_NAME_ALL, ./types, ./utils/constants, ./utils/url\n+- **Plain-English summary**: Base Hono class with method chaining, route registration, request handling, error/notFound handlers, mount for sub-apps\n+- **Copy-safe detail**: 545 lines, core middleware composition and routing logic with private fields\n+\n+## src/context.ts\n+\n+- **Public surface**: Context class with env, event, executionCtx, res, finalization, header, status, set/get/var methods, newResponse, body, text, json, html, redirect, notFound\n+- **Internal names noticed**: Renderer, Get, Set, NewResponse, BodyRespond, TextRespond, JSONRespond, JSONRespondReturn, HTMLRespond, ResponseOrInit, ResponseHeadersInit, ResponseInit, ResponseHeader, HtmlEscapedCallbackCallback, resolveCallback, BaseMime, InvalidJSONValue, IS_ANY, ContentfulStatusCode, RedirectStatusCode, Status_code, Data, Get, Set, Renderers\n+- **Imports or neighbors**: ./request, ./router (imports types), ./utils/headers, ./utils/html, ./utils/http-status, ./utils/mime, ./utils/types, ./types\n+- **Plain-English summary**: Context class managing request lifecycle, response handling, headers, status codes, body rendering (text/json/html), variables, and layout support\n+- **Copy-safe detail**: 780 lines, core HTTP response lifecycle implementation\n+\n+## src/request.ts\n+\n+- **Public surface**: HonoRequest class with raw, param, query, queries, header, parseBody, json, text, arrayBuffer, bytes, blob methods, url, method, matchedRoutes, routePath\n+- **Internal names noticed**: Body, BodyCache, HTTPException, GET_MATCH_RESULT, parseBody, decodeURIComponent_, getQueryParam, getQueryParams, tryDecode, BodyData, ParseBodyOptions, Simplify, UnionToIntersection, Input, InputToDataByTarget, ParamKeyToRecord, ParamKeys, RemoveQuestion, RouterRoute, ValidationTargets\n+- **Imports or neighbors**: ./http-exception, ./request/constants, ./router, ./types, ./utils/body, ./utils/headers, ./utils/url\n+- **Plain-English summary**: Request wrapper class providing param/query/header parsing, body parsing (json/text/arrayBuffer/blob/formData), query parameters, and matched route information\n+- **Copy-safe detail**: 505 lines, request parameter extraction and body parsing\n+\n+## src/request/constants.ts\n+\n+- **Public surface**: GET_MATCH_RESULT symbol export\n+- **Internal names noticed**: Getsymbol GET_MATCH_RESULT\n+- **Imports or neighbors**: None standalone\n+- **Plain-English summary**: Symbols file exporting GET_MATCH_RESULT symbol used by request.ts for route matching result access\n+- **Copy-safe detail**: 1 line, single symbol export\n+\n+## src/utils/body.ts\n+\n+- **Public surface**: parseBody function\n+- **Internal names noticed**: BodyData, BodyDataValueComponent, BodyDataValueObject, BodyDataValueDot, BodyDataValueDotAll, ParseBodyOptions, SimplifyBodyData, handleParsingAllValues, handleParsingNestedValues, parseFormData, createResponseInstance, setDefaultContentType, TEXT_PLAIN\n+- **Imports or neighbors**: ./request (HonoRequest)\n+- **Plain-English summary**: Utility for parsing request body, supporting urlencoded, multipart form data, and JSON, with dot notation and all array options\n+- **Copy-safe detail**: 233 lines, form data parsing with nested dot notation support\n+\n+## src/compose.ts\n+\n+- **Public surface**: compose function\n+- **Internal names noticed**: dispatch\n+- **I

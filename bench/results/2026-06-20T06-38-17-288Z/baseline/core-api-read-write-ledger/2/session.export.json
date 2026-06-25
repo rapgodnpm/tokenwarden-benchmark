@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_11b656933ffeyrpzHEjucxn19M",
+    "slug": "brave-knight",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-20T06-38-17-288Z/baseline-core-api-read-write-ledger-2/repo",
+    "path": "",
+    "title": "future.v1:core-api-read-write-ledger:baseline:run-2",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.8",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 463516,
+      "output": 6297,
+      "reasoning": 393,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1781951796940,
+      "updated": 1781952135697
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1781951797682
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/core-api-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/core-api-read-write-ledger.md\n===================================================================\n--- bench-artifacts/core-api-read-write-ledger.md\t\n+++ bench-artifacts/core-api-read-write-ledger.md\t\n@@ -0,0 +1,147 @@\n+# Core API Read/Write Ledger\n+\n+## src/index.ts\n+- Public surface: exports Hono class, types for Env/Handler/Context/Client\n+- Internal names noticed: Hono (re-exported from ./hono)\n+- Imports or neighbors: imports Hono from ./hono, re-exports Context, types from ./context, ./types, ./request, ./client\n+- Plain-English summary: Module entry point that re-exports public Hono framework code and types.\n+- Copy-safe detail: Single-file re-export module; no local implementation. Exports: Hono, type exports Env/ErrorHandler/Handler/Context and client types.\n+\n+## src/types.ts\n+- Public surface: Env/ErrorHandler/Handler types, Context types, Request types, Schema types, ValidationTargets\n+- Internal names noticed: HonoBase, H, OnHandlerInterface, ToSchema, Endpoint, IntersectNonAnyTypes, Input, TypedResponse, FetchEventLike\n+- Imports or neighbors: no external imports; deeply interdependent with ./hono-base, ./context, ./request, ./client\n+- Plain-English summary: Core type definitions for Hono including environment, schema, client requests, and handler types.\n+- Copy-safe detail: Type-only file with extensive generics; exports type aliases and interfaces. Key exports: HonoBase, H, Schema, Endpoint, ValidationTargets, TypedResponse.\n+\n+## src/hono.ts\n+- Public surface: Hono class construction, options (router, getPath, strict)\n+- Internal names noticed: HonoBase (extends), SmartRouter, RegExpRouter, TrieRouter, BlankEnv, BlankSchema\n+- Imports or neighbors: imports HonoBase from ./hono-base, routers from ./router, types from ./types\n+- Plain-English summary: Main Hono application class extending HonoBase with router configuration and constructor.\n+- Copy-safe detail: Concrete class Hono extending HonoBase; wraps router initialization; exposes options and extends base functionality.\n+\n+## src/hono-base.ts\n+- Public surface: app.get/post/put/delete, app.on, app.use, app.route, app.basePath, app.mount, app.onError, app.notFound, .fetch(), .request()\n+- Internal names noticed: compose, Context, HonoBase class, router, getPath, methods (get/post/put/delete/options/patch/all), _basePath, #path, routes, COMPOSED_HANDLER, notFoundHandler, errorHandler\n+- Imports or neighbors: imports compose from ./compose, Context from ./context, type imports from ./types and ./utils\n+- Plain-English summary: Base class for Hono app with route registration, middleware support, and request dispatching logic.\n+- Copy-safe detail: Contains router abstraction, handler composition, path management, error handling, and method chaining for routes.\n+\n+## src/context.ts\n+- Public surface: Context class, c.header(), c.status(), c.set(), c.get(), c.json(), c.text(), c.html(), c.redirect(), c.body(), c.notFound(), c.var, c.env, c.res, c.event, c.executionCtx\n+- Internal names noticed: HonoRequest, Result, ContextVariableMap, ContextRenderer, DefaultRenderer, Renderer, #var, #status, #executionCtx, #res, #notFoundHandler, #matchResult, #path, #preparedHeaders, HtmlEscapedCallbackPhase, TextRespond, JSONRespond, BodyRespond, NewResponse, Layout\n+- Imports or neighbors: imports HonoRequest from ./request, types from ./types, HtmlEscapedCallbackPhase from ./utils/html\n+- Plain-English summary: Request context class managing response, request data, environment variables, and middleware state.\n+- Copy-safe detail: Context class wraps raw request and request object; methods return typed responses with status codes and headers; uses private fields (#var, #res, etc.) for encapsulation.\n+\n+## src/request.ts\n+- Public surface: HonoRequest class, cloneRawRequest utility\n+- Internal names noticed: BodyCache, GET_MATCH_RESULT, param(), query(), queries(), header(), parseBody(), json(), text(), arrayBuffer(), bytes(), blob(), valid(), addValidatedData(), url, method, matchedRoutes, routePath, #validatedData, #matchResult, #getParamValue, #cachedBody, parseBody\n+- Imports or neighbors: imports HTTPException from ./http-exception, types from ./types, body parsing from ./utils/body, URL utilities from ./utils/url\n+- Plain-English summary: Request processing class extracting path parameters, query strings, headers, body data and validated fields.\n+- Copy-safe detail: HonoRequest wraps native Request; caches parsed body types; decodes param values; proxies most methods to underlying raw Request.\n+\n+## src/request/constants.ts\n+- Public surface: GET_MATCH_RESULT (exported symbol)\n+- Internal names noticed: none (single export)\n+- Imports or neighbors: none (leaf file)\n+- Plain-English summary: Single symbol export for identifying match result at runtime.\n+- Copy-safe detail: Leaf module exports only one unique symbol constant GET_MATCH_RESULT.\n+\n+## src/utils/body.ts\n+- Public surface: parseBody, BodyData type, ParseBodyOptions\n+- Internal names noticed: BodyDataValueDot, SimplifyBodyData, BodyDataValueComponent, BodyDataValueObject, parseFormData, convertFormDataToBodyData, handleParsingAllValues, handleParsingNestedValues, jsonRegex, detectResponseType\n+- Imports or neighbors: imports HonoRequest from ../request\n+- Plain-English summary: Parses request body from form data or JSON based on Content-Type and options.\n+- Copy-safe detail: Utility for multipart/form-data and application/x-www-form-urlencoded parsing; returns structured BodyData type.\n+\n+## src/compose.ts\n+- Public surface: compose function\n+- Internal names noticed: dispatch, compose, index, isError, handler\n+- Imports or neighbors: imports Context from ./context, types Env/ErrorHandler/Next/NotFoundHandler from ./types\n+- Plain-English summary: Middleware composition function using koa-compose pattern; calls handlers in sequence with error and not-found handling.\n+- Copy-safe detail: Returns wrapper function accepting [[Function, unknown], unknown][] array; dispatches middleware index; handles errors via onError and non-found via onNotFound.\n+\n+## src/http-exception.ts\n+- Public surface: HTTPException class, getResponse() method\n+- Internal names noticed: HTTPExceptionOptions, ContentfulStatusCode\n+- Imports or neighbors: imports ContentfulStatusCode from ./utils/http-status\n+- Plain-English summary: HTTP status exception class with optional response and custom message.\n+- Copy-safe detail: Extends Error with readonly status and optional res; getResponse() creates

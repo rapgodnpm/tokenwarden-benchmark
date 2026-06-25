@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_10e76d342ffev24qGNvsD0EMfN",
+    "slug": "sunny-wolf",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-22T19-55-04-956Z/dcp-helper-read-write-ledger-2/repo",
+    "path": "",
+    "title": "future.v1:helper-read-write-ledger:dcp:run-2",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 239455,
+      "output": 5239,
+      "reasoning": 180,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782168759485,
+      "updated": 1782169027264
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782168760141
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/helper-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/helper-read-write-ledger.md\n===================================================================\n--- bench-artifacts/helper-read-write-ledger.md\t\n+++ bench-artifacts/helper-read-write-ledger.md\t\n@@ -0,0 +1,158 @@\n+# Helper Read/Write Ledger\n+\n+## src/helper/factory/index.ts\n+- Main exports or names: Factory, createFactory, createMiddleware, CreateHandlersInterface, InitApp type\n+- Reads as: Imports Hono from '../../hono', types from '../../types', HonoOptions from '../../hono-base'\n+- Neighbor files: src/hono/index.ts, src/hono-base/index.ts, src/types/index.ts\n+- Safe summary: Factory class combines initApp function with handler/middleware factory. createFactory creates a new Factory instance. CreateHandlersInterface supports variadic handler combination from x1 to x10. Implements middleware and handler routing composition for Hono applications.\n+\n+## src/helper/route/index.ts\n+- Main exports or names: matchedRoutes, routePath, baseRoutePath, basePath\n+- Reads as: Imports Context from '../../context', GET_MATCH_RESULT from '../../request/constants', types from '../../types', url utilities from '../../utils/url'\n+- Neighbor files: src/context/index.ts, src/request/constants.ts, src/types/index.ts, src/utils/url.ts\n+- Safe summary: Provides functions to inspect matched routes within a handler. matchedRoutes returns array of matched RouterRoute objects. routePath, baseRoutePath, and basePath return route path information at specific indices with caching for performance.\n+\n+## src/helper/websocket/index.ts\n+- Main exports or names: defineWebSocketHelper, WSContext, WSEvents, UpgradeWebSocket, WSReadyState, WSMessageReceive, createWSMessageEvent\n+- Reads as: Imports Context from '../../context', type MiddlewareHandler and TypedResponse from '../../types', StatusCode from '../../utils/http-status'\n+- Neighbor files: src/context/index.ts, src/types/index.ts, src/utils/http-status.ts\n+- Safe summary: Provides WebSocket upgrade functionality for Hono. defineWebSocketHelper creates middleware that upgrades connections to WebSocket. WSContext class manages WebSocket state with send/close methods and readystatechange events.\n+\n+## src/helper/cookie/index.ts\n+- Main exports or names: getCookie, getSignedCookie, setCookie, setSignedCookie, deleteCookie, generateCookie, generateSignedCookie\n+- Reads as: Imports Context from '../../context', cookie utilities from '../../utils/cookie'\n+- Neighbor files: src/context/index.ts, src/utils/cookie.ts\n+- Safe summary: Provides cookie reading and writing utilities. getCookie parses cookies from request headers. getSignedCookie parses signed cookies with secret key. setCookie and setSignedCookie write cookies to response headers. Supports __Secure- and __Host- prefixes with proper security attributes.\n+\n+## src/helper/testing/index.ts\n+- Main exports or names: testClient\n+- Reads as: Imports hc from '../../client', types from '../../client/types', Context from '../../context', Hono from '../../hono', Schema from '../../types', UnionToIntersection from '../../utils/types'\n+- Neighbor files: src/client/index.ts, src/client/types.ts, src/context/index.ts, src/hono/index.ts, src/types/index.ts, src/utils/types.ts\n+- Safe summary: TestClient creates a client instance for testing Hono applications. Wraps the app with custom fetch implementation to intercept requests during testing while preserving environment bindings and execution context.\n+\n+## src/helper/adapter/index.ts\n+- Main exports or names: env, getRuntimeKey, knownUserAgents, checkUserAgentEquals\n+- Reads as: Imports Context from '../../context'\n+- Neighbor files: src/context/index.ts\n+- Safe summary: Detects runtime environment and provides access to environment-specific bindings. getRuntimeKey identifies current runtime (node/deno/bun/workerd/fastly/edge-light/other) via user agent or global properties. Known user agents map to runtime types for easier detection.\n+\n+## src/helper/css/index.ts\n+- Main exports or names: css, cx, keyframes, viewTransition, Style, createCssContext, rawCssString\n+- Reads as: Imports html.raw from '../../helper/html', constants from '../../jsx/constants', createsCssJsxDomObjects from '../../jsx/dom/css', types from '../../utils/html', common utilities from './common'\n+- Neighbor files: src/helper/html/index.ts, src/jsx/constants.ts, src/jsx/dom/css.ts, src/utils/html.ts, src/helper/css/common.ts\n+- Safe summary: Provides CSS handling for Hono with client/server optimization. createCssContext generates context-specific CSS utilities using hash-based class names. Exports css, cx, keyframes, viewTransition, and Style functions. Supports pseudo-global selectors for hydration safety.\n+\n+## src/helper/css/common.ts\n+- Main exports or names: cssCommon, cxCommon, keyframesCommon, viewTransitionCommon, minify, rawCssString, toHash, normalizeLabel, PSEUDO_GLOBAL_SELECTOR, DEFAULT_STYLE_ID\n+- Reads as: Provides utility functions shared across css and jsx/dom/css helpers\n+- Neighbor files: src/helper/css/index.ts, src/jsx/dom/css.ts\n+- Safe summary: Core CSS utility functions for template literals. buildStyleString parses template literal arguments into selectors and inline styles. minify removes unnecessary whitespace. cssCommon generates CSS class names from template strings with optional custom slugs. cxCommon joins multiple class names.\n+\n+## src/helper/proxy/index.ts\n+- Main exports or names: proxy\n+- Reads as: Imports HTTPException from '../../http-exception', RequestHeader type from '../../utils/headers'\n+- Neighbor files: src/http-exception/index.ts, src/utils/headers.ts\n+- Safe summary: ProxyFetch wraps fetch to proxy requests through Hono handlers. Handles hop-by-hop headers (connection, transfer-encoding, etc.) for proper cleanup. Supports strict Connection header processing for RFC 9110 compliance in trusted environments. Replaces Accept-Encoding based on runtime capabilities.\n+\n+## src/helper/dev/index.ts\n+- Main exports or names: showRoutes, inspectRoutes, getRouterName\n+- Reads as: Imports Hono from '../../hono', types from '../../types', color utilities from '../../utils/color', handler utilities from '../../utils/handler'\n+- Neighbor files: src/hono/index.ts, src/types/index.ts, src/utils/color.ts, src/utils/handler.ts\n+- Safe summary: Dev-time debugging utilities. showRoutes displays registered routes with handler names in formatted table. inspectRoutes returns array of route data with method, path, handler name, and isMiddleware flags. getRouterName detects the underlying router type.\n+\n+## 

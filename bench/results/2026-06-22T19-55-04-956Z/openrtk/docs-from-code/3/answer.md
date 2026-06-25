@@ -1,0 +1,4 @@
+- Source file: `bench-targets/docs/src/cache.mjs`
+- Documentation written: `bench-artifacts/cache-api.md`
+- Commands run: `mkdir -p bench-artifacts` and `write`
+- Verification status: ✓

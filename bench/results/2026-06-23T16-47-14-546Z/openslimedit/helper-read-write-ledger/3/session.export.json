@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_109624de4ffeY29XyrLIPPBJKd",
+    "slug": "glowing-wolf",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-23T16-47-14-546Z/openslimedit-helper-read-write-ledger-3/repo",
+    "path": "",
+    "title": "future.v1:helper-read-write-ledger:openslimedit:run-3",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 132669,
+      "output": 4152,
+      "reasoning": 268,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782253990427,
+      "updated": 1782254276822
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782253991098
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/helper-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/helper-read-write-ledger.md\n===================================================================\n--- bench-artifacts/helper-read-write-ledger.md\t\n+++ bench-artifacts/helper-read-write-ledger.md\t\n@@ -0,0 +1,164 @@\n+# Helper Read/Write Ledger\n+\n+## src/helper/factory/index.ts\n+- Main exports or names: Factory, createFactory, createMiddleware\n+- Reads as: Types (Env, Hono, H, MiddlewareHandler)\n+- Neighbor files: src/hono, src/hono-base, src/types\n+- Safe summary: Factory helper providing createApp and createHandlers methods with generic support for multiple handlers\n+\n+## src/helper/route/index.ts\n+- Main exports or names: matchedRoutes, routePath, baseRoutePath, basePath\n+- Reads as: Context, GET_MATCH_RESULT, RouterRoute\n+- Neighbor files: src/context, src/request/constants, src/types, src/utils/url\n+- Safe summary: Route helper to inspect matched routes and path information within handlers\n+\n+## src/helper/websocket/index.ts\n+- Main exports or names: defineWebSocketHelper, WSContext, WSEvents, UpgradeWebSocket\n+- Reads as: Context, MiddlewareHandler, TypedResponse\n+- Neighbor files: src/context, src/types\n+- Safe summary: WebSocket upgrade helper with event-based handler and WSContext class\n+\n+## src/helper/cookie/index.ts\n+- Main exports or names: getCookie, getSignedCookie, setCookie, setSignedCookie, deleteCookie, generateCookie, generateSignedCookie\n+- Reads as: Cookie, CookieOptions, parse, serialize, parseSigned, serializeSigned\n+- Neighbor files: src/context, src/utils/cookie\n+- Safe summary: Cookie helper for reading, writing, and deleting cookies with signed support\n+\n+## src/helper/testing/index.ts\n+- Main exports or names: testClient\n+- Reads as: hc, Client, Hono, ExecutionContext, Schema, ClientRequestOptions\n+- Neighbor files: src/client, src/context, src/hono\n+- Safe summary: Testing client generator that wraps app with HTTP client interface\n+\n+## src/helper/adapter/index.ts\n+- Main exports or names: env, getRuntimeKey, knownUserAgents, checkUserAgentEquals\n+- Reads as: Runtime, Context, globalThis\n+- Neighbor files: src/context\n+- Safe summary: Runtime detection helper returning environment bindings based on platform\n+\n+## src/helper/css/index.ts\n+- Main exports or names: css, cx, keyframes, viewTransition, Style, createCssContext\n+- Reads as: HtmlEscapedCallback, HtmlEscapedString, DOM_RENDERER, createCssJsxDomObjects, cssCommon, cxCommon, keyframesCommon, viewTransitionCommon\n+- Neighbor files: src/helper/html, src/jsx/constants, src/jsx/dom/css\n+- Safe summary: CSS-in-JS helper with class names, animations, and view transitions for SSR/CSR\n+\n+## src/helper/css/common.ts\n+- Main exports or names: cssCommon, cxCommon, keyframesCommon, viewTransitionCommon, rawCssString, minify\n+- Reads as: PSEUDO_GLOBAL_SELECTOR, SELECTOR, CLASS_NAME, STYLE_STRING, CssClassName, ClassNameSlug, OnInvalidSlug\n+- Neighbor files: src/helper/css\n+- Safe summary: Shared CSS utility functions for building class names, styles, and keyframes\n+\n+## src/helper/proxy/index.ts\n+- Main exports or names: proxy\n+- Reads as: RequestInit, Request, Response, Hop-by-hop headers\n+- Neighbor files: src/http-exception, src/utils/headers\n+- Safe summary: Proxy fetch wrapper with header filtering and RFC compliance options\n+\n+## src/helper/dev/index.ts\n+- Main exports or names: inspectRoutes, showRoutes, getRouterName\n+- Reads as: Hono, Env, RouterRoute, getColorEnabled, findTargetHandler, isMiddleware\n+- Neighbor files: src/hono, src/types, src/utils/color, src/utils/handler\n+- Safe summary: Dev helper to inspect and display route information with optional color output\n+\n+## src/helper/html/index.ts\n+- Main exports or names: html, raw\n+- Reads as: escapeToBuffer, raw, resolveCallbackSync, stringBufferToString, HtmlEscapedString\n+- Neighbor files: src/utils/html\n+- Safe summary: HTML templating helper with automatic escaping and callback support\n+\n+## src/helper/ssg/index.ts\n+- Main exports or names: ssgParams, isSSGContext, disableSSG, onlySSG, defaultPlugin, redirectPlugin\n+- Reads as: X_HONO_DISABLE_SSG_HEADER_KEY\n+- Neighbor files: src/helper/ssg/ssg, src/helper/ssg/middleware\n+- Safe summary: SSG helper providing middleware for static site generation control\n+\n+## src/helper/ssg/ssg.ts\n+- Main exports or names: fetchRoutesContent, saveContentToFile, toSSG, defaultExtensionMap, combineBeforeRequestHooks, combineAfterResponseHooks, combineAfterGenerateHooks, ToSSGInterface\n+- Reads as: Hono, Env, SSGParams, SSGContext, FileSystemModule, ToSSGResult\n+- Neighbor files: src/helper/ssg/middleware, src/helper/ssg/utils, src/helper/ssg/plugins, src/utils/concurrent, src/utils/mime, src/client/utils\n+- Safe summary: Core SSG implementation for fetching routes, generating content, and saving files\n+\n+## src/helper/ssg/utils.ts\n+- Main exports or names: dirname, joinPaths, filterStaticGenerateRoutes, isDynamicRoute, ensureWithinOutDir\n+- Reads as: Hono, Env, RouterRoute, findTargetHandler, isMiddleware, METHOD_NAME_ALL\n+- Neighbor files: src/helper/ssg, src/hono, src/router, src/utils/handler\n+- Safe summary: SSG utility functions for path manipulation and route filtering\n+\n+## src/helper/ssg/middleware.ts\n+- Main exports or names: ssgParams, isSSGContext, disableSSG, onlySSG, SSG_CONTEXT, X_HONO_DISABLE_SSG_HEADER_KEY\n+- Reads as: Context, Env, MiddlewareHandler, AddedSSGDataRequest, isDynamicRoute\n+- Neighbor files: src/helper/ssg/utils\n+- Safe summary: SSG middleware for detecting SS context, enabling/disabling SSG routes\n+\n+## src/helper/streaming/index.ts\n+- Main exports or names: stream, streamSSE, streamText\n+- Reads as: SSEMessage\n+- Neighbor files: src/helper/streaming/stream, src/helper/streaming/sse, src/helper/streaming/text\n+- Safe summary: Streaming helper exports for stream, SSE, and text streaming responses\n+\n+## src/helper/streaming/stream.ts\n+- Main exports or names: stream, contextStash\n+- Reads as: Context, TransformStream, StreamingApi\n+- Neighbor files: src/utils/stream, src/helper/streaming/utils\n+- Safe summary: Base streaming response wrapper with error handling and context retention\n+\n+## src/helper/streaming/sse.ts\n+- Main exports or names: streamSSE, SSEStreamingApi, SSEMessage\n+- Reads as: Context, StreamingApi, TransformStream, isOldBunVersion\n+- Neighbor files: src/utils/html, src/utils/stream, ./utils\n+- Safe summary: Server-Sent Events streaming helper with message formatting and headers\n+\n+## src/helper/streaming/text.ts\n+- Main exports

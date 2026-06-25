@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_11ae4451affeTD9IeIbrLBDZgK",
+    "slug": "shiny-comet",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-20T06-38-17-288Z/openrtk-helper-read-write-ledger-3/repo",
+    "path": "",
+    "title": "future.v1:helper-read-write-ledger:openrtk:run-3",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.8",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 323443,
+      "output": 4595,
+      "reasoning": 959,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1781960260325,
+      "updated": 1781960522266
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1781960260973
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/helper-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/helper-read-write-ledger.md\n===================================================================\n--- bench-artifacts/helper-read-write-ledger.md\t\n+++ bench-artifacts/helper-read-write-ledger.md\t\n@@ -0,0 +1,157 @@\n+# Helper Read/Write Ledger\n+\n+## src/helper/factory/index.ts\n+- Main exports or names: Factory, createFactory, createMiddleware\n+- Reads as: Creates Hono app instances, initializes with options, supports handler factory patterns\n+- Neighbor files: src/hono, src/hono-base, src/types\n+- Safe summary: Universal helper factory for creating Hono apps and middleware with typed handler composition (1-10 handlers).\n+\n+## src/helper/route/index.ts\n+- Main exports or names: matchedRoutes, routePath, baseRoutePath, basePath\n+- Reads as: Context object for extracting routing metadata\n+- Neighbor files: src/context, src/types, src/utils/url\n+- Safe summary: Extracts matched route information from request context with caching.\n+\n+## src/helper/websocket/index.ts\n+- Main exports or names: defineWebSocketHelper, WSContext\n+- Reads as: Context object, creates WebSocket upgrade middleware with event handlers\n+- Neighbor files: src/context, src/types\n+- Safe summary: WebSocket helper for event-driven real-time communication with typed context.\n+\n+## src/helper/cookie/index.ts\n+- Main exports or names: getCookie, getSignedCookie, setCookie, setSignedCookie, deleteCookie, generateCookie, generateSignedCookie\n+- Reads as: Context object for HTTP Cookie API access\n+- Neighbor files: src/utils/cookie\n+- Safe summary: Comprehensive cookie utility for reading, writing, and deleting signed cookies.\n+\n+## src/helper/testing/index.ts\n+- Main exports or names: testClient\n+- Reads as: Hono app, generates client for testing with custom fetch\n+- Neighbor files: src/client, src/context\n+- Safe summary: Creates client for testing Hono apps with custom fetch implementation.\n+\n+## src/helper/adapter/index.ts\n+- Main exports or names: env, getRuntimeKey, checkUserAgentEquals, knownUserAgents\n+- Reads as: Context object for runtime environment detection\n+- Neighbor files: Detects Bun, Node, Deno, Cloudflare Workers, Fastly, Edge Runtime\n+- Safe summary: Runtime environment detection for polyfilling globals across platforms.\n+\n+## src/helper/css/index.ts\n+- Main exports or names: css, cx, keyframes, viewTransition, Style, createCssContext\n+- Reads as: Template strings for CSS generation with dynamic classnames\n+- Neighbor files: src/helper/html, src/helper/jsx, src/helper/css/common.ts\n+- Safe summary: Experimental CSS-in-JS helper for server and client with dynamic classnames and keyframes.\n+\n+## src/helper/css/common.ts\n+- Main exports or names: cssCommon, cxCommon, keyframesCommon, viewTransitionCommon, rawCssString, minify, toHash\n+- Reads as: Template arguments for CSS processing\n+- Neighbor files: src/helper/css\n+- Safe summary: Shared CSS utilities for generating selectors, classnames, and keyframes with custom slug support.\n+\n+## src/helper/proxy/index.ts\n+- Main exports or names: proxy\n+- Reads as: Request/response objects for outgoing proxy requests\n+- Neighbor files: src/http-exception, src/utils/headers\n+- Safe summary: Fetch wrapper for proxying requests with header sanitization per RFC 2616/9110.\n+\n+## src/helper/dev/index.ts\n+- Main exports or names: inspectRoutes, showRoutes, getRouterName\n+- Reads as: Hono app instance\n+- Neighbor files: src/types, src/utils/color, src/utils/handler\n+- Safe summary: Development helper for inspecting routes, handlers, and router name in apps.\n+\n+## src/helper/html/index.ts\n+- Main exports or names: html, raw\n+- Reads as: Template strings with escaped values\n+- Neighbor files: src/helper/html, src/utils/html\n+- Safe summary: Escaped HTML template rendering with callback support.\n+\n+## src/helper/ssg/index.ts\n+- Main exports or names: ssg, defaultPlugin, redirectPlugin, ssgParams, disableSSG, onlySSG, X_HONO_DISABLE_SSG_HEADER_KEY\n+- Reads as: Exports from ssg.ts and middleware.ts\n+- Neighbor files: src/helper/ssg/ssg.ts, src/helper/ssg/middleware.ts\n+- Safe summary: Router plugin for static site generation with parameter support and SSG-specific headers.\n+\n+## src/helper/ssg/ssg.ts\n+- Main exports or names: toSSG, fetchRoutesContent, saveContentToFile, defaultPlugin, createPool\n+- Reads as: Hono app, FileSystemModule, SSGOptions\n+- Neighbor files: src/helper/ssg/middleware.ts, src/helper/ssg/utils.ts\n+- Safe summary: Core SSG runner that fetches routes and saves static files to disk in parallel.\n+\n+## src/helper/ssg/middleware.ts\n+- Main exports or names: ssgParams, disableSSG, onlySSG, SSG_CONTEXT, X_HONO_DISABLE_SSG_HEADER_KEY, AddedSSGDataRequest, SSGParamsMiddleware\n+- Reads as: Context request headers including SSG detection\n+- Neighbor files: src/hono, src/helper/ssg/ssg.ts\n+- Safe summary: Controls SSG behavior with request headers and request parameter generation for static content.\n+\n+## src/helper/streaming/index.ts\n+- Main exports or names: stream, streamSSE, streamText\n+- Reads as: Context for streaming responses with callback functions\n+- Neighbor files: src/helper/streaming/stream.ts, src/helper/streaming/sse.ts, src/helper/streaming/text.ts\n+- Safe summary: Unified streaming API dispatcher for various streaming modes.\n+\n+## src/helper/streaming/stream.ts\n+- Main exports or names: stream\n+- Reads as: Context, callback function, TransformStream\n+- Neighbor files: src/helper/streaming/stream.ts, src/utils/stream\n+- Safe summary: Base streaming API using browser TransformStream for efficient chunked responses.\n+\n+## src/helper/streaming/sse.ts\n+- Main exports or names: streamSSE, SSEStreamingApi, SSEMessage\n+- Reads as: Context, callback function, SSE message objects\n+- Neighbor files: src/helper/streaming/sse.ts, src/helper/streaming/stream.ts\n+- Safe summary: Server-Sent Events streaming with event id, event type, and retry mechanisms.\n+\n+## src/helper/streaming/text.ts\n+- Main exports or names: streamText\n+- Reads as: Context, callback function\n+- Neighbor files: src/helper/streaming/stream.ts, src/utils/stream\n+- Safe summary: Text-specific streaming response with plain text content type and chunked transfer encoding.\n+\n+## src/helper/accepts/index.ts\n+- Main exports or names: accepts\n+- Reads as: Context object for accept header parsing\n+- Neighbor files: src/helper/accepts/accepts.ts\n+- Safe summary: Re-export wrapper around accepts functionality.\n+\n+## src/helper/accepts/accepts.ts\n+- Main exports or names: 

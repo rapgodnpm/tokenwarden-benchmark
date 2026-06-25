@@ -1,0 +1,209 @@
+{
+  "runID": "2026-06-22T19-55-04-956Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "dcp",
+  "pluginLabel": "Dynamic Context Pruning",
+  "task": "refactor-no-behavior-change",
+  "run": 2,
+  "dryRun": false,
+  "prepareOnly": false,
+  "model": "lmstudio/qwen/qwen3.5-9b",
+  "resultDir": "/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/results/2026-06-22T19-55-04-956Z/dcp/refactor-no-behavior-change/2",
+  "promptPath": "/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/results/2026-06-22T19-55-04-956Z/dcp/refactor-no-behavior-change/2/prompt.md",
+  "workspace": "/tmp/tokenwarden-bench/2026-06-22T19-55-04-956Z/dcp-refactor-no-behavior-change-2",
+  "durationMs": 47078,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [
+    "@tarquinen/opencode-dcp"
+  ],
+  "adapterPackages": [
+    "@tarquinen/opencode-dcp"
+  ],
+  "adapterPackageVersions": [
+    {
+      "package": "@tarquinen/opencode-dcp",
+      "version": "3.1.13"
+    }
+  ],
+  "installActions": [
+    {
+      "type": "npm",
+      "packages": [
+        "@ai-sdk/openai-compatible"
+      ],
+      "reason": "provider"
+    },
+    {
+      "type": "npm",
+      "packages": [
+        "@tarquinen/opencode-dcp"
+      ]
+    }
+  ],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 79,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/fixtures'/future/create-fixture.mjs refactor-no-behavior-change",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 24,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "opencodeVersion": {
+    "command": "opencode",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 214,
+    "stdoutBytes": 7,
+    "stderrBytes": 0
+  },
+  "opencodeStatsBefore": {
+    "command": "opencode",
+    "args": [
+      "stats",
+      "--project",
+      "/tmp/tokenwarden-bench/2026-06-22T19-55-04-956Z/dcp-refactor-no-behavior-change-2/repo",
+      "--models"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 9994,
+    "stdoutBytes": 1873,
+    "stderrBytes": 0
+  },
+  "opencode": {
+    "command": "opencode",
+    "args": [
+      "run",
+      "--format",
+      "json",
+      "--model",
+      "lmstudio/qwen/qwen3.5-9b",
+      "--dir",
+      "/tmp/tokenwarden-bench/2026-06-22T19-55-04-956Z/dcp-refactor-no-behavior-change-2/repo",
+      "--title",
+      "future.v1:refactor-no-behavior-change:dcp:run-2",
+      "Benchmark task: refactor-no-behavior-change\nRepository: https://github.com/honojs/hono.git\n\nRefactor bench-targets/refactor/src/name-formatters.mjs to remove duplicated whitespace normalization logic without changing behavior. Read the source and bench-targets/refactor/name-formatters.test.mjs first. Introduce one small shared helper named normalizeName and keep existing public exports. Verify with node --test bench-targets/refactor/name-formatters.test.mjs.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer."
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 27876,
+    "stdoutBytes": 10903,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "node --test bench-targets/refactor/name-formatters.test.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 58,
+        "stdoutBytes": 255,
+        "stderrBytes": 0
+      },
+      {
+        "command": "grep -q 'normalizeName' bench-targets/refactor/src/name-formatters.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 6,
+        "stdoutBytes": 0,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "sessionExport": {
+    "command": "opencode",
+    "args": [
+      "export",
+      "ses_10e139c38ffeYeTSGslQfYKuNJ"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 453,
+    "stdoutBytes": 8192,
+    "stderrBytes": 50
+  },
+  "opencodeStatsAfter": {
+    "command": "opencode",
+    "args": [
+      "stats",
+      "--project",
+      "/tmp/tokenwarden-bench/2026-06-22T19-55-04-956Z/dcp-refactor-no-behavior-change-2/repo",
+      "--models"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 430,
+    "stdoutBytes": 1873,
+    "stderrBytes": 0
+  },
+  "tokenwardenReport": {
+    "skipped": true,
+    "reason": "adapter does not emit TokenWarden report"
+  },
+  "changedFiles": [
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-targets/refactor/src/name-formatters.mjs",
+      "exists": true
+    }
+  ],
+  "permissionPrompts": [],
+  "usage": {
+    "inputTokens": 34494,
+    "outputTokens": 527,
+    "cacheReadTokens": 0,
+    "cacheWriteTokens": 0,
+    "totalTokens": 35145,
+    "estimatedCostUsd": 0,
+    "sessionIDs": [
+      "ses_10e139c38ffeYeTSGslQfYKuNJ"
+    ],
+    "answer": "The source has duplicated `value.trim().replace(/\\s+/g, ' ')` logic in both functions. I'll introduce a shared `normalizeName` helper.\n\n\n\n\n\n\n\n**File refactored:**\n- `bench-targets/refactor/src/name-formatters.mjs`\n\n**Changes:**\n- Added exported `normalizeName` helper function (extracts the duplicated logic)\n- Refactored `formatFirstName` and `formatLastName` to call `normalizeName` instead of duplicating logic\n- Maintains exact same public exports (`formatFirstName`, `formatLastName`)\n\n**Verification:**\n```\nnode --test bench-targets/refactor/name-formatters.test.mjs\n```\n✅ 1 test passed (behavior unchanged)",
+    "rawEventCount": 16
+  },
+  "timedOut": false
+}

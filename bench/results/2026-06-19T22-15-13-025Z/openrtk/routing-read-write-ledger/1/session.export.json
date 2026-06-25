@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_11df8f388ffebTNK9RXWHqzYpS",
+    "slug": "gentle-squid",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-19T22-15-13-025Z/openrtk-routing-read-write-ledger-1/repo",
+    "path": "",
+    "title": "future.v1:routing-read-write-ledger:openrtk:run-1",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.8",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 1013360,
+      "output": 7884,
+      "reasoning": 667,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1781908573303,
+      "updated": 1781909424188
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1781908573959
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/routing-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/routing-read-write-ledger.md\n===================================================================\n--- bench-artifacts/routing-read-write-ledger.md\t\n+++ bench-artifacts/routing-read-write-ledger.md\t\n@@ -0,0 +1,118 @@\n+# Routing Read/Write Ledger\n+\n+## src/router/pattern-router/index.ts\n+- Purpose: Re-exports PatternRouter from router.ts\n+- Names noticed: PatternRouter\n+- Simple note: Single file acting as module entry point\n+\n+## src/router/pattern-router/router.ts\n+- Purpose: Implements pattern-based routing using compiled regular expressions with named parameters and wildcards\n+- Names noticed: PatternRouter, Route, METHOD_NAME_ALL, UnsupportedPathError, emptyParams\n+- Simple note: Converts paths to regex patterns, matches by exec, returns handlers with matched params\n+\n+## src/router/linear-router/index.ts\n+- Purpose: Re-exports LinearRouter from router.ts\n+- Names noticed: LinearRouter\n+- Simple note: Single file acting as module entry point\n+\n+## src/router/linear-router/router.ts\n+- Purpose: Implements sequential linear path matching with support for named parameters and wildcards\n+- Names noticed: LinearRouter, ROUTES_LOOP, METHOD_NAME_ALL, UnsupportedPathError, emptyParams, splitPathRe, splitByStarRe, checkOptionalParameter\n+- Simple note: Linear search through route array, handles :, *, and {pattern} labels with skip logic\n+\n+## src/router/reg-exp-router/index.ts\n+- Purpose: Re-exports RegExpRouter and PreparedRegExpRouter\n+- Names noticed: RegExpRouter, PreparedRegExpRouter, buildInitParams, serializeInitParams\n+- Simple note: Module exports both runtime and prepared (build-once) router classes\n+\n+## src/router/reg-exp-router/matcher.ts\n+- Purpose: Dynamic matcher that builds compiled regex at match-time for all added routes\n+- Names noticed: HandlerData, StaticMap, Matcher, MatcherMap, METHOD_NAME_ALL, emptyParam, match\n+- Simple note: Caches matchers by method, uses static mapping or regexp exec for route matching\n+\n+## src/router/reg-exp-router/node.ts\n+- Purpose: Trie node class that builds optimized regexp string from path tokens\n+- Names noticed: Node, PATH_ERROR, Context, LABEL_REG_EXP_STR, ONLY_WILDCARD_REG_EXP_STR, TAIL_WILDCARD_REG_EXP_STR, compareKey, regExpMetaChars\n+- Simple note: Insert path tokens into trie, builds sorted regexp string with named groups for params\n+\n+## src/router/reg-exp-router/trie.ts\n+- Purpose: Builds compiled regexp and replacement maps from path patterns\n+- Names noticed: Trie, ReplacementMap, Context, Node\n+- Simple note: Converts brace-notation params to markers, tokenizes paths, delegates to Node for regexp construction\n+\n+## src/router/reg-exp-router/prepared-router.ts\n+- Purpose: Pre-builds composite regexp for optimal match performance\n+- Names noticed: PreparedRegExpRouter, buildInitParams, serializeInitParams\n+- Simple note: Build-time compilation of router paths for fast matching\n+\n+## src/router/reg-exp-router/router.ts\n+- Purpose: Router that combines pattern-router for adding routes (build-time compilation)\n+- Names noticed: RegExpRouter, PatternRouter, MESSAGE_MATCHER_IS_ALREADY_BUILT, UnsupportedPathError\n+- Simple note: Two-phase: add uses pattern router, match uses prebuilt matcher\n+\n+## src/router/smart-router/index.ts\n+- Purpose: Re-exports SmartRouter from router.ts\n+- Names noticed: SmartRouter\n+- Simple note: Single file acting as module entry point\n+\n+## src/router/smart-router/router.ts\n+- Purpose: Fallback dispatcher that tries routers sequentially until one succeeds\n+- Names noticed: SmartRouter, MESSAGE_MATCHER_IS_ALREADY_BUILT, UnsupportedPathError\n+- Simple note: Dynamically delegates to best matching router after initial adds, locks active router\n+\n+## src/router/trie-router/index.ts\n+- Purpose: Re-exports TrieRouter from router.ts\n+- Names noticed: TrieRouter\n+- Simple note: Single file acting as module entry point\n+\n+## src/router/trie-router/router.ts\n+- Purpose: Trie-based routing with pattern matching for named params and wildcards\n+- Names noticed: TrieRouter, Node, METHOD_NAME_ALL, checkOptionalParameter\n+- Simple note: Hierarchical tree structure stores routes by path segments\n+\n+## src/router/trie-router/node.ts\n+- Purpose: Trie node with method/handler storage and pattern matching during search\n+- Names noticed: Node, METHOD_NAME_ALL\n+- Simple note: Tree traversal with BFS queue, deduplicates params per handler, sorts by insertion order\n+\n+## src/router/common.case.test.ts\n+- Purpose: Shared test suite for all router implementations\n+- Names noticed: runTest, getSuiteHierarchy, RunnerTestSuite, Common, BasicUsage, ReservedWords, Complex, RegistrationOrder, MultiMatch, page, star, Optional, All, longPrefixStar, IncludingSlashes, CaptureGroups, UnknownMethod\n+- Simple note: Test helper that parametrizes router testing with shared test cases\n+\n+## src/router/pattern-router/router.test.ts\n+- Purpose: Unit tests for PatternRouter only\n+- Names noticed: Pattern, runTest, PatternRouter, UnsupportedPathError\n+- Simple note: Validates PatternRouter handles trailing params and regex escaping\n+\n+## src/router/linear-router/router.test.ts\n+- Purpose: Unit tests for LinearRouter only\n+- Names noticed: LinearRouter, runTest, UnsupportedPathError\n+- Simple note: Validates LinearRouter rejects unsupported patterns like {pattern}* or complex params\n+\n+## src/router/reg-exp-router/router.test.ts\n+- Purpose: Unit tests for RegExpRouter only\n+- Names noticed: RegExpRouter, runTest, UnsupportedPathError\n+- Simple note: Validates RegExpRouter catches ambiguous paths and invalid regex patterns\n+\n+## src/router/smart-router/router.test.ts\n+- Purpose: Integration tests using SmartRouter as composed router\n+- Names noticed: SmartRouter, runTest, RegExpRouter, TrieRouter\n+- Simple note: Tests router composition and method name detection\n+\n+## src/router/trie-router/router.test.ts\n+- Purpose: Unit tests for TrieRouter only, skips common test suite\n+- Names noticed: TrieRouter, TrieRouter\n+- Simple note: Validates TrieRouter matches all shared cases, calls runTest with minimal setup\n+\n+## src/router/trie-router/node.test.ts\n+- Purpose: Unit tests for Trie node tree structure\n+- Names noticed: Node\n+- Simple note: Tests insertion, search, wildcard handling, param deduplication, sort order\n+\n+## Cross-File Checklist\n+- pattern-router: src/router/pattern-router/index.ts src/router/pattern-router/router.ts src/router/pattern-router/router.test.ts\n+- linear-router: src/router/linear-router/i

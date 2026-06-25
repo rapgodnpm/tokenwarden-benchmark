@@ -1,0 +1,90 @@
+{
+  "info": {
+    "id": "ses_11a9a4255ffe32ijhRlXVTLuAq",
+    "slug": "shiny-squid",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-20T06-38-17-288Z/baseline-feature-add-small-3/repo",
+    "path": "",
+    "title": "future.v1:feature-add-small:baseline:run-3",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.8",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 3821299,
+      "output": 16028,
+      "reasoning": 4213,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1781965110698,
+      "updated": 1781965762366
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1781965111478
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-targets/feature/formatTitle.mjs",
+              "patch": "Index: bench-targets/feature/formatTitle.mjs\n===================================================================\n--- bench-targets/feature/formatTitle.mjs\t\n+++ bench-targets/feature/formatTitle.mjs\t\n@@ -0,0 +1,8 @@\n+export function formatTitle(value, mode = 'plain') {\n+  if (mode === 'title' || mode === 'Upper') {\n+    return value.split(' ').map(s => `${s.charAt(0).toUpperCase()}${s.slice(1).toLowerCase()}`).join(' ')\n+  }\n+  if (mode === 'upper') return value.toUpperCase()\n+  if (mode === 'lower') return value.toLowerCase()\n+  return value\n+}\n",
+              "additions": 8,
+              "deletions": 0,
+              "status": "added"
+            },
+            {
+              "file": "bench-targets/feature/formatTitle.test.mjs",
+              "patch": "Index: bench-targets/feature/formatTitle.test.mjs\n===================================================================\n--- bench-targets/feature/formatTitle.test.mjs\t\n+++ bench-targets/feature/formatTitle.test.mjs\t\n@@ -1,8 +1,10 @@\n import test from 'node:test'\n import assert from 'node:assert/strict'\n-import { formatTitle } from './src/formatTitle.mjs'\n+import { formatTitle } from './formatTitle.mjs'\n \n test('formatTitle supports title case mode', () => {\n   assert.equal(formatTitle('hello benchmark world', 'title'), 'Hello Benchmark World')\n+  assert.equal(formatTitle('hello benchmark world', 'Upper'), 'Hello Benchmark World')\n+  assert.equal(formatTitle('hello benchmark world', 'LOWER'), 'hello benchmark world')\n   assert.equal(formatTitle('LOUD', 'lower'), 'loud')\n })\n",
+              "additions": 3,
+              "deletions": 1,
+              "status": "modified"
+            },
+            {
+              "file": "bench-targets/feature/src/formatTitle.mjs",
+              "patch": "Index: bench-targets/feature/src/formatTitle.mjs\n===================================================================\n--- bench-targets/feature/src/formatTitle.mjs\t\n+++ bench-targets/feature/src/formatTitle.mjs\t\n@@ -1,5 +0,0 @@\n-export function formatTitle(value, mode = 'plain') {\n-  if (mode === 'upper') return value.toUpperCase()\n-  if (mode === 'lower') return value.toLowerCase()\n-  return value\n-}\n",
+              "additions": 0,
+              "deletions": 5,
+              "status": "deleted"
+            },
+            {
+              "file": "package.json",
+              "patch": "Index: package.json\n===================================================================\n--- package.json\t\n+++ package.json\t\n@@ -1,698 +0,0 @@\n-{\n-  \"name\": \"hono\",\n-  \"version\": \"4.12.26\",\n-  \"description\": \"Web framework built on Web Standards\",\n-  \"main\": \"dist/cjs/index.js\",\n-  \"type\": \"module\",\n-  \"module\": \"dist/index.js\",\n-  \"types\": \"dist/types/index.d.ts\",\n-  \"files\": [\n-    \"dist\"\n-  ],\n-  \"scripts\": {\n-    \"test\": \"tsc --noEmit && vitest --run\",\n-    \"test:watch\": \"vitest --watch\",\n-    \"test:deno\": \"deno test --allow-read --allow-env --allow-write --allow-net -c runtime-tests/deno/deno.json runtime-tests/deno && deno test --no-lock -c runtime-tests/deno-jsx/deno.precompile.json runtime-tests/deno-jsx && deno test --no-lock -c runtime-tests/deno-jsx/deno.react-jsx.json runtime-tests/deno-jsx\",\n-    \"test:bun\": \"bun test --jsx-import-source ../../src/jsx runtime-tests/bun/*\",\n-    \"test:fastly\": \"vitest --run --project fastly\",\n-    \"test:node\": \"vitest --run --project node\",\n-    \"test:workerd\": \"vitest --run --project workerd\",\n-    \"test:lambda\": \"vitest --run --project lambda\",\n-    \"test:lambda-edge\": \"vitest --run --project lambda-edge\",\n-    \"test:all\": \"bun run test && bun test:deno && bun test:bun\",\n-    \"lint\": \"eslint src runtime-tests build perf-measures benchmarks\",\n-    \"lint:fix\": \"eslint src runtime-tests build perf-measures benchmarks --fix\",\n-    \"format\": \"prettier --check --cache \\\"src/**/*.{js,ts,tsx}\\\" \\\"runtime-tests/**/*.{js,ts,tsx}\\\" \\\"build/**/*.{js,ts,tsx}\\\" \\\"perf-measures/**/*.{js,ts,tsx}\\\" \\\"benchmarks/**/*.{js,ts,tsx}\\\"\",\n-    \"format:fix\": \"prettier --write --cache --cache-strategy metadata \\\"src/**/*.{js,ts,tsx}\\\" \\\"runtime-tests/**/*.{js,ts,tsx}\\\" \\\"build/**/*.{js,ts,tsx}\\\" \\\"perf-measures/**/*.{js,ts,tsx}\\\" \\\"benchmarks/**/*.{js,ts,tsx}\\\"\",\n-    \"editorconfig-checker\": \"editorconfig-checker\",\n-    \"copy:package.cjs.json\": \"cp ./package.cjs.json ./dist/cjs/package.json && cp ./package.cjs.json ./dist/types/package.json\",\n-    \"build\": \"bun run --shell bun remove-dist && bun ./build/build.ts && bun run copy:package.cjs.json\",\n-    \"postbuild\": \"publint\",\n-    \"watch\": \"bun run --shell bun remove-dist && bun ./build/build.ts --watch && bun run copy:package.cjs.json\",\n-    \"coverage\": \"vitest --run --coverage\",\n-    \"prerelease\": \"bun test:deno && bun run build\",\n-    \"release\": \"np --no-publish\",\n-    \"remove-dist\": \"rm -rf dist\"\n-  },\n-  \"exports\": {\n-    \".\": {\n-      \"types\": \"./dist/types/index.d.ts\",\n-      \"import\": \"./dist/index.js\",\n-      \"require\": \"./dist/cjs/index.js\"\n-    },\n-    \"./request\": {\n-      \"types\": \"./dist/types/request.d.ts\",\n-      \"import\": \"./dist/request.js\",\n-      \"require\": \"./dist/cjs/request.js\"\n-    },\n-    \"./types\": {\n-      \"types\": \"./dist/types/types.d.ts\",\n-      \"import\": \"./dist/types.js\",\n-      \"require\": \"./dist/cjs/types.js\"\n-    },\n-    \"./hono-base\": {\n-      \"types\": \"./dist/types/hono-base.d.ts\",\n-      \"import\": \"./dist/hono-base.js\",\n-      \"require\": \"./dist/cjs/hono-base.js\"\n-    },\n-    \"./tiny\": {\n-      \"types\": \"./dist/types/preset/tiny.d.ts\",\n-      \"import\": \"./dist/preset/tiny.js\",\n-      \"require\": \"./dist/cjs/preset/tiny.js\"\n-    },\n-    \"./quick\": {\n-      \"types\": \"./dist/types/preset/quick.d.ts\",\n-      \"import\": \"./dist/preset/quick.js\",\n-      \"require\": \"./dist/cjs/preset/quick.js\"\n-    },\n-    \"./http-exception\": {\n-      \"types\": \"./dist/types/http-exception.d.ts\",\n-      \"import\": \"./dist/http-exception.js\",\n-      \"require\": \"./dist/cjs/http-exception.js\"\n-    },\n-    \"./basic-auth\": {\n-      \"types\": \"./dist/types/middleware/basic-auth/index.d.ts\",\n-      \"import\": \"./dist/middleware/basic-auth/index.js\",\n-      \"require\": \"./dist/cjs/middleware/basic-auth/index.js\"\n-    },\n-    \"./bearer-auth\": {\n-      \"types\": \"./dist/types/middleware/bearer-auth/index.d.ts\",\n-  

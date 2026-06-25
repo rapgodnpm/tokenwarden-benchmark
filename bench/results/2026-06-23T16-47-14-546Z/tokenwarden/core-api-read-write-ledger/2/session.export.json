@@ -1,0 +1,69 @@
+{
+  "info": {
+    "id": "ses_109d57f6fffe9hwLq9l1ViwxJ0",
+    "slug": "quiet-mountain",
+    "projectID": "8bbf308db2b4a27f72a69b74570538cfc8c125c3",
+    "directory": "/private/tmp/tokenwarden-bench/2026-06-23T16-47-14-546Z/tokenwarden-core-api-read-write-ledger-2/repo",
+    "path": "",
+    "title": "future.v1:core-api-read-write-ledger:tokenwarden:run-2",
+    "agent": "build",
+    "model": {
+      "id": "qwen/qwen3.5-9b",
+      "providerID": "lmstudio",
+      "variant": "default"
+    },
+    "version": "1.17.9",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 160122,
+      "output": 10109,
+      "reasoning": 385,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1782246441104,
+      "updated": 1782246906347
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1782246441755
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "lmstudio",
+          "modelID": "qwen/qwen3.5-9b"
+        },
+        "summary": {
+          "diffs": [
+            {
+              "file": "bench-artifacts/core-api-read-write-ledger.md",
+              "patch": "Index: bench-artifacts/core-api-read-write-ledger.md\n===================================================================\n--- bench-artifacts/core-api-read-write-ledger.md\t\n+++ bench-artifacts/core-api-read-write-ledger.md\t\n@@ -0,0 +1,166 @@\n+# Core API Read/Write Ledger\n+\n+## src/index.ts\n+\n+- Public surface: Exports Hono class, Context class, and type exports for ContextVariableMap, ContextRenderer, ExecutionContext, HonoRequest, and client types.\n+- Internal names noticed: Hono from './hono', Context from './context', HonoRequest from './request'.\n+- Imports or neighbors: ./hono, ./context, ./request, ./client.\n+- Plain-English summary: Main entry point for the Hono framework, re-exports core classes and types for application developers.\n+- Copy-safe detail: Default export is Hono. Also exports Context and type aliases from context, request, and client modules.\n+\n+## src/types.ts\n+\n+- Public surface: Comprehensive type definitions including Bindings, Variables, Env, Next, Input, BlankSchema, BlankInput, RouterRoute, Handler, MiddlewareHandler, H, NotFoundResponse, NotFoundHandler, HTTPResponseError, ErrorHandler, HandlerInterface, MiddlewareHandlerInterface, OnHandlerInterface, FetchEventLike, and response type utilities.\n+- Internal names noticed: Complex type constructs like ToSchema, ExtractInput, AddSchemaIfHasResponse, Endpoint, MergeSchemaPath, AddParam, AddDollar, MergePath, KnownResponseFormat, TypedResponse, FormValue, ParsedFormValue, ValidationTargets, ParamKey, ParamKeys, ExtractSchema, IntersectNonAnyTypes.\n+- Imports or neighbors: ./context, ./hono-base, ./utils/headers, ./utils/http-status, ./utils/mime, ./utils/types.\n+- Plain-English summary: Contains all TypeScript type definitions for the framework, including environment types, handler signatures, response types, schema utilities, and param extraction logic.\n+- Copy-safe detail: Defines Env interface with Bindings and Variables. Provides type-level routing helpers, handler type definitions, and response formatting utilities.\n+\n+## src/hono.ts\n+\n+- Public surface: Exports the Hono class which is the main application entry point.\n+- Internal names noticed: Hono class extends HonoBase, uses RegExpRouter, SmartRouter, and TrieRouter.\n+- Imports or neighbors: ./hono-base, ./router/reg-exp-router, ./router/smart-router, ./router/trie-router, ./types.\n+- Plain-English summary: Instantiates the main Hono class with router configuration and type parameters for binding, schema, base path, and current path.\n+- Copy-safe detail: Class Hono<T=BlankSchema, E=BlankEnv, BasePath='/', CurrentPath='/'> extends HonoBase with configurable router types.\n+\n+## src/hono-base.ts\n+\n+- Public surface: Provides HonoBase class with router management, route registration, cloning, base path handling, mount support, fetch implementation with error/notFound handling, and request dispatch through compose middleware.\n+- Internal names noticed: COMPOSED_HANDLER, getPath, getPathNoStrict, mergePath, notFoundHandler, errorHandler, HonoBase, methodNotAllowHandler, router, _basePath, _match, _routeIndex, #clone, #notFoundHandler, #errorHandler.\n+- Imports or neighbors: ./compose, ./context, ./context (ExecutionContext type), ./router, ./router (METHODS, METHOD_NAME_ALL, METHOD_NAME_ALL_LOWERCASE), ./utils/constants, ./utils/url.\n+- Plain-English summary: Core implementation with router integration, supports adding routes for multiple HTTP methods, mounting sub-apps, environment bindings, and middleware composition.\n+- Copy-safe detail: BasePath() method enables path prefixing. Fetch() method processes requests through router match results and composed handlers. Mount() supports registering sub-applications.\n+\n+## src/context.ts\n+\n+- Public surface: Exports Context class with methods for set/get variables, rendering, responding with text/JSON/HTML bodies, setting headers/status, accessing request data, and handling execution context.\n+- Internal names noticed: DEFAULT_STATUS, INVALID_STATUS_CODE, TEXT_PLAIN, setDefaultContentType, createResponseInstance, Data type, ExecutionContext interface, ContextVariableMap, ContextRenderer, Renderer type, PropsForRenderer, Layout, Get, Set, NewResponse, BodyRespond, TextRespond, JSONRespond, HTMLRespond, ContextOptions, SetHeadersOptions, SetHeaders, ResponseHeadersInit, ResponseInit, ResponseOrInit.\n+- Imports or neighbors: ./request (HonoRequest), ./router (Result type), ./utils/headers (ResponseHeader), ./utils/html (HtmlEscapedCallbackPhase, resolveCallback), ./utils/http-status (ContentfulStatusCode, RedirectStatusCode, StatusCode), ./utils/mime (BaseMime), ./utils/types (InvalidJSONValue, IsAny, JSONParsed, JSONValue).\n+- Plain-English summary: Context object passed to handlers and middleware, provides access to request data, variable storage, response writing, header management, cookies, and execution context from Cloudflare Workers.\n+- Copy-safe detail: Class Context<E> wraps Response instance. Provides get(), set() for variable access. JSON(), text(), html() for body serialization. Header(), status(), set(), newResponse() for response configuration.\n+\n+## src/request.ts\n+\n+- Public surface: Exports HonoRequest class with param(), query(), queries(), header(), method, url access, parseBody(), json(), text(), arrayBuffer(), bytes(), blob(), formData(), cloneRawRequest(). Also exports cloneRawRequest utility.\n+- Internal names noticed: GET_MATCH_RESULT, Body type, BodyCache type, OptionalRequestInitProperties, RequiredRequestInitProperties, RequiredRequestInit, tryDecodeURIComponent, #getParamValue, #matchResult, routeIndex, keyIndex, #body, #bodyCache, #headers, parseBody import, decodeURIComponent_ import, getQueryParam import, getQueryParams import, tryDecode import.\n+- Imports or neighbors: ./http-exception, ./request/constants (GET_MATCH_RESULT symbol), ./router (Result type), ./utils/body (parseBody, BodyData, ParseBodyOptions), ./utils/headers (CustomHeader, RequestHeader), ./utils/types (Simplify, UnionToIntersection), ./utils/url (decodeURIComponent_, getQueryParam, getQueryParams, tryDecode).\n+- Plain-English summary: Wraps native Request object providing typed access to route params, query params, headers, body parsing for various content types, and request cloning for middleware.\n+- Copy-safe detail: HonoRequest<P, I> stores match result and param index. Provides param() for route parameters and query() for URL query string. parseBody() handles form-data and urlencoded. json(), text(), blob() for body content reading.\n+\n+## sr

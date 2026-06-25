@@ -1,0 +1,1 @@
+Task created `bench-artifacts/core-api-read-write-ledger.md`. File contains the Core API Read/Write Ledger with entries for all 18 specified source files under the Hono repository, plus a Path Inventory section listing all file paths.
