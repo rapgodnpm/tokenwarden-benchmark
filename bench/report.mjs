@@ -9,9 +9,10 @@ import { repoRoot } from "./lib/workspace.mjs"
 
 const args = parseArgs(process.argv.slice(2))
 const root = repoRoot()
+const platform = String(args.platform ?? "opencode")
 let resultsRoot = args.results ? resolve(String(args.results)) : undefined
 if (!resultsRoot) {
-  const latest = JSON.parse(await readFile(join(root, "bench", "results", "latest.json"), "utf8"))
+  const latest = JSON.parse(await readFile(join(root, "bench", "results", `latest-${platform}.json`), "utf8"))
   resultsRoot = latest.resultsRoot
 }
 

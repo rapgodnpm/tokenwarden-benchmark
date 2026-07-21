@@ -1,0 +1,169 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-20T20-12-48-884Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "context-mode",
+  "pluginLabel": "Context Mode",
+  "pluginMechanism": "context routing and sandboxed tool output",
+  "pluginVersion": "1.0.169",
+  "task": "docs-from-code",
+  "run": 3,
+  "dryRun": false,
+  "prepareOnly": false,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://localhost:1234",
+  "resultDir": "/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/results/claude-code/2026-07-20T20-12-48-884Z/context-mode/docs-from-code/3",
+  "promptPath": "/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/results/claude-code/2026-07-20T20-12-48-884Z/context-mode/docs-from-code/3/prompt.md",
+  "workspace": "/tmp/tokenwarden-bench/claude-code/2026-07-20T20-12-48-884Z/context-mode-docs-from-code-3",
+  "durationMs": 48096,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [
+    "/tmp/tokenwarden-bench/claude-code/2026-07-20T20-12-48-884Z/context-mode-docs-from-code-3/claude-plugins/node_modules/context-mode"
+  ],
+  "installActions": [
+    {
+      "type": "npm-plugin",
+      "package": "context-mode@1.0.169"
+    }
+  ],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 67,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/fixtures'/future/create-fixture.mjs docs-from-code",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 25,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 47,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: docs-from-code\nRepository: https://github.com/honojs/hono.git\n\nRead bench-targets/docs/src/cache.mjs and write accurate user-facing documentation at bench-artifacts/cache-api.md. The docs must include '# Cache API', '## createCache()', '## Methods', and mention get, set, delete, and clear. Do not change source code. Keep the docs factual and based only on the implementation.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/tmp/tokenwarden-bench/claude-code/2026-07-20T20-12-48-884Z/context-mode-docs-from-code-3/home/.claude/settings.json",
+      "--plugin-dir",
+      "/tmp/tokenwarden-bench/claude-code/2026-07-20T20-12-48-884Z/context-mode-docs-from-code-3/claude-plugins/node_modules/context-mode"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 42464,
+    "stdoutBytes": 46257,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "test -f bench-artifacts/cache-api.md && grep -q '# Cache API' bench-artifacts/cache-api.md && grep -q 'createCache()' bench-artifacts/cache-api.md && grep -q 'get' bench-artifacts/cache-api.md && grep -q 'set' bench-artifacts/cache-api.md && grep -q 'delete' bench-artifacts/cache-api.md && grep -q 'clear' bench-artifacts/cache-api.md",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 15,
+        "stdoutBytes": 0,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "skipped": true,
+    "reason": "adapter does not use TokenWarden",
+    "stdout": "",
+    "stderr": ""
+  },
+  "changedFiles": [
+    "bench-artifacts/",
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-artifacts/cache-api.md",
+      "content": "# Cache API\n\nA simple in-memory cache implementation using a `Map` under the hood.\n\n## createCache()\n\nCreates a new cache instance with the following methods:\n\n```javascript\nimport { createCache } from 'path/to/cache';\n\nconst cache = createCache();\n```\n\n## Methods\n\n### get(key)\n\nRetrieves a value from the cache by its key.\n\n```javascript\nconst value = cache.get(key);\n```\n\nReturns the value associated with the key, or `undefined` if the key does not exist.\n\n### set(key, value)\n\nStores a value in the cache.\n\n```javascript\ncache.set(key, value);\n```\n\nReturns the value that was set.\n\n### delete(key)\n\nRemoves a key from the cache.\n\n```javascript\nconst result = cache.delete(key);\n```\n\nReturns `true` if the key was removed, or `false` if the key did not exist.\n\n### clear()\n\nRemoves all entries from the cache.\n\n```javascript\ncache.clear();\n```\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 37555,
+    "outputTokens": 765,
+    "cacheReadTokens": 33105,
+    "cacheWriteTokens": 0,
+    "totalTokens": 71425,
+    "estimatedCostUsd": 0.22345250000000003,
+    "sessionIDs": [
+      "05d210af-74fe-4fdb-9e96-905bf6dcf54c"
+    ],
+    "answer": "\n\nDone. Created documentation at `bench-artifacts/cache-api.md` based on the `bench-targets/docs/src/cache.mjs` implementation.\n\n**File created:** `/private/tmp/tokenwarden-bench/claude-code/2026-07-20T20-12-48-884Z/context-mode-docs-from-code-3/repo/bench-artifacts/cache-api.md`\n\n**Verification status:** ✅ Created successfully\n\nThe documentation includes:\n- `# Cache API` header\n- `## createCache()` section\n- `## Methods` section\n- Mentions `get`, `set`, `delete`, and `clear` methods with descriptions and code examples based on the implementation",
+    "rawEventCount": 124,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [
+      "context-mode"
+    ],
+    "pluginErrors": [],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 37555,
+        "outputTokens": 765,
+        "cacheReadInputTokens": 33105,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.22345250000000003,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

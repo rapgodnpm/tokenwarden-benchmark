@@ -10,6 +10,7 @@ export function createReportRows(summaries) {
     const inputCostUsd = tokenCost(inputTokens, INPUT_TOKEN_PRICE_PER_MILLION_USD)
     const outputCostUsd = tokenCost(outputTokens, OUTPUT_TOKEN_PRICE_PER_MILLION_USD)
     return {
+      platform: summary.platform ?? "opencode",
       plugin: summary.plugin,
       task: summary.task,
       run: summary.run,
@@ -26,14 +27,14 @@ export function createReportRows(summaries) {
       calculatedCostUsd: inputCostUsd + outputCostUsd,
       failed: Boolean(summary.failed),
       timedOut: Boolean(summary.timedOut),
-      durationMs: summary.durationMs ?? summary.opencode?.durationMs ?? 0
+      durationMs: summary.durationMs ?? summary.opencode?.durationMs ?? summary.claudeCode?.durationMs ?? 0
     }
   })
 
-  const baselineTokens = new Map(rows.filter((row) => row.plugin === "baseline").map((row) => [`${row.task}:${row.run}`, row.totalTokens]))
-  const baselineCosts = new Map(rows.filter((row) => row.plugin === "baseline").map((row) => [`${row.task}:${row.run}`, row.calculatedCostUsd]))
+  const baselineTokens = new Map(rows.filter((row) => row.plugin === "baseline").map((row) => [`${row.platform}:${row.task}:${row.run}`, row.totalTokens]))
+  const baselineCosts = new Map(rows.filter((row) => row.plugin === "baseline").map((row) => [`${row.platform}:${row.task}:${row.run}`, row.calculatedCostUsd]))
   for (const row of rows) {
-    const key = `${row.task}:${row.run}`
+    const key = `${row.platform}:${row.task}:${row.run}`
     const baselineTotalTokens = baselineTokens.get(key) ?? 0
     const baselineCalculatedCost = baselineCosts.get(key) ?? 0
     row.savedVsBaseline = row.plugin === "baseline" ? 0 : baselineTotalTokens - row.totalTokens
@@ -47,8 +48,9 @@ export function createReportRows(summaries) {
 
 export function renderTokensCsv(rows) {
   return [
-    "plugin,task,run,dry_run,prepare_only,failed,timed_out,duration_ms,input_tokens,output_tokens,cache_read_tokens,cache_write_tokens,total_tokens,provider_estimated_cost_usd,input_cost_usd,output_cost_usd,calculated_cost_usd,saved_vs_baseline,saved_percent,saved_cost_vs_baseline,saved_cost_percent",
+    "platform,plugin,task,run,dry_run,prepare_only,failed,timed_out,duration_ms,input_tokens,output_tokens,cache_read_tokens,cache_write_tokens,total_tokens,provider_estimated_cost_usd,input_cost_usd,output_cost_usd,calculated_cost_usd,saved_vs_baseline,saved_percent,saved_cost_vs_baseline,saved_cost_percent",
     ...rows.map((row) => [
+      row.platform,
       row.plugin,
       row.task,
       row.run,
@@ -76,8 +78,9 @@ export function renderTokensCsv(rows) {
 
 export function renderAveragesCsv(rows) {
   return [
-    "task,plugin,runs,failed_runs,timeout_count,median_duration_ms,average_input_tokens,average_output_tokens,average_cache_read_tokens,average_cache_write_tokens,median_total_tokens,average_total_tokens,p25_total_tokens,p75_total_tokens,min_total_tokens,max_total_tokens,average_provider_estimated_cost_usd,average_input_cost_usd,average_output_cost_usd,median_calculated_cost_usd,average_calculated_cost_usd,p25_calculated_cost_usd,p75_calculated_cost_usd,min_calculated_cost_usd,max_calculated_cost_usd,median_saved_vs_baseline,average_saved_vs_baseline,median_saved_percent,average_saved_percent,median_saved_cost_vs_baseline,average_saved_cost_vs_baseline,median_saved_cost_percent,average_saved_cost_percent",
+    "platform,task,plugin,runs,failed_runs,timeout_count,median_duration_ms,average_input_tokens,average_output_tokens,average_cache_read_tokens,average_cache_write_tokens,median_total_tokens,average_total_tokens,p25_total_tokens,p75_total_tokens,min_total_tokens,max_total_tokens,average_provider_estimated_cost_usd,average_input_cost_usd,average_output_cost_usd,median_calculated_cost_usd,average_calculated_cost_usd,p25_calculated_cost_usd,p75_calculated_cost_usd,min_calculated_cost_usd,max_calculated_cost_usd,median_saved_vs_baseline,average_saved_vs_baseline,median_saved_percent,average_saved_percent,median_saved_cost_vs_baseline,average_saved_cost_vs_baseline,median_saved_cost_percent,average_saved_cost_percent",
     ...summariesByTaskAndPlugin(rows).map((summary) => [
+      summary.platform,
       summary.task,
       summary.plugin,
       summary.runs,
@@ -252,11 +255,11 @@ function escapeHtml(value) {
 }
 
 export function summariesByPlugin(rows) {
-  return [...groupRows(rows, (row) => row.plugin).entries()].map(([plugin, group]) => summarizeRows(group, { plugin }))
+  return [...groupRows(rows, (row) => `${row.platform}\0${row.plugin}`).entries()].map(([, group]) => summarizeRows(group, { platform: group[0]?.platform ?? "", plugin: group[0]?.plugin ?? "" }))
 }
 
 export function summariesByTaskAndPlugin(rows) {
-  return [...groupRows(rows, (row) => `${row.task}\0${row.plugin}`).entries()].map(([, group]) => summarizeRows(group, { task: group[0]?.task ?? "", plugin: group[0]?.plugin ?? "" }))
+  return [...groupRows(rows, (row) => `${row.platform}\0${row.task}\0${row.plugin}`).entries()].map(([, group]) => summarizeRows(group, { platform: group[0]?.platform ?? "", task: group[0]?.task ?? "", plugin: group[0]?.plugin ?? "" }))
 }
 
 export function average(values) {
@@ -281,7 +284,8 @@ export function percentile(values, percentileValue) {
 }
 
 export function bestByTask(rows) {
-  return [...groupRows(rows, (row) => row.task).entries()].map(([task, group]) => {
+  return [...groupRows(rows, (row) => `${row.platform}\0${row.task}`).entries()].map(([, group]) => {
+    const task = group[0]?.task ?? ""
     const summaries = [...groupRows(group, (row) => row.plugin).entries()].map(([plugin, pluginRows]) => summarizeRows(pluginRows, { plugin }))
     const bestTokens = [...summaries].sort((a, b) => a.medianTotalTokens - b.medianTotalTokens)[0]
     const bestCost = [...summaries].sort((a, b) => a.medianCalculatedCostUsd - b.medianCalculatedCostUsd)[0]

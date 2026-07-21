@@ -1,6 +1,6 @@
 # TokenWarden Benchmark
 
-This repo measures how much context-optimization plugins reduce token use in `opencode` without preventing the model from completing real coding tasks.
+This repo measures how much optimization plugins reduce token use in OpenCode and Claude Code without preventing the model from completing real coding tasks.
 
 Each plugin gets the same model, prompt, files, and automated checks. A no-plugin run is the baseline. The reports compare:
 
@@ -13,15 +13,16 @@ Token savings only matter when the task still passes.
 
 ## Cost warning
 
-**A full run makes 210 model calls and can be expensive.** It runs 14 tasks against 5 plugin configurations, 3 times each.
+**A full run on one platform makes 210 model calls and can be expensive.** It runs 14 tasks against 5 plugin configurations, 3 times each. Running both platforms makes 420 model calls.
 
 The latest published run used 18,222,885 input tokens and 353,578 output tokens. At the README's Opus 4.8 pricing assumption of $15/1M input tokens and $75/1M output tokens, that would have cost **$299.86**. Your cost will depend on the model, provider, caching, and selected tasks.
 
 Start with a dry run or one task:
 
 ```sh
-npm run bench:dry
-npm run bench -- --plugins baseline,tokenwarden --tasks react-state-bug-fix --runs 1
+npm run bench:opencode:dry
+npm run bench:claude-code:dry
+npm run bench:opencode -- --plugins baseline,tokenwarden --tasks react-state-bug-fix --runs 1
 ```
 
 ## How it works
@@ -30,7 +31,7 @@ For every task, plugin, and run, the benchmark:
 
 1. Creates a clean workspace from a pinned [Hono](https://github.com/honojs/hono) commit.
 2. Adds the task's test fixture when needed.
-3. Runs the task through `opencode` with one plugin enabled, or no plugin for the baseline.
+3. Runs the task through OpenCode or Claude Code with one plugin enabled, or no plugin for the baseline.
 4. Runs automated checks and records the answer, changed files, logs, tokens, time, and cost.
 
 The first three tasks use the real Hono source tree. The other tasks add small, deterministic examples to that workspace. See [`future.v1.json`](bench/tasks/future.v1.json) for the exact prompts.
@@ -58,38 +59,45 @@ A run fails if the model call fails, times out, or does not pass the task's auto
 
 ## Quick start
 
-You need Node.js, npm, `opencode`, and authentication for the model provider you plan to use.
+You need Node.js, npm, and the CLI for the platform you plan to test. OpenCode uses its configured providers. The Claude Code benchmark uses LM Studio with `qwen/qwen3.5-9b`; see [`docs/claude-code.md`](docs/claude-code.md).
 
 ```sh
 npm install
 npm test
-npm run prepare
-npm run bench:dry
+npm run bench:opencode:prepare
+npm run bench:opencode:dry
+npm run bench:claude-code:prepare
+npm run bench:claude-code:dry
 ```
 
-Run the full benchmark only when you are ready for 210 model calls:
+Run a full benchmark only when you are ready for 210 model calls:
 
 ```sh
-npm run bench
+npm run bench:opencode
+npm run bench:claude-code
 ```
 
 Useful commands:
 
 | Command | What it does |
 | --- | --- |
-| `npm run prepare` | Builds every workspace without calling a model. |
-| `npm run bench:dry` | Checks the runner without calling a model. |
-| `npm run bench -- --tasks <ids>` | Runs only the comma-separated task IDs. |
-| `npm run bench -- --plugins <ids>` | Runs only the comma-separated plugin configurations. |
-| `npm run bench -- --runs 1` | Runs each selected task once instead of three times. |
-| `npm run bench -- --model <key>` | Uses a preset from [`bench/models.json`](bench/models.json). |
-| `npm run bench:report -- --results <dir> --no-open` | Rebuilds reports for an existing result directory. |
+| `npm run bench:opencode:prepare` | Builds every OpenCode workspace without calling a model. |
+| `npm run bench:claude-code:prepare` | Builds every Claude Code workspace without calling a model. |
+| `npm run bench:opencode:dry` | Checks the OpenCode runner without cloning or calling a model. |
+| `npm run bench:claude-code:dry` | Checks the Claude Code runner without cloning or calling a model. |
+| `npm run bench:<platform> -- --tasks <ids>` | Runs only the comma-separated task IDs. |
+| `npm run bench:<platform> -- --plugins <ids>` | Runs only the comma-separated plugin configurations. |
+| `npm run bench:<platform> -- --runs 1` | Runs each selected task once instead of three times. |
+| `npm run bench:<platform> -- --model <key>` | Uses a platform-compatible preset from [`bench/models.json`](bench/models.json). |
+| `npm run bench:report:<platform> -- --results <dir> --no-open` | Rebuilds reports for an existing result directory. |
 
-The default plugin configurations are `baseline`, `tokenwarden`, `openslimedit`, `dcp`, and `openrtk`. Their definitions live in [`bench/adapters/`](bench/adapters/).
+OpenCode defaults to `baseline`, `tokenwarden`, `openslimedit`, `dcp`, and `openrtk`. Claude Code defaults to `baseline`, `tokenwarden`, `context-mode`, `rtk`, and `caveman`. Their definitions live in the platform folders under [`bench/adapters/`](bench/adapters/).
+
+Each Claude Code configuration runs independently. Caveman shortens final responses; it does not reduce input context and can add input-token overhead.
 
 ## Results
 
-Runs are saved under `bench/results/<run-id>/`. [`bench/results/latest.json`](bench/results/latest.json) points to the latest published run.
+Runs are saved under `bench/results/<platform>/<run-id>/`. `bench/results/latest-opencode.json` and `bench/results/latest-claude-code.json` point to the latest run for each platform.
 
 | File | Use it for |
 | --- | --- |
@@ -98,7 +106,7 @@ Runs are saved under `bench/results/<run-id>/`. [`bench/results/latest.json`](be
 | `tokens.csv` | Analyzing every individual run. |
 | `averages.csv` | Comparing aggregated task and plugin results. |
 | `summary.json` | Processing the complete result data. |
-| `<plugin>/<task>/<run>/` | Inspecting the exact prompt, answer, logs, verification, and session. |
+| `<plugin>/<task>/<run>/` | Inspecting the exact prompt, answer, logs, verification, and platform metadata. |
 
 The generated reports currently estimate cost at $5/1M input tokens and $25/1M output tokens. The **$299.86** warning above is a separate Opus 4.8 what-if estimate.
 
@@ -106,7 +114,8 @@ The generated reports currently estimate cost at $5/1M input tokens and $25/1M o
 
 - Task definitions and checks: [`bench/tasks/future.v1.json`](bench/tasks/future.v1.json)
 - Seeded task files: [`bench/fixtures/future/create-fixture.mjs`](bench/fixtures/future/create-fixture.mjs)
-- Runner: [`bench/run-opencode-benchmark.mjs`](bench/run-opencode-benchmark.mjs)
+- OpenCode runner: [`bench/run-opencode-benchmark.mjs`](bench/run-opencode-benchmark.mjs)
+- Claude Code runner: [`bench/run-claude-code-benchmark.mjs`](bench/run-claude-code-benchmark.mjs)
 - Tests: [`bench/tests/`](bench/tests/)
 
-Run `npm test` and a targeted `npm run bench:dry -- --tasks <id> --runs 1` after changing a task or the runner.
+Run `npm test` and targeted dry runs for both platforms after changing a task or shared runner code.

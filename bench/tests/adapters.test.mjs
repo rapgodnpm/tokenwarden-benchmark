@@ -9,9 +9,30 @@ test("all benchmark adapters enable zero or one plugin", async () => {
   }
 })
 
+test("Claude Code adapters use independent supported integrations", async () => {
+  const expected = new Map([
+    ["baseline", "none"],
+    ["tokenwarden", "local-plugin"],
+    ["context-mode", "npm-plugin"],
+    ["rtk", "rtk-hook"],
+    ["caveman", "git-plugin"]
+  ])
+  for (const [id, integration] of expected) {
+    const adapter = await loadAdapter(id, "claude-code")
+    assert.equal(adapter.integration, integration)
+  }
+})
+
 test("adapter validation rejects plugin stacks", () => {
   assert.throws(
     () => validateAdapter({ id: "bad", plugins: ["one", "two"] }),
     /at most one plugin/
+  )
+})
+
+test("Claude Code adapter validation rejects unknown integrations", () => {
+  assert.throws(
+    () => validateAdapter({ id: "bad", integration: "unknown" }, "claude-code"),
+    /unsupported Claude Code integration/
   )
 })

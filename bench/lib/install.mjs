@@ -42,7 +42,8 @@ async function installGithubReleaseBinary(binary, workspace, env, utilityTimeout
   const assetName = binary.assetByPlatform?.[platformKey]
   if (!assetName) throw new Error(`${binary.name}: unsupported platform ${platformKey}`)
 
-  const releaseResponse = await fetch(`https://api.github.com/repos/${binary.repo}/releases/latest`, {
+  const releasePath = binary.tag ? `releases/tags/${binary.tag}` : "releases/latest"
+  const releaseResponse = await fetch(`https://api.github.com/repos/${binary.repo}/${releasePath}`, {
     headers: { "user-agent": "tokenwarden-benchmark" }
   })
   if (!releaseResponse.ok) throw new Error(`${binary.name}: failed to fetch latest release from ${binary.repo}`)

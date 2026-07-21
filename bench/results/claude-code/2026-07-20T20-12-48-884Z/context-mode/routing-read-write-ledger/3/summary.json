@@ -1,0 +1,157 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-20T20-12-48-884Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "context-mode",
+  "pluginLabel": "Context Mode",
+  "pluginMechanism": "context routing and sandboxed tool output",
+  "pluginVersion": "1.0.169",
+  "task": "routing-read-write-ledger",
+  "run": 3,
+  "dryRun": false,
+  "prepareOnly": false,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://localhost:1234",
+  "resultDir": "/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/results/claude-code/2026-07-20T20-12-48-884Z/context-mode/routing-read-write-ledger/3",
+  "promptPath": "/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/results/claude-code/2026-07-20T20-12-48-884Z/context-mode/routing-read-write-ledger/3/prompt.md",
+  "workspace": "/tmp/tokenwarden-bench/claude-code/2026-07-20T20-12-48-884Z/context-mode-routing-read-write-ledger-3",
+  "durationMs": 475755,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [
+    "/tmp/tokenwarden-bench/claude-code/2026-07-20T20-12-48-884Z/context-mode-routing-read-write-ledger-3/claude-plugins/node_modules/context-mode"
+  ],
+  "installActions": [
+    {
+      "type": "npm-plugin",
+      "package": "context-mode@1.0.169"
+    }
+  ],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 62,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 340,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: routing-read-write-ledger\nRepository: https://github.com/honojs/hono.git\n\nCreate a new file at bench-artifacts/routing-read-write-ledger.md. This is a read/write endurance task, not a clever debugging task. First create the bench-artifacts directory if it does not exist. Then read every file in this exact list before writing the final document: src/hono.ts, src/hono-base.ts, src/router/pattern-router/index.ts, src/router/pattern-router/router.ts, src/router/linear-router/index.ts, src/router/linear-router/router.ts, src/router/reg-exp-router/index.ts, src/router/reg-exp-router/router.ts, src/router/reg-exp-router/matcher.ts, src/router/reg-exp-router/prepared-router.ts, src/router/reg-exp-router/node.ts, src/router/reg-exp-router/trie.ts, src/router/smart-router/index.ts, src/router/smart-router/router.ts, src/router/trie-router/index.ts, src/router/trie-router/router.ts, src/router/trie-router/node.ts, src/router/common.case.test.ts, src/router/pattern-router/router.test.ts, src/router/linear-router/router.test.ts, src/router/reg-exp-router/router.test.ts, src/router/smart-router/router.test.ts, src/router/trie-router/router.test.ts, src/router/trie-router/node.test.ts. The output file must be long but mechanically simple. Start with a title '# Routing Read/Write Ledger'. For each listed file, add a section whose heading is exactly '## <file path>'. Under each heading write three bullets: '- Purpose: ...', '- Names noticed: ...', and '- Simple note: ...'. Keep the notes plain and safe; do not change source code. After the per-file sections, add '## Cross-File Checklist' with one bullet per router family: pattern-router, linear-router, reg-exp-router, smart-router, trie-router. Include exact file paths in the final answer and report that only bench-artifacts/routing-read-write-ledger.md was created.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/tmp/tokenwarden-bench/claude-code/2026-07-20T20-12-48-884Z/context-mode-routing-read-write-ledger-3/home/.claude/settings.json",
+      "--plugin-dir",
+      "/tmp/tokenwarden-bench/claude-code/2026-07-20T20-12-48-884Z/context-mode-routing-read-write-ledger-3/claude-plugins/node_modules/context-mode"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 455785,
+    "stdoutBytes": 192630,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "test -f bench-artifacts/routing-read-write-ledger.md && grep -q '# Routing Read/Write Ledger' bench-artifacts/routing-read-write-ledger.md && grep -q '## src/router/trie-router/node.ts' bench-artifacts/routing-read-write-ledger.md && grep -q '## src/router/reg-exp-router/matcher.ts' bench-artifacts/routing-read-write-ledger.md",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 11,
+        "stdoutBytes": 0,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "skipped": true,
+    "reason": "adapter does not use TokenWarden",
+    "stdout": "",
+    "stderr": ""
+  },
+  "changedFiles": [
+    "bench-artifacts/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-artifacts/routing-read-write-ledger.md",
+      "content": "# Routing Read/Write Ledger\n\nThis document records the structure, purposes, and notable names from each file in the Hono routing system. Created for the routing-read-write-ledger benchmark task.\n\n---\n\n## src/hono.ts\n\n- Purpose: Main Hono entry point that exports the Hono class and integrates router implementations.\n- Names noticed: Hono\n- Simple note: Entry point file that imports HonoBase, RegExpRouter, and SmartRouter, then exports the Hono class with router configuration.\n\n---\n\n## src/hono-base.ts\n\n- Purpose: Base Hono class containing request handling logic and router integration with method support.\n- Names noticed: HonoBase\n- Simple note: Contains the core Hono functionality, including request/path handling, route storage, and method support.\n\n---\n\n## src/router/pattern-router/index.ts\n\n- Purpose: Module entry point for PatternRouter that re-exports the router class.\n- Names noticed:\n- Simple note: Simple barrel export file that exports PatternRouter from ./router.\n\n---\n\n## src/router/pattern-router/router.ts\n\n- Purpose: Implements pattern-based routing using regex patterns stored in an array.\n- Names noticed: PatternRouter\n- Simple note: Uses array of [RegExp, string, T] tuples to store routes with patterns, methods, and handlers.\n\n---\n\n## src/router/linear-router/index.ts\n\n- Purpose: Module entry point for LinearRouter that re-exports the router class.\n- Names noticed:\n- Simple note: Simple barrel export file that exports LinearRouter from ./router.\n\n---\n\n## src/router/linear-router/router.ts\n\n- Purpose: Implements linear routing by building a trie-like structure with path segments.\n- Names noticed: LinearRouter\n- Simple note: Processes paths into segments, handling both static and parameterized routes with optimized matching.\n\n---\n\n## src/router/reg-exp-router/index.ts\n\n- Purpose: Module entry point for RegExpRouter with PreparedRegExpRouter support.\n- Names noticed:\n- Simple note: Exports RegExpRouter and PreparedRegExpRouter (with buildInitParams and serializeInitParams functions) from ./router and ./prepared-router.\n\n---\n\n## src/router/reg-exp-router/router.ts\n\n- Purpose: Core RegExp-based router implementation using a trie with regex patterns.\n- Names noticed: RegExpRouter\n- Simple note: Uses a trie structure where nodes can have regex patterns for wildcards, with efficient matching and support for variable segments.\n\n---\n\n## src/router/reg-exp-router/matcher.ts\n\n- Purpose: Provides matcher functions for RegExp router pattern matching.\n- Names noticed: emptyParam, match\n- Simple note: Exports the match function that takes method and path to find matching route parameters and handlers.\n\n---\n\n## src/router/reg-exp-router/prepared-router.ts\n\n- Purpose: Implements a prepared/cached router for improved performance on repeated requests.\n- Names noticed: PreparedRegExpRouter, buildInitParams, serializeInitParams\n- Simple note: Builds and caches the matcher tree during initialization, serializes/deserializes state for fast instantiation.\n\n---\n\n## src/router/reg-exp-router/node.ts\n\n- Purpose: Defines the Node structure used in the RegExp router trie.\n- Names noticed: PATH_ERROR, Node\n- Simple note: Represents a node in the routing tree with child nodes, regex patterns for wildcards, and handler/param data.\n\n---\n\n## src/router/reg-exp-router/trie.ts\n\n- Purpose: Implements the Trie data structure for organizing routing nodes.\n- Names noticed: Trie\n- Simple note: Trie class that manages the tree structure with context tracking for parameter indices and wildcard handling.\n\n---\n\n## src/router/smart-router/index.ts\n\n- Purpose: Module entry point for SmartRouter that re-exports the router class.\n- Names noticed:\n- Simple note: Simple barrel export file that exports SmartRouter from ./router.\n\n---\n\n## src/router/smart-router/router.ts\n\n- Purpose: Implements a wrapper router that falls back through registered routers.\n- Names noticed: SmartRouter\n- Simple note: Checks routers in order (e.g., \"SmartRouter + RegExpRouter\") and uses the first one that matches the request.\n\n---\n\n## src/router/trie-router/index.ts\n\n- Purpose: Module entry point for TrieRouter that re-exports the router class.\n- Names noticed:\n- Simple note: Simple barrel export file that exports TrieRouter from ./router.\n\n---\n\n## src/router/trie-router/router.ts\n\n- Purpose: Implements a trie-based router with static and dynamic route handling.\n- Names noticed: TrieRouter\n- Simple note: Uses a hierarchical trie to match paths, handling static routes and parameterized paths (:param, :param{pattern}).\n\n---\n\n## src/router/trie-router/node.ts\n\n- Purpose: Defines the Node structure for the TrieRouter.\n- Names noticed: Node\n- Simple note: Node class that represents routing tree nodes with children, handlers, and path segment processing.\n\n---\n\n## src/router/common.case.test.ts\n\n- Purpose: Provides shared test cases and helper functions for router testing.\n- Names noticed: runTest\n- Simple note: Exports runTest helper function used by all router tests; contains shared test scenarios including wildcard handling.\n\n---\n\n## src/router/pattern-router/router.test.ts\n\n- Purpose: Tests for PatternRouter including edge cases and wildcards.\n- Names noticed:\n- Simple note: Uses runTest from common.case.test, skips certain tests; tests pattern matching with regex routes.\n\n---\n\n## src/router/linear-router/router.test.ts\n\n- Purpose: Tests for LinearRouter including edge cases and wildcards.\n- Names noticed:\n- Simple note: Uses runTest from common.case.test, skips certain tests; tests linear segment-based routing.\n\n---\n\n## src/router/reg-exp-router/router.test.ts\n\n- Purpose: Tests for RegExpRouter including edge cases and wildcards.\n- Names noticed:\n- Simple note: Uses runTest from common.case.test; tests regex-based route matching with support for multiple patterns.\n\n---\n\n## src/router/smart-router/router.test.ts\n\n- Purpose: Tests for SmartRouter including fallback behavior.\n- Names noticed:\n- Simple note: Tests SmartRouter with RegExpRouter and TrieRouter as fallback routers; tests fallback mechanism.\n\n---\n\n## src/router/trie-router/router.test.ts\n\n- Purpose: Tests for TrieRouter including edge cases and wildcards.\n- Names noticed:\n- Simple note: Uses runTest from common.case.test; tests trie-based routing with static and dynamic routes.\n\n---\n\n## src/router/trie-router/node.test.ts\n\n- Purpose: Tests for TrieRouter Node class including insertion and search operations.\n- Names noticed:\n- Simple note: Tests Node insertion, search, and wildcard handling; verifies parameter extraction and route matching.\n\n---\n\n## Cross-File Checklist\n\n### pattern-router\n- src/router/pattern-router/index.ts\n- src/router/pattern-router/router.ts\n- src/router/pattern-router/router.test.ts\n\n### linear-router\n- src/router/linear-router/index.ts\n- src/router/linear-router/router.ts\n- src/router/linear-router/router.test.ts\n\n### reg-exp-router\n- src/router/reg-exp-router/index.ts\n- src/router/reg-exp-router/router.ts\n- src/router/reg-exp-router/matcher.ts\n- src/router/reg-exp-router/prepared-router.ts\n- src/router/reg-exp-router/node.ts\n- src/router/reg-exp-router/trie.ts\n- src/router/reg-exp-router/router.test.ts\n\n### smart-router\n- src/router/smart-router/index.ts\n- src/router/smart-router/router.ts\n- src/router/smart-router/router.test.ts\n\n### trie-router\n- src/router/trie-router/index.ts\n- src/router/trie-router/router.ts\n- src/router/trie-router/node.ts\n- src/router/trie-router/router.test.ts\n- src/router/trie-router/node.test.ts\n\n---\n\n## Verification Status\n\n- **Directory created**: bench-artifacts/ ✓\n- **File created**: bench-artifacts/routing-read-write-ledger.md ✓\n- **Files read**: 24 files as listed above ✓\n- **Output file verified**: bench-artifacts/routing-read-write-ledger.md exists and contains all required sections ✓\n\n---\n\n*Generated: 2026-07-21*\n*Benchmark task: routing-read-write-ledger*\n*Repository: https://github.com/honojs/hono.git*\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 160733,
+    "outputTokens": 10210,
+    "cacheReadTokens": 148052,
+    "cacheWriteTokens": 0,
+    "totalTokens": 318995,
+    "estimatedCostUsd": 1.1329410000000002,
+    "sessionIDs": [
+      "9c20df5d-1dc9-4cac-a8de-99a6bc069325"
+    ],
+    "answer": "\n\nThe file was created successfully. Here's the verification:\n\n**File Created:**\n- `bench-artifacts/routing-read-write-ledger.md` (7,918 bytes)\n\n**Only file in bench-artifacts directory:** ✓\n\n**Summary of work completed:**\n\n| Category | Files |\n|----------|-------|\n| Core Hono files | 2 (hono.ts, hono-base.ts) |\n| Pattern router | 3 (index.ts, router.ts, router.test.ts) |\n| Linear router | 3 (index.ts, router.ts, router.test.ts) |\n| RegExp router | 7 (index.ts, router.ts, matcher.ts, prepared-router.ts, node.ts, trie.ts, router.test.ts) |\n| Smart router | 3 (index.ts, router.ts, router.test.ts) |\n| Trie router | 5 (index.ts, router.ts, node.ts, router.test.ts, node.test.ts) |\n| Test utilities | 1 (common.case.test.ts) |\n| **Total** | **24 files** |\n\nThe document contains:\n- A title `# Routing Read/Write Ledger`\n- A section for each of the 24 listed files\n- Each file section has three bullets: Purpose, Names noticed, and Simple note\n- A \"Cross-File Checklist\" section with one bullet per router family including exact file paths\n- Verification status section confirming only `bench-artifacts/routing-read-write-ledger.md` was created",
+    "rawEventCount": 295,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [
+      "context-mode"
+    ],
+    "pluginErrors": [],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 160733,
+        "outputTokens": 10210,
+        "cacheReadInputTokens": 148052,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 1.1329410000000002,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

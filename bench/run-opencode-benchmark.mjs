@@ -33,12 +33,12 @@ const utilityTimeoutMs = intArg(args.utilityTimeoutMs, DEFAULT_UTILITY_TIMEOUT_M
 const dryRun = Boolean(args.dryRun)
 const prepareOnly = Boolean(args.prepareOnly)
 const runID = String(args.runId ?? timestampID())
-const resultsRoot = resolveResultsRoot(root, args.results, runID)
+const resultsRoot = resolveResultsRoot(root, args.results, join("opencode", runID))
 const workspaceRoot = resolve(String(args.workspace ?? join("/tmp", "tokenwarden-bench", runID)))
 
 const suite = await loadSuite(suiteID)
 const tasks = selectTasks(suite, taskIDs)
-const adapters = await loadAdapters(plugins)
+const adapters = await loadAdapters(plugins, "opencode")
 let providerConfig = await loadLocalProviderConfig()
 const interactive = !dryRun && !prepareOnly && process.stdin.isTTY && process.stdout.isTTY
 let model = await selectBenchmarkModel({ requestedModel: args.model, interactive, selectFromOpencodeModels: interactive ? selectOpencodeAvailableModel : undefined })
@@ -154,6 +154,7 @@ for (let run = 1; run <= runs; run += 1) {
       await writeFile(join(resultDir, "tokenwarden-report.txt"), tokenwarden.stdout ?? "", "utf8")
 
       const summary = {
+        platform: "opencode",
         runID,
         suite: suite.id,
         repo: taskRepo,
@@ -206,7 +207,7 @@ for (let run = 1; run <= runs; run += 1) {
 }
 
 await writeFile(join(resultsRoot, "summary.json"), `${JSON.stringify(summaries, null, 2)}\n`, "utf8")
-await writeFile(join(root, "bench", "results", "latest.json"), `${JSON.stringify({ runID, resultsRoot }, null, 2)}\n`, "utf8")
+await writeFile(join(root, "bench", "results", "latest-opencode.json"), `${JSON.stringify({ platform: "opencode", runID, resultsRoot }, null, 2)}\n`, "utf8")
 process.stdout.write(`results: ${resultsRoot}\n`)
 
 function summarizeCommand(result) {

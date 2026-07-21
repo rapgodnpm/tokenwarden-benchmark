@@ -56,14 +56,28 @@ test("CSV outputs include calculated cost and task averages", () => {
     summary("tokenwarden", "task-a", 1, { inputTokens: 500_000, outputTokens: 50_000, totalTokens: 550_000 })
   ])
 
+  assert.match(renderTokensCsv(rows), /^platform,plugin,task,run/)
   assert.match(renderTokensCsv(rows), /failed,timed_out,duration_ms,input_tokens/)
   assert.match(renderTokensCsv(rows), /input_cost_usd,output_cost_usd,calculated_cost_usd/)
   assert.doesNotMatch(renderTokensCsv(rows).split("\n")[0], /passed/)
   assert.match(renderTokensCsv(rows), /5\.00000000,2\.50000000,7\.50000000/)
+  assert.match(renderAveragesCsv(rows), /^platform,task,plugin,runs/)
   assert.match(renderAveragesCsv(rows), /failed_runs,timeout_count,median_duration_ms/)
   assert.match(renderAveragesCsv(rows), /average_input_cost_usd,average_output_cost_usd,median_calculated_cost_usd,average_calculated_cost_usd/)
   assert.doesNotMatch(renderAveragesCsv(rows).split("\n")[0], /pass_rate/)
   assert.match(renderAveragesCsv(rows), /task-a,tokenwarden,1,0,0,1000,500000\.00,50000\.00,0\.00,0\.00,550000\.00,550000\.00/)
+})
+
+test("baseline savings are isolated by platform", () => {
+  const rows = createReportRows([
+    { ...summary("baseline", "task-a", 1, { inputTokens: 100, outputTokens: 0, totalTokens: 100 }), platform: "opencode" },
+    { ...summary("plugin", "task-a", 1, { inputTokens: 50, outputTokens: 0, totalTokens: 50 }), platform: "opencode" },
+    { ...summary("baseline", "task-a", 1, { inputTokens: 200, outputTokens: 0, totalTokens: 200 }), platform: "claude-code" },
+    { ...summary("plugin", "task-a", 1, { inputTokens: 150, outputTokens: 0, totalTokens: 150 }), platform: "claude-code" }
+  ])
+
+  assert.equal(rows.find((row) => row.platform === "opencode" && row.plugin === "plugin").savedPercent, 50)
+  assert.equal(rows.find((row) => row.platform === "claude-code" && row.plugin === "plugin").savedPercent, 25)
 })
 
 function summary(plugin, task, run, usage) {
