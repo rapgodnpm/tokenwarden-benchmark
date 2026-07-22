@@ -39,6 +39,7 @@ const lmStudioBaseURL = String(args.lmstudioBaseUrl ?? process.env.LMSTUDIO_BASE
 const suite = await loadSuite(suiteID)
 const tasks = selectTasks(suite, taskIDs)
 const adapters = await loadAdapters(plugins, PLATFORM)
+const caseCount = runs * tasks.length * adapters.length
 const interactive = !dryRun && !prepareOnly && process.stdin.isTTY && process.stdout.isTTY
 const model = await selectBenchmarkModel({ requestedModel: args.model, interactive, platform: PLATFORM })
 
@@ -46,6 +47,8 @@ log(`mode=${prepareOnly ? "prepare" : dryRun ? "dry" : "run"} run=${runID} model
 log(`results=${resultsRoot}`)
 log(`workspace=${workspaceRoot}`)
 log(`plugins=${adapters.map((adapter) => adapter.id).join(",")} tasks=${tasks.map((task) => task.id).join(",")} runs=${runs} ai_timeout_ms=${aiTimeoutMs} verify_timeout_ms=${verifyTimeoutMs}`)
+if (prepareOnly) log(`preparing ${caseCount} workspaces; "prepare: ... ok" means setup completed and is not an AI request`)
+else if (!dryRun) log(`running ${caseCount} AI requests through LM Studio`)
 
 await rm(resultsRoot, { recursive: true, force: true })
 await mkdir(resultsRoot, { recursive: true })
@@ -218,7 +221,9 @@ for (let run = 1; run <= runs; run += 1) {
       summary.timedOut = commandTimedOut(summary)
       summaries.push(summary)
       await writeFile(join(resultDir, "summary.json"), `${JSON.stringify(summary, null, 2)}\n`, "utf8")
-      process.stdout.write(`${prepareOnly ? "prepare" : dryRun ? "dry" : "run"}: ${adapter.id} ${task.id} #${run}\n`)
+      const mode = prepareOnly ? "prepare" : dryRun ? "dry" : "run"
+      process.stdout.write(`${mode}: ${adapter.id} ${task.id} #${run} ${summary.failed ? `failed stage=${failureStage}` : "ok"}\n`)
+      if (summary.failed && failureMessage) process.stderr.write(`${failureMessage}\n`)
     }
   }
 }

@@ -19,7 +19,7 @@ x-runner: &runner
   environment:
     HOME: /tmp/home
     TOKENWARDEN_BENCH_IN_DOCKER: "1"
-    TOKENWARDEN_CLAUDE_PACKAGE: /opt/tokenwarden/claude-code
+    TOKENWARDEN_CLAUDE_PACKAGE: /opt/tokenwarden/packages/claude-code
     LMSTUDIO_BASE_URL: http://lmstudio-proxy:1234
   tmpfs:
     - /tmp:rw,exec,nosuid,nodev,size=8g
@@ -32,8 +32,20 @@ x-runner: &runner
       source: ${RESULTS_STAGE}
       target: /workspace/bench/results
     - type: bind
-      source: ${TOKENWARDEN_CLAUDE_PACKAGE}
-      target: /opt/tokenwarden/claude-code
+      source: ${TOKENWARDEN_CLAUDE_PACKAGE_HOST}
+      target: /opt/tokenwarden/packages/claude-code
+      read_only: true
+    - type: bind
+      source: ${TOKENWARDEN_CORE_PACKAGE_HOST}
+      target: /opt/tokenwarden/packages/core
+      read_only: true
+    - type: bind
+      source: ${TOKENWARDEN_MCP_PACKAGE_HOST}
+      target: /opt/tokenwarden/packages/mcp
+      read_only: true
+    - type: bind
+      source: ${TOKENWARDEN_NODE_MODULES_HOST}
+      target: /opt/tokenwarden/node_modules
       read_only: true
     - type: volume
       source: benchmark-work

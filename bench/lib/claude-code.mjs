@@ -136,13 +136,16 @@ export async function claudeCodeVersion(env, timeoutMs) {
 export async function lmStudioModelIDs(baseURL = DEFAULT_LMSTUDIO_BASE_URL, timeoutMs = 60_000) {
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), timeoutMs)
+  const endpoint = `${baseURL.replace(/\/$/, "")}/v1/models`
   try {
-    const response = await fetch(`${baseURL.replace(/\/$/, "")}/v1/models`, { signal: controller.signal })
-    if (!response.ok) return []
+    const response = await fetch(endpoint, { signal: controller.signal })
+    if (!response.ok) throw new Error(`HTTP ${response.status} ${response.statusText}`)
     const payload = await response.json()
-    return Array.isArray(payload?.data) ? payload.data.map((model) => model?.id).filter(Boolean) : []
-  } catch {
-    return []
+    if (!Array.isArray(payload?.data)) throw new Error("response did not contain a model list")
+    return payload.data.map((model) => model?.id).filter(Boolean)
+  } catch (error) {
+    const reason = error?.name === "AbortError" ? `timed out after ${timeoutMs}ms` : error?.message ?? String(error)
+    throw new Error(`LM Studio preflight failed at ${endpoint}: ${reason}`, { cause: error })
   } finally {
     clearTimeout(timer)
   }

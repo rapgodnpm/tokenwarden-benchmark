@@ -14,16 +14,43 @@ const invocation = `${Date.now()}-${process.pid}`
 const projectName = `tokenwarden-bench-${invocation}`
 const temporaryRoot = await mkdtemp(join(tmpdir(), "tokenwarden-benchmark-"))
 const resultsStage = join(temporaryRoot, "results")
-const emptyPlugin = join(temporaryRoot, "empty-tokenwarden-plugin")
-await Promise.all([mkdir(resultsStage, { recursive: true }), mkdir(emptyPlugin, { recursive: true })])
+const emptyTokenWardenRoot = join(temporaryRoot, "empty-tokenwarden-workspace")
+const emptyTokenWardenPaths = {
+  claudePackage: join(emptyTokenWardenRoot, "packages", "claude-code"),
+  corePackage: join(emptyTokenWardenRoot, "packages", "core"),
+  mcpPackage: join(emptyTokenWardenRoot, "packages", "mcp"),
+  nodeModules: join(emptyTokenWardenRoot, "node_modules")
+}
+await Promise.all([
+  mkdir(resultsStage, { recursive: true }),
+  ...Object.values(emptyTokenWardenPaths).map((path) => mkdir(path, { recursive: true }))
+])
 
 const localTokenWarden = resolve(process.env.TOKENWARDEN_CLAUDE_PACKAGE ?? join(root, "..", "token-optimizer", "packages", "claude-code"))
-const tokenWardenPackage = await exists(localTokenWarden) ? await realpath(localTokenWarden) : emptyPlugin
+const localTokenWardenRoot = resolve(process.env.TOKENWARDEN_WORKSPACE_ROOT ?? join(localTokenWarden, "..", ".."))
+const requestedTokenWardenPaths = {
+  claudePackage: localTokenWarden,
+  corePackage: join(localTokenWardenRoot, "packages", "core"),
+  mcpPackage: join(localTokenWardenRoot, "packages", "mcp"),
+  nodeModules: join(localTokenWardenRoot, "node_modules")
+}
+const tokenWardenPaths = {}
+const missingTokenWardenPaths = []
+for (const [name, path] of Object.entries(requestedTokenWardenPaths)) {
+  if (await exists(path)) tokenWardenPaths[name] = await realpath(path)
+  else {
+    tokenWardenPaths[name] = emptyTokenWardenPaths[name]
+    missingTokenWardenPaths.push(path)
+  }
+}
 const composeEnv = {
   ...process.env,
   PROJECT_ROOT: await realpath(root),
   RESULTS_STAGE: resultsStage,
-  TOKENWARDEN_CLAUDE_PACKAGE: tokenWardenPackage,
+  TOKENWARDEN_CLAUDE_PACKAGE_HOST: tokenWardenPaths.claudePackage,
+  TOKENWARDEN_CORE_PACKAGE_HOST: tokenWardenPaths.corePackage,
+  TOKENWARDEN_MCP_PACKAGE_HOST: tokenWardenPaths.mcpPackage,
+  TOKENWARDEN_NODE_MODULES_HOST: tokenWardenPaths.nodeModules,
   HOST_UID: String(process.getuid?.() ?? 1000),
   HOST_GID: String(process.getgid?.() ?? 1000),
   COMPOSE_PROJECT_NAME: projectName
@@ -48,11 +75,11 @@ try {
   if (command === "test") {
     exitCode = await composeRun("test", ["node", "--test", ...rawArgs], composeEnv)
   } else if (command === "opencode" || command === "claude-code") {
-    requireLocalPlugin(command, rawArgs, tokenWardenPackage, emptyPlugin)
+    requireLocalPlugin(command, rawArgs, missingTokenWardenPaths)
     exitCode = await runBenchmark(command, rawArgs, composeEnv)
   } else if (command === "opencode-prepare" || command === "claude-code-prepare") {
     const platform = command.replace(/-prepare$/, "")
-    requireLocalPlugin(platform, rawArgs, tokenWardenPackage, emptyPlugin)
+    requireLocalPlugin(platform, rawArgs, missingTokenWardenPaths)
     exitCode = await runSingle(platform, [...benchmarkArgs(rawArgs), "--prepare-only", "--workspace", "/work"], "prepare", composeEnv)
     await persistDockerResults({ stage: resultsStage, destination: resultsRoot, repoRoot: root, id: invocation, platform })
   } else if (command === "opencode-dry" || command === "claude-code-dry") {
@@ -83,8 +110,18 @@ process.exitCode = receivedSignal === "SIGINT" ? 130 : receivedSignal === "SIGTE
 
 async function runBenchmark(platform, args, env) {
   const selectedArgs = benchmarkArgs(args)
-  let code = await runSingle(platform, [...selectedArgs, "--prepare-only", "--workspace", "/work"], "prepare", env)
+  process.stdout.write(`phase: checking Docker-to-LM-Studio connectivity and model availability\n`)
+  let code = await composeRun("benchmark", ["node", "bench/check-lmstudio.mjs", "--platform", platform, "--model", optionValue(selectedArgs, "model")], env)
   if (code !== 0) {
+    await compose(["logs", "--no-color", "lmstudio-proxy"], env, { allowFailure: true })
+    process.stderr.write(`LM Studio preflight failed with exit code ${code}; preparation and model execution were not started\n`)
+    return code
+  }
+  await compose(["rm", "--force", "--stop", "lmstudio-proxy"], env)
+  process.stdout.write(`phase: preparing ${platform} workspaces; LM Studio is not used during this phase\n`)
+  code = await runSingle(platform, [...selectedArgs, "--prepare-only", "--workspace", "/work"], "prepare", env)
+  if (code !== 0) {
+    process.stderr.write(`preparation failed with exit code ${code}; the LM Studio proxy was not restarted and the model benchmark was not started\n`)
     await persistDockerResults({ stage: resultsStage, destination: resultsRoot, repoRoot: root, id: invocation, platform })
     env.RESULTS_STAGE = resultsRoot
     await composeRun("report", ["node", "bench/report.mjs", "--platform", platform, "--no-open"], env)
@@ -92,6 +129,7 @@ async function runBenchmark(platform, args, env) {
   }
   await rm(resultsStage, { recursive: true, force: true })
   await mkdir(resultsStage, { recursive: true })
+  process.stdout.write(`phase: running ${platform} model benchmark through LM Studio\n`)
   code = await runSingle(platform, [...selectedArgs, "--reuse-prepared", "--workspace", "/work"], "benchmark", env)
   await persistDockerResults({ stage: resultsStage, destination: resultsRoot, repoRoot: root, id: invocation, platform })
   env.RESULTS_STAGE = resultsRoot
@@ -129,9 +167,15 @@ async function runSingle(platform, args, service, env) {
   return composeRun(service, ["node", script, ...args], env)
 }
 
-function requireLocalPlugin(platform, args, pluginPath, emptyPath) {
+function requireLocalPlugin(platform, args, missingPaths) {
   if (platform !== "claude-code" || !selectedPlugins(args).includes("tokenwarden")) return
-  if (pluginPath === emptyPath) throw new Error("TokenWarden Claude package not found. Set TOKENWARDEN_CLAUDE_PACKAGE to its built package directory.")
+  if (missingPaths.length) {
+    throw new Error([
+      "TokenWarden Claude package workspace is incomplete.",
+      ...missingPaths.map((path) => `Missing: ${path}`),
+      "Set TOKENWARDEN_CLAUDE_PACKAGE to packages/claude-code and TOKENWARDEN_WORKSPACE_ROOT to its npm workspace root."
+    ].join("\n"))
+  }
 }
 
 function selectedPlugins(args) {

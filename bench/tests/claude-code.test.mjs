@@ -1,6 +1,7 @@
+import { createServer } from "node:http"
 import test from "node:test"
 import assert from "node:assert/strict"
-import { createClaudeCodeEnv, createClaudeCodeSettings, createTokenWardenMcpConfig, formatAiRequestFailure, formatLmStudioPreflightFailure, parseClaudeCodeJsonLines } from "../lib/claude-code.mjs"
+import { createClaudeCodeEnv, createClaudeCodeSettings, createTokenWardenMcpConfig, formatAiRequestFailure, formatLmStudioPreflightFailure, lmStudioModelIDs, parseClaudeCodeJsonLines } from "../lib/claude-code.mjs"
 
 test("Claude Code JSONL parser captures usage, answer, session, and plugins", () => {
   const output = [
@@ -116,4 +117,22 @@ test("Claude Code failures and LM Studio preflight errors are actionable", () =>
   assert.match(message, /exit=1/)
   assert.match(message, /model not found/)
   assert.match(formatLmStudioPreflightFailure("qwen\/qwen3.5-9b"), /Start the LM Studio local server/)
+})
+
+test("LM Studio preflight returns models and preserves HTTP failures", async (t) => {
+  let status = 200
+  const server = createServer((_request, response) => {
+    response.writeHead(status, { "content-type": "application/json" })
+    response.end(status === 200
+      ? JSON.stringify({ data: [{ id: "qwen/qwen3.5-9b" }] })
+      : JSON.stringify({ error: "unavailable" }))
+  })
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve))
+  t.after(() => new Promise((resolve) => server.close(resolve)))
+  const address = server.address()
+  const baseURL = `http://127.0.0.1:${address.port}`
+
+  assert.deepEqual(await lmStudioModelIDs(baseURL), ["qwen/qwen3.5-9b"])
+  status = 503
+  await assert.rejects(() => lmStudioModelIDs(baseURL), /HTTP 503 Service Unavailable/)
 })
