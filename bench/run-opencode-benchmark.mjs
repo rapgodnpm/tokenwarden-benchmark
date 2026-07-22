@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { access, mkdir, readFile, rm, writeFile } from "node:fs/promises"
-import { join, resolve } from "node:path"
+import { join, relative, resolve } from "node:path"
 import { parseArgs, csv, intArg } from "./lib/args.mjs"
 import { loadAdapters } from "./lib/adapters.mjs"
 import { DEFAULT_AI_TIMEOUT_MS, DEFAULT_BENCHMARK_RUNS, DEFAULT_CLONE_TIMEOUT_MS, DEFAULT_INSTALL_TIMEOUT_MS, DEFAULT_SETUP_TIMEOUT_MS, DEFAULT_UTILITY_TIMEOUT_MS, DEFAULT_VERIFY_TIMEOUT_MS, configuredProviderModelIDs, loadLocalProviderConfig, providerPackages, writeOpenCodeConfig } from "./lib/config.mjs"
@@ -9,9 +9,12 @@ import { installAdapterDependencies, installProviderDependencies } from "./lib/i
 import { BENCHMARK_MODELS, benchmarkModelAliases, selectBenchmarkModel } from "./lib/models.mjs"
 import { exportSession, formatModelPreflightFailure, formatOpenRouterAuthFailure, hasOpencodeModel, hasOpenRouterAuth, opencodeAuthList, opencodeModelIDs, opencodeModels, opencodeStats, opencodeVersion, providerIDFromModel, runOpencodeTask, tokenWardenReport } from "./lib/opencode.mjs"
 import { DEFAULT_BENCHMARK_SUITE } from "./lib/runner-options.mjs"
+import { assertDockerRuntime } from "./lib/runtime.mjs"
 import { loadSuite, renderPrompt, selectTasks } from "./lib/tasks.mjs"
 import { runVerifyCommands } from "./lib/verify.mjs"
-import { createRunWorkspace, inheritOpencodeAuth, repoRoot, resolveResultsRoot, timestampID, workspaceEnv } from "./lib/workspace.mjs"
+import { createRunWorkspace, inheritOpencodeAuth, readPreparedState, repoRoot, resolveResultsRoot, timestampID, workspaceEnv, writePreparedState } from "./lib/workspace.mjs"
+
+assertDockerRuntime()
 
 const args = parseArgs(process.argv.slice(2))
 if (args._[0] === "report") {
@@ -32,6 +35,7 @@ const verifyTimeoutMs = intArg(args.verifyTimeoutMs, DEFAULT_VERIFY_TIMEOUT_MS)
 const utilityTimeoutMs = intArg(args.utilityTimeoutMs, DEFAULT_UTILITY_TIMEOUT_MS)
 const dryRun = Boolean(args.dryRun)
 const prepareOnly = Boolean(args.prepareOnly)
+const reusePrepared = Boolean(args.reusePrepared)
 const runID = String(args.runId ?? timestampID())
 const resultsRoot = resolveResultsRoot(root, args.results, join("opencode", runID))
 const workspaceRoot = resolve(String(args.workspace ?? join("/tmp", "tokenwarden-bench", runID)))
@@ -60,7 +64,7 @@ for (let run = 1; run <= runs; run += 1) {
   for (const task of tasks) {
     for (const adapter of adapters) {
       log(`start adapter=${adapter.id} task=${task.id} run=${run}`)
-      const workspace = await createRunWorkspace(workspaceRoot, { plugin: adapter.id, task: task.id, run })
+      const workspace = await createRunWorkspace(workspaceRoot, { plugin: adapter.id, task: task.id, run, reuse: reusePrepared })
       const env = workspaceEnv(workspace)
 
       if (!dryRun && !prepareOnly) {
@@ -95,14 +99,20 @@ for (let run = 1; run <= runs; run += 1) {
 
       try {
         failureStage = "install"
-        const providerInstallActions = await installProviderDependencies(workspace, providerPackages(providerConfig, providerIDFromModel(model)), { dryRun: dryRun && !prepareOnly, env, timeoutMs: installTimeoutMs })
-        installActions = [...providerInstallActions, ...await installAdapterDependencies(adapter, workspace, { dryRun: dryRun && !prepareOnly, env, repoRoot: root, timeoutMs: installTimeoutMs, utilityTimeoutMs })]
+        const providerInstallActions = await installProviderDependencies(workspace, providerPackages(providerConfig, providerIDFromModel(model)), { dryRun: reusePrepared || (dryRun && !prepareOnly), env, timeoutMs: installTimeoutMs })
+        installActions = [...providerInstallActions, ...await installAdapterDependencies(adapter, workspace, { dryRun: reusePrepared || (dryRun && !prepareOnly), env, repoRoot: root, timeoutMs: installTimeoutMs, utilityTimeoutMs })]
+        if (reusePrepared) {
+          const prepared = await readPreparedState(workspace)
+          cloneResult = prepared.clone
+          setupResults = prepared.setup
+          actualCommit = await currentCommit(workspace.repo, env)
+        }
         if (!dryRun || prepareOnly) {
           opencodeVersionResult = await opencodeVersion(env, utilityTimeoutMs)
           adapterPackageVersions = await installedPackageVersions(adapter.npmPackages ?? [], workspace.configDir)
         }
 
-        if (!dryRun || prepareOnly) {
+        if ((!dryRun || prepareOnly) && !reusePrepared) {
           failureStage = "clone"
           log(`clone adapter=${adapter.id} task=${task.id} run=${run} timeout_ms=${cloneTimeoutMs}`)
           cloneResult = await cloneRepo(taskRepo, workspace.repo, { branch: task.defaultBranch, commit: task.commit, env, timeoutMs: cloneTimeoutMs })
@@ -113,6 +123,7 @@ for (let run = 1; run <= runs; run += 1) {
           log(`setup adapter=${adapter.id} task=${task.id} run=${run} timeout_ms=${setupTimeoutMs}`)
           setupResults = await runSetupCommands(task.setup, workspace.repo, env, { fixturesDir: join(root, "bench", "fixtures") }, { timeoutMs: setupTimeoutMs })
           if (setupResults.some((result) => result.code !== 0)) throw new Error(commandFailureMessage(`setup failed for ${task.id}`, setupResults.find((result) => result.code !== 0)))
+          await writePreparedState(workspace, { clone: cloneResult, setup: setupResults, commit: actualCommit })
         }
 
         if (!dryRun && !prepareOnly) {
@@ -141,6 +152,10 @@ for (let run = 1; run <= runs; run += 1) {
         failureMessage = error?.stack ?? error?.message ?? String(error)
       } finally {
         permissionPrompts = await collectPermissionPrompts(workspace.data)
+        if (permissionPrompts.length && !failureMessage) {
+          failureStage = "permissions"
+          failureMessage = `OpenCode requested denied permissions: ${permissionPrompts.join(" | ")}`
+        }
       }
 
       await writeFile(join(resultDir, "opencode.config.json"), `${JSON.stringify(config, null, 2)}\n`, "utf8")
@@ -166,6 +181,7 @@ for (let run = 1; run <= runs; run += 1) {
         run,
         dryRun,
         prepareOnly,
+        reusePrepared,
         model,
         resultDir,
         promptPath: join(resultDir, "prompt.md"),
@@ -207,8 +223,9 @@ for (let run = 1; run <= runs; run += 1) {
 }
 
 await writeFile(join(resultsRoot, "summary.json"), `${JSON.stringify(summaries, null, 2)}\n`, "utf8")
-await writeFile(join(root, "bench", "results", "latest-opencode.json"), `${JSON.stringify({ platform: "opencode", runID, resultsRoot }, null, 2)}\n`, "utf8")
+await writeFile(join(root, "bench", "results", "latest-opencode.json"), `${JSON.stringify({ platform: "opencode", runID, resultsRoot: relative(root, resultsRoot) }, null, 2)}\n`, "utf8")
 process.stdout.write(`results: ${resultsRoot}\n`)
+if (summaries.some((summary) => summary.failed)) process.exitCode = 1
 
 function summarizeCommand(result) {
   if (!result) return undefined
@@ -264,7 +281,7 @@ async function collectPermissionPrompts(dataDir) {
     const log = await readFile(join(dataDir, "opencode", "log", "opencode.log"), "utf8")
     return log
       .split(/\r?\n/)
-      .filter((line) => /message=asking|permission=external_directory|permission=question|permission=task/.test(line))
+      .filter((line) => /message=asking|status=denied|decision=deny/.test(line))
       .slice(-20)
   } catch (error) {
     if (error?.code === "ENOENT") return []
@@ -411,7 +428,10 @@ function ensureSelectedProviderModel(modelID) {
 }
 
 function defaultProvider(providerID) {
-  if (providerID === "lmstudio") return { npm: "@ai-sdk/openai-compatible", name: "LM Studio", options: { baseURL: "http://localhost:1234/v1" } }
+  if (providerID === "lmstudio") {
+    const baseURL = (process.env.LMSTUDIO_BASE_URL ?? "http://localhost:1234").replace(/\/$/, "")
+    return { npm: "@ai-sdk/openai-compatible", name: "LM Studio", options: { baseURL: `${baseURL}/v1` } }
+  }
   return { models: {} }
 }
 

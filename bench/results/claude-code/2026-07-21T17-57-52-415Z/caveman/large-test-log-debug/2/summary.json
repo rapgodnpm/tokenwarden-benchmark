@@ -1,0 +1,171 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-21T17-57-52-415Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "caveman",
+  "pluginLabel": "Caveman",
+  "pluginMechanism": "output-style compression",
+  "pluginVersion": "v1.9.1",
+  "task": "large-test-log-debug",
+  "run": 2,
+  "dryRun": false,
+  "prepareOnly": false,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://localhost:1234",
+  "resultDir": "/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/results/claude-code/2026-07-21T17-57-52-415Z/caveman/large-test-log-debug/2",
+  "promptPath": "/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/results/claude-code/2026-07-21T17-57-52-415Z/caveman/large-test-log-debug/2/prompt.md",
+  "workspace": "/tmp/tokenwarden-bench/claude-code/2026-07-21T17-57-52-415Z/caveman-large-test-log-debug-2",
+  "durationMs": 45345,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [
+    "/tmp/tokenwarden-bench/claude-code/2026-07-21T17-57-52-415Z/caveman-large-test-log-debug-2/claude-plugins/caveman"
+  ],
+  "installActions": [
+    {
+      "type": "git-plugin",
+      "repo": "https://github.com/JuliusBrussee/caveman.git",
+      "ref": "v1.9.1"
+    }
+  ],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 63,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/fixtures'/future/create-fixture.mjs large-test-log-debug",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 24,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 45,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: large-test-log-debug\nRepository: https://github.com/honojs/hono.git\n\nDiagnose and fix the minimal root cause for the noisy failing test suite under bench-targets/large-log. Read bench-targets/large-log/src/math.mjs and bench-targets/large-log/math.test.mjs. The failing log is intentionally repetitive; do not rewrite the tests. Verify with node --test bench-targets/large-log/math.test.mjs.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/tmp/tokenwarden-bench/claude-code/2026-07-21T17-57-52-415Z/caveman-large-test-log-debug-2/home/.claude/settings.json",
+      "--disallowedTools",
+      "mcp__*",
+      "--plugin-dir",
+      "/tmp/tokenwarden-bench/claude-code/2026-07-21T17-57-52-415Z/caveman-large-test-log-debug-2/claude-plugins/caveman"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 42122,
+    "stdoutBytes": 59587,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "node --test bench-targets/large-log/math.test.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 84,
+        "stdoutBytes": 7585,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "skipped": true,
+    "reason": "adapter does not use TokenWarden",
+    "stdout": "",
+    "stderr": ""
+  },
+  "changedFiles": [
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-targets/large-log/src/math.mjs",
+      "content": "export function add(a, b) {\n  return a + b\n}\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 39068,
+    "outputTokens": 763,
+    "cacheReadTokens": 34297,
+    "cacheWriteTokens": 0,
+    "totalTokens": 74128,
+    "estimatedCostUsd": 0.23156349999999998,
+    "sessionIDs": [
+      "27d74c8b-2dcc-48d6-b6b7-8ac76f1d2e29"
+    ],
+    "answer": "\n\nRoot cause: `bench-targets/large-log/src/math.mjs:2` returned `a - b` instead of `a + b`.\n\nFixed line 2: `return a - b` → `return a + b`.\n\nVerification: `node --test bench-targets/large-log/math.test.mjs` — all 80 tests pass.",
+    "rawEventCount": 191,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [
+      "caveman"
+    ],
+    "pluginErrors": [],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 39068,
+        "outputTokens": 763,
+        "cacheReadInputTokens": 34297,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.23156349999999998,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

@@ -1,14 +1,16 @@
 # Claude Code benchmark
 
-The Claude Code benchmark uses the same task prompts, fixtures, repositories, and automated checks as the OpenCode benchmark. Claude Code runs in an isolated home and configuration directory so user plugins, MCP servers, credentials, and settings do not affect results.
+The Claude Code benchmark uses the same task prompts, fixtures, repositories, and automated checks as the OpenCode benchmark. Claude Code runs in Docker with an isolated home, configuration directory, workspace volume, and network so user plugins, MCP servers, credentials, settings, and host files do not affect results.
 
 ## Requirements
 
-- Node.js 22.5 or later. Context Mode requires it.
-- Claude Code 2.1.139 or later. TokenWarden requires it.
+- Docker Desktop.
+- Node.js on the host for the Docker launcher.
 - LM Studio with the local server enabled.
 - `qwen/qwen3.5-9b` loaded in LM Studio.
 - A local TokenWarden checkout with a built `@tokenwarden/claude-code` package.
+
+The image pins Node.js 22.16.0 on Debian Trixie and Claude Code 2.1.212. Trixie provides the glibc version required by RTK's Linux ARM64 build. Host Claude Code and OpenCode installations are not mounted.
 
 By default, the runner expects the TokenWarden checkout at `../token-optimizer/packages/claude-code` relative to this repository. Override it when needed:
 
@@ -24,10 +26,10 @@ npm run build -w @tokenwarden/claude-code
 
 ## LM Studio
 
-Start the LM Studio server on port 1234 and load `qwen/qwen3.5-9b`. The runner uses:
+Start the LM Studio server on port 1234, enable access from Docker Desktop, and load `qwen/qwen3.5-9b`. Inside the benchmark network the runner uses:
 
 ```sh
-ANTHROPIC_BASE_URL=http://localhost:1234
+ANTHROPIC_BASE_URL=http://lmstudio-proxy:1234
 ANTHROPIC_AUTH_TOKEN=lmstudio
 ```
 
@@ -38,7 +40,7 @@ lms server start --port 1234
 lms load qwen/qwen3.5-9b --identifier qwen/qwen3.5-9b --context-length 128000 --yes
 ```
 
-If LM Studio requires authentication, export `LM_API_TOKEN`. Use `LMSTUDIO_BASE_URL` or `--lmstudio-base-url` for a different server URL.
+The Docker benchmark intentionally does not forward cloud or host credentials. The proxy has one fixed upstream, `host.docker.internal:1234`, and model containers have no general internet route.
 
 The runner checks `GET /v1/models` before making model calls and stops when the requested model is unavailable.
 
@@ -67,9 +69,13 @@ Only one configuration is enabled per run. The baseline therefore remains attrib
 
 ## Isolation
 
-Claude Code receives `Bash`, `Read`, `Edit`, `Write`, `Glob`, and `Grep`. It cannot use browser, subagent, or user-question tools. MCP tools are available only for adapters that require them.
+Claude Code receives `Bash`, `Read`, `Edit`, `Write`, `Glob`, and `Grep`. Permission prompts are bypassed for those tools. MCP tools are available only for adapters that require them, and a run fails if an expected MCP server is disconnected, expected tools are absent, a plugin fails to load, or Claude reports a permission denial.
 
 The runner disables nonessential Claude Code traffic, removes inherited `ANTHROPIC_API_KEY`, and uses an isolated `CLAUDE_CONFIG_DIR`. Context Mode and Caveman load with session-local `--plugin-dir` arguments. TokenWarden uses its user installer plus an explicit MCP configuration inside the disposable home, and RTK writes its hook into the same isolated configuration.
+
+Preparation runs with network access so npm packages, Git repositories, and adapter binaries can be installed into a disposable volume. Model execution reuses that prepared volume on an internal network connected only to the LM Studio proxy. The source repository and local TokenWarden package are mounted read-only. Existing benchmark results, the host home directory, SSH files, and Docker socket are not mounted.
+
+The container writes into an empty host staging directory mounted at `bench/results`. The launcher rejects symbolic links and unsafe result paths, then moves completed artifacts into the real host `bench/results/` directory. Generated files therefore have host ownership and can be committed normally.
 
 Results include Claude Code JSONL, final answer, verification output, normalized usage, cache tokens, plugin errors, plugin version, and local TokenWarden report when applicable.
 

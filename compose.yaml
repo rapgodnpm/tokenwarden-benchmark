@@ -1,0 +1,119 @@
+name: tokenwarden-benchmark
+
+x-runner: &runner
+  image: tokenwarden-benchmark:local
+  build:
+    context: .
+    args:
+      CLAUDE_CODE_VERSION: ${CLAUDE_CODE_VERSION:-2.1.212}
+      OPENCODE_VERSION: ${OPENCODE_VERSION:-1.18.4}
+  working_dir: /workspace
+  user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+  read_only: true
+  cap_drop:
+    - ALL
+  security_opt:
+    - no-new-privileges:true
+  pids_limit: 1024
+  init: true
+  environment:
+    HOME: /tmp/home
+    TOKENWARDEN_BENCH_IN_DOCKER: "1"
+    TOKENWARDEN_CLAUDE_PACKAGE: /opt/tokenwarden/claude-code
+    LMSTUDIO_BASE_URL: http://lmstudio-proxy:1234
+  tmpfs:
+    - /tmp:rw,exec,nosuid,nodev,size=8g
+  volumes:
+    - type: bind
+      source: ${PROJECT_ROOT}
+      target: /workspace
+      read_only: true
+    - type: bind
+      source: ${RESULTS_STAGE}
+      target: /workspace/bench/results
+    - type: bind
+      source: ${TOKENWARDEN_CLAUDE_PACKAGE}
+      target: /opt/tokenwarden/claude-code
+      read_only: true
+    - type: volume
+      source: benchmark-work
+      target: /work
+
+services:
+  workspace-init:
+    image: tokenwarden-benchmark:local
+    command: ["chown", "-R", "${HOST_UID:-1000}:${HOST_GID:-1000}", "/work"]
+    user: "0:0"
+    read_only: true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+    security_opt:
+      - no-new-privileges:true
+    network_mode: none
+    volumes:
+      - type: volume
+        source: benchmark-work
+        target: /work
+
+  test:
+    <<: *runner
+    network_mode: none
+
+  prepare:
+    <<: *runner
+    networks:
+      - egress
+
+  benchmark:
+    <<: *runner
+    depends_on:
+      lmstudio-proxy:
+        condition: service_healthy
+    networks:
+      - benchmark
+
+  report:
+    <<: *runner
+    network_mode: none
+
+  lmstudio-proxy:
+    image: tokenwarden-benchmark:local
+    build:
+      context: .
+      args:
+        CLAUDE_CODE_VERSION: ${CLAUDE_CODE_VERSION:-2.1.212}
+        OPENCODE_VERSION: ${OPENCODE_VERSION:-1.18.4}
+    command: ["node", "/opt/tokenwarden-benchmark/lmstudio-proxy.mjs"]
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 64
+    init: true
+    environment:
+      UPSTREAM_HOST: host.docker.internal
+      UPSTREAM_PORT: "1234"
+      LISTEN_PORT: "1234"
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:1234/v1/models').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    networks:
+      - egress
+      - benchmark
+
+volumes:
+  benchmark-work:
+
+networks:
+  egress:
+  benchmark:
+    internal: true

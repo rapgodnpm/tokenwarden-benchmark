@@ -13,6 +13,7 @@ export const DEFAULT_VERIFY_TIMEOUT_MS = 120_000
 export const DEFAULT_UTILITY_TIMEOUT_MS = 60_000
 
 export const BENCHMARK_PERMISSION = {
+  "*": "allow",
   read: "allow",
   edit: "allow",
   glob: "allow",
@@ -22,7 +23,7 @@ export const BENCHMARK_PERMISSION = {
   todowrite: "allow",
   question: "deny",
   task: "deny",
-  external_directory: "deny",
+  external_directory: "allow",
   webfetch: "deny",
   websearch: "deny",
   plan_enter: "deny",

@@ -1,0 +1,190 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-21T17-57-52-415Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "tokenwarden",
+  "pluginLabel": "TokenWarden",
+  "pluginMechanism": "context and successful tool-output reduction",
+  "pluginVersion": "1.2.0",
+  "task": "feature-add-small",
+  "run": 2,
+  "dryRun": false,
+  "prepareOnly": false,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://localhost:1234",
+  "resultDir": "/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/results/claude-code/2026-07-21T17-57-52-415Z/tokenwarden/feature-add-small/2",
+  "promptPath": "/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/results/claude-code/2026-07-21T17-57-52-415Z/tokenwarden/feature-add-small/2/prompt.md",
+  "workspace": "/tmp/tokenwarden-bench/claude-code/2026-07-21T17-57-52-415Z/tokenwarden-feature-add-small-2",
+  "durationMs": 38765,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [
+    "/Users/paulvasile/work-srl/token-optimizer/packages/claude-code"
+  ],
+  "installActions": [
+    {
+      "type": "local-plugin",
+      "package": "@tokenwarden/claude-code",
+      "path": "/Users/paulvasile/work-srl/token-optimizer/packages/claude-code"
+    }
+  ],
+  "tokenwardenInstall": {
+    "command": "node",
+    "args": [
+      "/Users/paulvasile/work-srl/token-optimizer/packages/claude-code/dist/src/cli.js",
+      "install",
+      "--user"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 41,
+    "stdoutBytes": 201,
+    "stderrBytes": 0
+  },
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 68,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/fixtures'/future/create-fixture.mjs feature-add-small",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 24,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 44,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: feature-add-small\nRepository: https://github.com/honojs/hono.git\n\nAdd title-case support to bench-targets/feature/src/formatTitle.mjs using the existing mode-based pattern. Read bench-targets/feature/src/formatTitle.mjs and bench-targets/feature/formatTitle.test.mjs first. Do not add dependencies. Verify with node --test bench-targets/feature/formatTitle.test.mjs.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/tmp/tokenwarden-bench/claude-code/2026-07-21T17-57-52-415Z/tokenwarden-feature-add-small-2/home/.claude/settings.json",
+      "--mcp-config",
+      "/tmp/tokenwarden-bench/claude-code/2026-07-21T17-57-52-415Z/tokenwarden-feature-add-small-2/tokenwarden.mcp.json"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 36914,
+    "stdoutBytes": 36878,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "node --test bench-targets/feature/formatTitle.test.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 57,
+        "stdoutBytes": 261,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "command": "node",
+    "args": [
+      "/Users/paulvasile/work-srl/token-optimizer/packages/claude-code/dist/src/cli.js",
+      "report",
+      "--session",
+      "c6de87cb-4d8a-4ded-9f5c-20972b3ae59b"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 45,
+    "stdoutBytes": 264,
+    "stderrBytes": 0
+  },
+  "changedFiles": [
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-targets/feature/src/formatTitle.mjs",
+      "content": "export function formatTitle(value, mode = 'plain') {\n  if (mode === 'upper') return value.toUpperCase()\n  if (mode === 'lower') return value.toLowerCase()\n  if (mode === 'title') {\n    return value\n      .split(' ')\n      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())\n      .join(' ')\n  }\n  return value\n}\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 22693,
+    "outputTokens": 688,
+    "cacheReadTokens": 18753,
+    "cacheWriteTokens": 0,
+    "totalTokens": 42134,
+    "estimatedCostUsd": 0.14004149999999999,
+    "sessionIDs": [
+      "c6de87cb-4d8a-4ded-9f5c-20972b3ae59b"
+    ],
+    "answer": "\n\nAll tests pass. Here's the summary:\n\n**File modified:** `bench-targets/feature/src/formatTitle.mjs`\n\n**Change:** Added `title` mode support using a space-split approach that capitalizes the first letter of each word and lowercases the rest.\n\n**Verification:** `node --test bench-targets/feature/formatTitle.test.mjs` — **1 test passed**",
+    "rawEventCount": 127,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [],
+    "pluginErrors": [],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 22693,
+        "outputTokens": 688,
+        "cacheReadInputTokens": 18753,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.14004149999999999,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

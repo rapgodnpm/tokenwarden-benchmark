@@ -27,6 +27,20 @@ test("local TokenWarden adapter resolves a built local plugin without installing
     assert.deepEqual(result.pluginDirs, [pluginDir])
     assert.equal(result.version, "1.2.0")
     assert.equal(result.actions[0].type, "local-plugin")
+
+    const reused = await installClaudeCodeAdapter({
+      id: "tokenwarden",
+      integration: "local-plugin",
+      packageName: "@tokenwarden/claude-code",
+      pathEnv: "TOKENWARDEN_CLAUDE_PACKAGE",
+      defaultPath: "../token-optimizer/packages/claude-code"
+    }, {}, {
+      dryRun: true,
+      reusePrepared: true,
+      env: { TOKENWARDEN_CLAUDE_PACKAGE: pluginDir },
+      repoRoot: root
+    })
+    assert.equal(reused.version, "1.2.0")
   } finally {
     await rm(root, { recursive: true, force: true })
   }

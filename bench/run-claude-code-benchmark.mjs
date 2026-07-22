@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { access, mkdir, readFile, rm, writeFile } from "node:fs/promises"
-import { join, resolve } from "node:path"
+import { join, relative, resolve } from "node:path"
 import { parseArgs, csv, intArg } from "./lib/args.mjs"
 import { loadAdapters } from "./lib/adapters.mjs"
 import { createClaudeCodeEnv, createClaudeCodeSettings, createTokenWardenMcpConfig, claudeCodeVersion, formatLmStudioPreflightFailure, installTokenWardenClaude, lmStudioModelIDs, runClaudeCodeTask, tokenWardenClaudeReport } from "./lib/claude-code.mjs"
@@ -9,11 +9,13 @@ import { DEFAULT_AI_TIMEOUT_MS, DEFAULT_BENCHMARK_RUNS, DEFAULT_CLONE_TIMEOUT_MS
 import { changedFiles, cloneRepo, currentCommit, runSetupCommands } from "./lib/git.mjs"
 import { selectBenchmarkModel } from "./lib/models.mjs"
 import { DEFAULT_BENCHMARK_SUITE } from "./lib/runner-options.mjs"
+import { assertDockerRuntime } from "./lib/runtime.mjs"
 import { loadSuite, renderPrompt, selectTasks } from "./lib/tasks.mjs"
 import { runVerifyCommands } from "./lib/verify.mjs"
-import { createRunWorkspace, repoRoot, resolveResultsRoot, timestampID, workspaceEnv, writeJson } from "./lib/workspace.mjs"
+import { createRunWorkspace, readPreparedState, repoRoot, resolveResultsRoot, timestampID, workspaceEnv, writeJson, writePreparedState } from "./lib/workspace.mjs"
 
 const PLATFORM = "claude-code"
+assertDockerRuntime()
 const args = parseArgs(process.argv.slice(2))
 const root = repoRoot()
 const suiteID = String(args.suite ?? DEFAULT_BENCHMARK_SUITE)
@@ -28,6 +30,7 @@ const verifyTimeoutMs = intArg(args.verifyTimeoutMs, DEFAULT_VERIFY_TIMEOUT_MS)
 const utilityTimeoutMs = intArg(args.utilityTimeoutMs, DEFAULT_UTILITY_TIMEOUT_MS)
 const dryRun = Boolean(args.dryRun)
 const prepareOnly = Boolean(args.prepareOnly)
+const reusePrepared = Boolean(args.reusePrepared)
 const runID = String(args.runId ?? timestampID())
 const resultsRoot = resolveResultsRoot(root, args.results, join(PLATFORM, runID))
 const workspaceRoot = resolve(String(args.workspace ?? join("/tmp", "tokenwarden-bench", PLATFORM, runID)))
@@ -58,12 +61,12 @@ for (let run = 1; run <= runs; run += 1) {
   for (const task of tasks) {
     for (const adapter of adapters) {
       log(`start adapter=${adapter.id} task=${task.id} run=${run}`)
-      const workspace = await createRunWorkspace(workspaceRoot, { plugin: adapter.id, task: task.id, run })
+      const workspace = await createRunWorkspace(workspaceRoot, { plugin: adapter.id, task: task.id, run, reuse: reusePrepared })
       const baseEnv = workspaceEnv(workspace)
       const env = createClaudeCodeEnv(workspace, baseEnv, { baseURL: lmStudioBaseURL })
       const resultDir = join(resultsRoot, adapter.id, task.id, String(run))
       await mkdir(resultDir, { recursive: true })
-      await writeJson(workspace.claudeSettingsPath, createClaudeCodeSettings())
+      if (!reusePrepared) await writeJson(workspace.claudeSettingsPath, createClaudeCodeSettings())
 
       const taskRepo = String(args.repo ?? task.repo ?? suite.repo)
       const prompt = renderPrompt(task, { repo: taskRepo })
@@ -85,14 +88,22 @@ for (let run = 1; run <= runs; run += 1) {
       try {
         failureStage = "install"
         install = await installClaudeCodeAdapter(adapter, workspace, {
-          dryRun: dryRun && !prepareOnly,
+          dryRun: reusePrepared || (dryRun && !prepareOnly),
+          reusePrepared,
           env,
           repoRoot: root,
           timeoutMs: installTimeoutMs,
           utilityTimeoutMs
         })
+        if (reusePrepared) {
+          const prepared = await readPreparedState(workspace)
+          cloneResult = prepared.clone
+          setupResults = prepared.setup
+          actualCommit = await currentCommit(workspace.repo, env)
+          await validatePreparedClaudeAdapter(adapter, workspace)
+        }
 
-        if (!dryRun || prepareOnly) {
+        if ((!dryRun || prepareOnly) && !reusePrepared) {
           failureStage = "clone"
           log(`clone adapter=${adapter.id} task=${task.id} run=${run} timeout_ms=${cloneTimeoutMs}`)
           cloneResult = await cloneRepo(taskRepo, workspace.repo, { branch: task.defaultBranch, commit: task.commit, env, timeoutMs: cloneTimeoutMs })
@@ -110,6 +121,7 @@ for (let run = 1; run <= runs; run += 1) {
           log(`setup adapter=${adapter.id} task=${task.id} run=${run} timeout_ms=${setupTimeoutMs}`)
           setupResults = await runSetupCommands(task.setup, workspace.repo, env, { fixturesDir: join(root, "bench", "fixtures") }, { timeoutMs: setupTimeoutMs })
           if (setupResults.some((result) => result.code !== 0)) throw new Error(commandFailureMessage(`setup failed for ${task.id}`, setupResults.find((result) => result.code !== 0)))
+          await writePreparedState(workspace, { clone: cloneResult, setup: setupResults, commit: actualCommit })
         }
 
         if (!dryRun && !prepareOnly) {
@@ -132,6 +144,7 @@ for (let run = 1; run <= runs; run += 1) {
           })
           if (claudeResult.usage.isError) throw new Error("Claude Code returned an error result")
           if (claudeResult.usage.pluginErrors.length) throw new Error(`Claude Code plugin load failed: ${JSON.stringify(claudeResult.usage.pluginErrors)}`)
+          validateClaudeIntegration(adapter, claudeResult.usage)
 
           failureStage = "verify"
           log(`verify adapter=${adapter.id} task=${task.id} run=${run} timeout_ms=${verifyTimeoutMs}`)
@@ -173,6 +186,7 @@ for (let run = 1; run <= runs; run += 1) {
         run,
         dryRun,
         prepareOnly,
+        reusePrepared,
         model,
         lmStudioBaseURL,
         resultDir,
@@ -210,8 +224,9 @@ for (let run = 1; run <= runs; run += 1) {
 }
 
 await writeFile(join(resultsRoot, "summary.json"), `${JSON.stringify(summaries, null, 2)}\n`, "utf8")
-await writeFile(join(root, "bench", "results", "latest-claude-code.json"), `${JSON.stringify({ platform: PLATFORM, runID, resultsRoot }, null, 2)}\n`, "utf8")
+await writeFile(join(root, "bench", "results", "latest-claude-code.json"), `${JSON.stringify({ platform: PLATFORM, runID, resultsRoot: relative(root, resultsRoot) }, null, 2)}\n`, "utf8")
 process.stdout.write(`results: ${resultsRoot}\n`)
+if (summaries.some((summary) => summary.failed)) process.exitCode = 1
 
 function summarizeCommand(result) {
   if (!result) return undefined
@@ -233,6 +248,35 @@ function commandFailureMessage(message, result) {
   const status = result.timedOut ? `timed out after ${result.durationMs}ms` : result.signal ? `signal=${result.signal}` : `exit=${result.code}`
   const output = result.stderr || result.stdout
   return `${message} (${status})${output ? `\n${output}` : ""}`
+}
+
+function validateClaudeIntegration(adapter, usage) {
+  if (usage.permissionDenials.length) throw new Error(`Claude Code denied tool permissions: ${JSON.stringify(usage.permissionDenials)}`)
+  if (adapter.id === "tokenwarden") {
+    const connected = usage.mcpServers.some((server) => server.name === "tokenwarden" && server.status === "connected")
+    if (!connected || !usage.tools.some((tool) => tool.startsWith("mcp__tokenwarden__"))) {
+      throw new Error("TokenWarden MCP server or tools were not available")
+    }
+  }
+  if (adapter.id === "context-mode") {
+    const connected = usage.mcpServers.some((server) => server.name.includes("context-mode") && server.status === "connected")
+    if (!connected || !usage.tools.some((tool) => tool.includes("context-mode"))) {
+      throw new Error("Context Mode MCP server or tools were not available")
+    }
+  }
+  if (["context-mode", "caveman"].includes(adapter.id) && !usage.loadedPlugins.includes(adapter.id)) {
+    throw new Error(`${adapter.label} plugin was not loaded`)
+  }
+}
+
+async function validatePreparedClaudeAdapter(adapter, workspace) {
+  if (!["tokenwarden", "rtk"].includes(adapter.id)) return
+  const settings = JSON.parse(await readFile(workspace.claudeSettingsPath, "utf8"))
+  const hooks = JSON.stringify(settings.hooks ?? {})
+  if (!Object.keys(settings.hooks ?? {}).length || !hooks.toLowerCase().includes(adapter.id)) {
+    throw new Error(`${adapter.label} hooks were not preserved in the prepared workspace`)
+  }
+  if (adapter.id === "tokenwarden") await access(workspace.claudeMcpPath)
 }
 
 async function collectArtifacts(paths, cwd) {
@@ -264,7 +308,7 @@ function emptyClaudeResult() {
 }
 
 function zeroUsage() {
-  return { inputTokens: 0, outputTokens: 0, cacheReadTokens: 0, cacheWriteTokens: 0, totalTokens: 0, estimatedCostUsd: 0, sessionIDs: [], answer: "", rawEventCount: 0, resultEventFound: false, isError: false, loadedPlugins: [], pluginErrors: [] }
+  return { inputTokens: 0, outputTokens: 0, cacheReadTokens: 0, cacheWriteTokens: 0, totalTokens: 0, estimatedCostUsd: 0, sessionIDs: [], answer: "", rawEventCount: 0, resultEventFound: false, isError: false, loadedPlugins: [], pluginErrors: [], permissionDenials: [], mcpServers: [], tools: [] }
 }
 
 function log(message) {

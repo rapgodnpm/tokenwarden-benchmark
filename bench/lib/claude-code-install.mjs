@@ -14,7 +14,7 @@ export async function installClaudeCodeAdapter(adapter, workspace, options = {})
   if (adapter.integration === "local-plugin") {
     const pluginDir = resolve(options.env?.[adapter.pathEnv] || join(options.repoRoot, adapter.defaultPath))
     actions.push({ type: "local-plugin", package: adapter.packageName, path: pluginDir })
-    if (!options.dryRun) {
+    if (!options.dryRun || options.reusePrepared) {
       const packageJson = JSON.parse(await readFile(join(pluginDir, "package.json"), "utf8"))
       if (packageJson.name !== adapter.packageName) throw new Error(`${pluginDir} is not ${adapter.packageName}`)
       await access(join(pluginDir, "dist", "src", "cli.js"))
@@ -34,8 +34,8 @@ export async function installClaudeCodeAdapter(adapter, workspace, options = {})
         killProcessGroup: true
       })
       if (result.code !== 0) throw new Error(commandFailureMessage(`npm install failed for ${adapter.id}`, result))
-      version = JSON.parse(await readFile(join(pluginDir, "package.json"), "utf8")).version
     }
+    if (!options.dryRun || options.reusePrepared) version = JSON.parse(await readFile(join(pluginDir, "package.json"), "utf8")).version
     pluginDirs.push(pluginDir)
     return { actions, pluginDirs, version }
   }
@@ -49,6 +49,7 @@ export async function installClaudeCodeAdapter(adapter, workspace, options = {})
       if (result.code !== 0) throw new Error(commandFailureMessage(`git clone failed for ${adapter.id}`, result))
       version = adapter.ref ?? await currentCommit(pluginDir, options.env)
     }
+    if (options.reusePrepared) version = adapter.ref ?? await currentCommit(pluginDir, options.env)
     pluginDirs.push(pluginDir)
     return { actions, pluginDirs, version }
   }
@@ -64,6 +65,10 @@ export async function installClaudeCodeAdapter(adapter, workspace, options = {})
     if (!options.dryRun) {
       const result = await runCommand("rtk", ["init", "-g"], { env: options.env, timeoutMs: options.timeoutMs })
       if (result.code !== 0) throw new Error(commandFailureMessage("rtk init failed", result))
+      const versionResult = await runCommand("rtk", ["--version"], { env: options.env, timeoutMs: options.utilityTimeoutMs })
+      version = versionResult.stdout.trim() || adapter.binaries?.[0]?.tag
+    }
+    if (options.reusePrepared) {
       const versionResult = await runCommand("rtk", ["--version"], { env: options.env, timeoutMs: options.utilityTimeoutMs })
       version = versionResult.stdout.trim() || adapter.binaries?.[0]?.tag
     }

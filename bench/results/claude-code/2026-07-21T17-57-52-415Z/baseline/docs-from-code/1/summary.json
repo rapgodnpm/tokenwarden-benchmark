@@ -1,0 +1,159 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-21T17-57-52-415Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "baseline",
+  "pluginLabel": "No plugins",
+  "pluginMechanism": "baseline",
+  "task": "docs-from-code",
+  "run": 1,
+  "dryRun": false,
+  "prepareOnly": false,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://localhost:1234",
+  "resultDir": "/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/results/claude-code/2026-07-21T17-57-52-415Z/baseline/docs-from-code/1",
+  "promptPath": "/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/results/claude-code/2026-07-21T17-57-52-415Z/baseline/docs-from-code/1/prompt.md",
+  "workspace": "/tmp/tokenwarden-bench/claude-code/2026-07-21T17-57-52-415Z/baseline-docs-from-code-1",
+  "durationMs": 32325,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [],
+  "installActions": [],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 75,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/Users/paulvasile/work-srl/tokenwarden-benchmark/bench/fixtures'/future/create-fixture.mjs docs-from-code",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 23,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 43,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: docs-from-code\nRepository: https://github.com/honojs/hono.git\n\nRead bench-targets/docs/src/cache.mjs and write accurate user-facing documentation at bench-artifacts/cache-api.md. The docs must include '# Cache API', '## createCache()', '## Methods', and mention get, set, delete, and clear. Do not change source code. Keep the docs factual and based only on the implementation.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/tmp/tokenwarden-bench/claude-code/2026-07-21T17-57-52-415Z/baseline-docs-from-code-1/home/.claude/settings.json",
+      "--disallowedTools",
+      "mcp__*"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 30435,
+    "stdoutBytes": 29910,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "test -f bench-artifacts/cache-api.md && grep -q '# Cache API' bench-artifacts/cache-api.md && grep -q 'createCache()' bench-artifacts/cache-api.md && grep -q 'get' bench-artifacts/cache-api.md && grep -q 'set' bench-artifacts/cache-api.md && grep -q 'delete' bench-artifacts/cache-api.md && grep -q 'clear' bench-artifacts/cache-api.md",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 18,
+        "stdoutBytes": 0,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "skipped": true,
+    "reason": "adapter does not use TokenWarden",
+    "stdout": "",
+    "stderr": ""
+  },
+  "changedFiles": [
+    "bench-artifacts/",
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-artifacts/cache-api.md",
+      "content": "# Cache API\n\nA simple in-memory cache implementation using JavaScript's `Map` data structure.\n\n## createCache()\n\nCreates a new cache instance. Returns an object with the following methods:\n\n```js\nimport { createCache } from './cache'\n\nconst cache = createCache()\n```\n\n## Methods\n\n### get(key)\n\nRetrieves the value associated with the given key. Returns the cached value or `undefined` if not found.\n\n```js\ncache.get(key)\n```\n\n### set(key, value)\n\nStores a value in the cache. Returns the stored value.\n\n```js\ncache.set(key, value)\n```\n\n### delete(key)\n\nRemoves a key from the cache. Returns `true` if the key existed and was deleted, `false` otherwise.\n\n```js\ncache.delete(key)\n```\n\n### clear()\n\nRemoves all entries from the cache.\n\n```js\ncache.clear()\n```\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 14644,
+    "outputTokens": 623,
+    "cacheReadTokens": 11929,
+    "cacheWriteTokens": 0,
+    "totalTokens": 27196,
+    "estimatedCostUsd": 0.0947595,
+    "sessionIDs": [
+      "81a9de03-1778-46b2-837a-9bc591a4fe43"
+    ],
+    "answer": "\n\n## Summary\n\n**File created:** `bench-artifacts/cache-api.md`\n\n**Verification status:** ✅ Documentation includes:\n- `# Cache API` header\n- `## createCache()` section with usage example\n- `## Methods` section with all four methods documented\n- Mentions of `get`, `set`, `delete`, and `clear` methods with descriptions based on the implementation\n\nThe documentation is factual and based solely on the cache.mjs implementation, with no source code changes made.",
+    "rawEventCount": 103,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [],
+    "pluginErrors": [],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 14644,
+        "outputTokens": 623,
+        "cacheReadInputTokens": 11929,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.0947595,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

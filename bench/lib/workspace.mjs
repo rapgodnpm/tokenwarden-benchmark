@@ -1,4 +1,4 @@
-import { chmod, copyFile, mkdir, rm, writeFile } from "node:fs/promises"
+import { chmod, copyFile, mkdir, readFile, rm, writeFile } from "node:fs/promises"
 import { homedir } from "node:os"
 import { dirname, join, relative, resolve } from "node:path"
 
@@ -25,7 +25,7 @@ export function resolveResultsRoot(root, value, runID) {
 export async function createRunWorkspace(baseDir, input) {
   const safe = `${input.plugin}-${input.task}-${input.run}`.replace(/[^a-zA-Z0-9_.-]/g, "-")
   const root = join(baseDir, safe)
-  await rm(root, { recursive: true, force: true })
+  if (!input.reuse) await rm(root, { recursive: true, force: true })
   const paths = {
     root,
     home: join(root, "home"),
@@ -100,4 +100,17 @@ export async function inheritOpencodeAuth(paths, baseEnv = process.env) {
 export async function writeJson(path, value) {
   await mkdir(dirname(path), { recursive: true })
   await writeFile(path, `${JSON.stringify(value, null, 2)}\n`, "utf8")
+}
+
+export async function writePreparedState(workspace, value) {
+  await writeJson(join(workspace.root, "prepared-state.json"), value)
+}
+
+export async function readPreparedState(workspace) {
+  try {
+    return JSON.parse(await readFile(join(workspace.root, "prepared-state.json"), "utf8"))
+  } catch (error) {
+    if (error?.code === "ENOENT") throw new Error(`prepared workspace is missing state: ${workspace.root}`)
+    throw error
+  }
 }

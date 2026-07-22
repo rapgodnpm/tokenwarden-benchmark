@@ -84,6 +84,8 @@ export function parseClaudeCodeJsonLines(text) {
   const sessionIDs = new Set()
   const pluginErrors = []
   const loadedPlugins = []
+  const mcpServers = []
+  const tools = []
 
   for (const line of text.split(/\r?\n/)) {
     if (!line.trim()) continue
@@ -94,6 +96,8 @@ export function parseClaudeCodeJsonLines(text) {
       if (event.type === "result") resultEvent = event
       if (Array.isArray(event.plugins)) loadedPlugins.push(...event.plugins.map(pluginName).filter(Boolean))
       if (Array.isArray(event.plugin_errors)) pluginErrors.push(...event.plugin_errors)
+      if (Array.isArray(event.mcp_servers)) mcpServers.push(...event.mcp_servers)
+      if (Array.isArray(event.tools)) tools.push(...event.tools.filter((tool) => typeof tool === "string"))
     } catch {
       // Keep the raw stdout log; only structured lines contribute usage.
     }
@@ -118,6 +122,9 @@ export function parseClaudeCodeJsonLines(text) {
     isError: Boolean(resultEvent?.is_error),
     loadedPlugins: [...new Set(loadedPlugins)],
     pluginErrors,
+    permissionDenials: Array.isArray(resultEvent?.permission_denials) ? resultEvent.permission_denials : [],
+    mcpServers,
+    tools: [...new Set(tools)],
     modelUsage: resultEvent?.modelUsage ?? {}
   }
 }

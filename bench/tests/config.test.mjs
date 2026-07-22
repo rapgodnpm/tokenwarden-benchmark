@@ -36,9 +36,10 @@ test("benchmark defaults to three runs per task and plugin", () => {
 
 test("benchmark runs deny interactive permissions by default", () => {
   const config = createOpenCodeConfig({ id: "openrtk", plugins: ["openrtk"] })
+  assert.equal(config.permission["*"], "allow")
   assert.equal(config.permission.question, "deny")
   assert.equal(config.permission.task, "deny")
-  assert.equal(config.permission.external_directory, "deny")
+  assert.equal(config.permission.external_directory, "allow")
   assert.equal(config.permission.bash, "allow")
   assert.equal(DEFAULT_AI_TIMEOUT_MS, 1_800_000)
 })

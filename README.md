@@ -59,7 +59,7 @@ A run fails if the model call fails, times out, or does not pass the task's auto
 
 ## Quick start
 
-You need Node.js, npm, and the CLI for the platform you plan to test. OpenCode uses its configured providers. The Claude Code benchmark uses LM Studio with `qwen/qwen3.5-9b`; see [`docs/claude-code.md`](docs/claude-code.md).
+You need Node.js, npm, Docker Desktop, and LM Studio with `qwen/qwen3.5-9b` loaded. Every public test, benchmark, and report command runs in Docker. The image pins Node.js, OpenCode, and Claude Code, so host CLI installations and user configuration do not affect results.
 
 ```sh
 npm install
@@ -69,6 +69,14 @@ npm run bench:opencode:dry
 npm run bench:claude-code:prepare
 npm run bench:claude-code:dry
 ```
+
+`npm test` recursively discovers current and future Node test files inside the container. Do not invoke `node --test` or the files under `bench/` directly; the entry points reject host execution.
+
+Docker receives the repository read-only. Each benchmark uses a disposable workspace volume and a fresh host staging directory that masks existing results. After the container exits, validated artifacts are moved into `bench/results/`, where they remain normal host files that can be reviewed and committed.
+
+Both platforms use local LM Studio by default. Start LM Studio's server on port 1234 and allow connections from Docker Desktop. Model-running containers use an internal network with access only to a fixed LM Studio proxy; they receive no OpenRouter, Anthropic, SSH, home-directory, or Docker credentials.
+
+Docker runs accept only the `lmstudio-qwen3.5-9b` preset and its model-ID aliases. Cloud presets remain in the model catalog for historical result compatibility but are rejected by the Docker launcher.
 
 Run a full benchmark only when you are ready for 210 model calls:
 
@@ -81,8 +89,8 @@ Useful commands:
 
 | Command | What it does |
 | --- | --- |
-| `npm run bench:opencode:prepare` | Builds every OpenCode workspace without calling a model. |
-| `npm run bench:claude-code:prepare` | Builds every Claude Code workspace without calling a model. |
+| `npm run bench:opencode:prepare` | Builds every disposable OpenCode workspace without calling a model. |
+| `npm run bench:claude-code:prepare` | Builds every disposable Claude Code workspace without calling a model. |
 | `npm run bench:opencode:dry` | Checks the OpenCode runner without cloning or calling a model. |
 | `npm run bench:claude-code:dry` | Checks the Claude Code runner without cloning or calling a model. |
 | `npm run bench:<platform> -- --tasks <ids>` | Runs only the comma-separated task IDs. |
@@ -91,7 +99,7 @@ Useful commands:
 | `npm run bench:<platform> -- --model <key>` | Uses a platform-compatible preset from [`bench/models.json`](bench/models.json). |
 | `npm run bench:report:<platform> -- --results <dir> --no-open` | Rebuilds reports for an existing result directory. |
 
-OpenCode defaults to `baseline`, `tokenwarden`, `openslimedit`, `dcp`, and `openrtk`. Claude Code defaults to `baseline`, `tokenwarden`, `context-mode`, `rtk`, and `caveman`. Their definitions live in the platform folders under [`bench/adapters/`](bench/adapters/).
+OpenCode defaults to `baseline`, `tokenwarden`, `openslimedit`, `dcp`, and `openrtk`. Claude Code defaults to `baseline`, `tokenwarden`, `context-mode`, `rtk`, and `caveman`. Their definitions live in the platform folders under [`bench/adapters/`](bench/adapters/). Real runs automatically perform an internet-enabled preparation phase, then reuse that volume for model execution on the internal LM Studio-only network.
 
 Each Claude Code configuration runs independently. Caveman shortens final responses; it does not reduce input context and can add input-token overhead.
 

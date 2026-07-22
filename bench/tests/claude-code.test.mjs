@@ -36,8 +36,33 @@ test("Claude Code JSONL parser captures usage, answer, session, and plugins", ()
     isError: false,
     loadedPlugins: ["tokenwarden"],
     pluginErrors: [],
+    permissionDenials: [],
+    mcpServers: [],
+    tools: [],
     modelUsage: {}
   })
+})
+
+test("Claude Code JSONL parser captures MCP availability and permission denials", () => {
+  const output = [
+    JSON.stringify({
+      type: "system",
+      subtype: "init",
+      tools: ["Read", "mcp__tokenwarden__smart_read"],
+      mcp_servers: [{ name: "tokenwarden", status: "connected" }]
+    }),
+    JSON.stringify({
+      type: "result",
+      result: "",
+      permission_denials: [{ tool_name: "Bash" }],
+      usage: {}
+    })
+  ].join("\n")
+
+  const usage = parseClaudeCodeJsonLines(output)
+  assert.deepEqual(usage.mcpServers, [{ name: "tokenwarden", status: "connected" }])
+  assert.deepEqual(usage.tools, ["Read", "mcp__tokenwarden__smart_read"])
+  assert.deepEqual(usage.permissionDenials, [{ tool_name: "Bash" }])
 })
 
 test("Claude Code JSONL parser records plugin load errors", () => {
