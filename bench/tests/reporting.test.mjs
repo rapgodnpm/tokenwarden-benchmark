@@ -1,6 +1,6 @@
 import test from "node:test"
 import assert from "node:assert/strict"
-import { createReportRows, renderAveragesCsv, renderHtml, renderMarkdown, renderTokensCsv } from "../lib/reporting.mjs"
+import { bestByTask, createReportRows, renderAveragesCsv, renderHtml, renderMarkdown, renderTokensCsv, summariesByPlugin } from "../lib/reporting.mjs"
 
 test("report rows calculate fixed input and output token costs", () => {
   const rows = createReportRows([
@@ -29,7 +29,7 @@ test("markdown report includes median and average token metrics", () => {
 
   assert.match(markdown, /Median Total Tokens \| Average Total Tokens \| P25 Total \| P75 Total/)
   assert.doesNotMatch(markdown, /Pass Rate/)
-  assert.match(markdown, /\| tokenwarden \| 3 \| 0 \| 0 \| 110 \| 110 \| 83 \| 138 \| 55 \| 165 \| 1000ms \| 110 \| 110 \| \$0\.0008 \| \$0\.0008 \| \$0\.0008 \| \$0\.0008 \|/)
+  assert.match(markdown, /\| tokenwarden \| OK \| 3 \| 3 \| 0 \| 0 \| 0 \| 110 \| 110 \| 83 \| 138 \| 55 \| 165 \| 1000ms \| 110 \| 110 \| \$0\.0008 \| \$0\.0008 \| \$0\.0008 \| \$0\.0008 \|/)
   assert.match(markdown, /## By Task/)
   assert.match(markdown, /## Best By Task/)
 })
@@ -57,15 +57,75 @@ test("CSV outputs include calculated cost and task averages", () => {
   ])
 
   assert.match(renderTokensCsv(rows), /^platform,plugin,task,run/)
-  assert.match(renderTokensCsv(rows), /failed,timed_out,duration_ms,input_tokens/)
+  assert.match(renderTokensCsv(rows), /failed,timed_out,metrics_included,duration_ms,input_tokens/)
   assert.match(renderTokensCsv(rows), /input_cost_usd,output_cost_usd,calculated_cost_usd/)
   assert.doesNotMatch(renderTokensCsv(rows).split("\n")[0], /passed/)
   assert.match(renderTokensCsv(rows), /5\.00000000,2\.50000000,7\.50000000/)
-  assert.match(renderAveragesCsv(rows), /^platform,task,plugin,runs/)
-  assert.match(renderAveragesCsv(rows), /failed_runs,timeout_count,median_duration_ms/)
+  assert.match(renderAveragesCsv(rows), /^platform,task,plugin,status,runs,metric_runs,ignored_runs,comparison_runs/)
+  assert.match(renderAveragesCsv(rows), /comparison_runs,failed_runs,timeout_count,median_duration_ms/)
   assert.match(renderAveragesCsv(rows), /average_input_cost_usd,average_output_cost_usd,median_calculated_cost_usd,average_calculated_cost_usd/)
   assert.doesNotMatch(renderAveragesCsv(rows).split("\n")[0], /pass_rate/)
-  assert.match(renderAveragesCsv(rows), /task-a,tokenwarden,1,0,0,1000,500000\.00,50000\.00,0\.00,0\.00,550000\.00,550000\.00/)
+  assert.match(renderAveragesCsv(rows), /task-a,tokenwarden,ok,1,1,0,1,0,0,1000,500000\.00,50000\.00,0\.00,0\.00,550000\.00,550000\.00/)
+})
+
+test("zero-token attempts fail, are ignored, and rank their plugin last", () => {
+  const rows = createReportRows([
+    summary("baseline", "task-a", 1, { inputTokens: 100, outputTokens: 0, totalTokens: 100 }),
+    summary("baseline", "task-a", 2, { inputTokens: 100, outputTokens: 0, totalTokens: 100 }),
+    summary("valid", "task-a", 1, { inputTokens: 50, outputTokens: 0, totalTokens: 50 }),
+    summary("valid", "task-a", 2, { inputTokens: 50, outputTokens: 0, totalTokens: 50 }),
+    { ...summary("failed", "task-a", 1, { inputTokens: 60, outputTokens: 0, totalTokens: 60 }), failed: true },
+    summary("zero", "task-a", 1, { inputTokens: 0, outputTokens: 0, totalTokens: 0 }),
+    summary("zero", "task-a", 2, { inputTokens: 0, outputTokens: 0, totalTokens: 0 })
+  ])
+  const zeroRows = rows.filter((row) => row.plugin === "zero")
+  const summaries = summariesByPlugin(rows)
+  const zeroSummary = summaries.find((summary) => summary.plugin === "zero")
+  const markdown = renderMarkdown(rows, "/tmp/results")
+  const html = renderHtml(rows, "/tmp/results")
+
+  assert.ok(zeroRows.every((row) => row.failed && !row.metricsIncluded && !row.comparisonIncluded))
+  assert.ok(zeroRows.every((row) => row.savedPercent === undefined && row.savedCostVsBaseline === undefined))
+  assert.equal(zeroSummary.failed, true)
+  assert.equal(zeroSummary.metricRuns, 0)
+  assert.equal(zeroSummary.ignoredRuns, 2)
+  assert.equal(zeroSummary.medianTotalTokens, undefined)
+  assert.deepEqual(summaries.map((summary) => summary.plugin), ["baseline", "valid", "failed", "zero"])
+  assert.match(markdown, /\| zero \| FAILED \| 2 \| 0 \| 2 \| 2 \| 0 \| N\/A/)
+  assert.match(html, /<strong>zero<\/strong>: N\/A saved \(N\/A\) across 2 runs \(FAILED\)/)
+  assert.match(renderTokensCsv(rows), /zero,task-a,1,false,false,true,false,false,1000/)
+  assert.match(renderAveragesCsv(rows), /task-a,zero,failed,2,0,2,0,2,0,,,,/)
+  assert.equal(bestByTask(rows)[0].tokensPlugin, "valid")
+})
+
+test("valid attempts remain measurable when a plugin also has ignored zero-token attempts", () => {
+  const rows = createReportRows([
+    summary("baseline", "task-a", 1, { inputTokens: 100, outputTokens: 0, totalTokens: 100 }),
+    summary("baseline", "task-a", 2, { inputTokens: 100, outputTokens: 0, totalTokens: 100 }),
+    summary("partial", "task-a", 1, { inputTokens: 50, outputTokens: 0, totalTokens: 50 }),
+    summary("partial", "task-a", 2, { inputTokens: 0, outputTokens: 0, totalTokens: 0 })
+  ])
+  const partial = summariesByPlugin(rows).find((summary) => summary.plugin === "partial")
+
+  assert.equal(partial.metricRuns, 1)
+  assert.equal(partial.ignoredRuns, 1)
+  assert.equal(partial.failedRuns, 1)
+  assert.equal(partial.medianTotalTokens, 50)
+  assert.equal(partial.medianSavedPercent, 50)
+})
+
+test("status fails only when failed runs exceed 30 percent", () => {
+  const rows = createReportRows(Array.from({ length: 10 }, (_, index) => ({
+    ...summary("threshold", "task-a", index + 1, { inputTokens: 50, outputTokens: 0, totalTokens: 50 }),
+    failed: index < 3
+  })).concat({
+    ...summary("above-threshold", "task-a", 1, { inputTokens: 50, outputTokens: 0, totalTokens: 50 }),
+    failed: true
+  }, summary("above-threshold", "task-a", 2, { inputTokens: 50, outputTokens: 0, totalTokens: 50 }), summary("above-threshold", "task-a", 3, { inputTokens: 50, outputTokens: 0, totalTokens: 50 })))
+  const summaries = summariesByPlugin(rows)
+
+  assert.equal(summaries.find((summary) => summary.plugin === "threshold").failed, false)
+  assert.equal(summaries.find((summary) => summary.plugin === "above-threshold").failed, true)
 })
 
 test("baseline savings are isolated by platform", () => {

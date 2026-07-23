@@ -45,3 +45,25 @@ test("local TokenWarden adapter resolves a built local plugin without installing
     await rm(root, { recursive: true, force: true })
   }
 })
+
+test("RTK installs only its hook without an interactive settings prompt", async () => {
+  const calls = []
+  const result = await installClaudeCodeAdapter({
+    id: "rtk",
+    integration: "rtk-hook",
+    binaries: [{ tag: "v0.43.0" }]
+  }, {}, {
+    env: {},
+    installDependencies: async () => [],
+    commandRunner: async (command, args) => {
+      calls.push({ command, args })
+      return { code: 0, stdout: args[0] === "--version" ? "rtk 0.43.0\n" : "", stderr: "" }
+    }
+  })
+
+  assert.deepEqual(calls, [
+    { command: "rtk", args: ["init", "-g", "--hook-only", "--auto-patch"] },
+    { command: "rtk", args: ["--version"] }
+  ])
+  assert.equal(result.version, "rtk 0.43.0")
+})

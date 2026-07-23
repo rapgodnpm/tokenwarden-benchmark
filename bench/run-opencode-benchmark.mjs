@@ -12,6 +12,7 @@ import { DEFAULT_BENCHMARK_SUITE } from "./lib/runner-options.mjs"
 import { assertDockerRuntime } from "./lib/runtime.mjs"
 import { loadSuite, renderPrompt, selectTasks } from "./lib/tasks.mjs"
 import { runVerifyCommands } from "./lib/verify.mjs"
+import { hasMeasuredUsage } from "./lib/usage.mjs"
 import { createRunWorkspace, inheritOpencodeAuth, readPreparedState, repoRoot, resolveResultsRoot, timestampID, workspaceEnv, writePreparedState } from "./lib/workspace.mjs"
 
 assertDockerRuntime()
@@ -133,6 +134,10 @@ for (let run = 1; run <= runs; run += 1) {
           failureStage = "opencode-run"
           log(`ai request adapter=${adapter.id} task=${task.id} run=${run} timeout_ms=${aiTimeoutMs}`)
           opencodeResult = await runOpencodeTask({ env, model, prompt, repoPath: workspace.repo, title: `${suite.id}:${task.id}:${adapter.id}:run-${run}`, timeoutMs: aiTimeoutMs })
+          if (!hasMeasuredUsage(opencodeResult.usage)) {
+            failureStage = "usage"
+            throw new Error("OpenCode completed without recording token usage")
+          }
           failureStage = "session-export"
           log(`export session adapter=${adapter.id} task=${task.id} run=${run}`)
           sessionExport = await exportSession(opencodeResult.usage.sessionIDs?.[0], join(resultDir, "session.export.json"), env, utilityTimeoutMs)

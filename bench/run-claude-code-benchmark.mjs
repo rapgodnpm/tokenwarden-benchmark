@@ -12,6 +12,7 @@ import { DEFAULT_BENCHMARK_SUITE } from "./lib/runner-options.mjs"
 import { assertDockerRuntime } from "./lib/runtime.mjs"
 import { loadSuite, renderPrompt, selectTasks } from "./lib/tasks.mjs"
 import { runVerifyCommands } from "./lib/verify.mjs"
+import { hasMeasuredUsage } from "./lib/usage.mjs"
 import { createRunWorkspace, readPreparedState, repoRoot, resolveResultsRoot, timestampID, workspaceEnv, writeJson, writePreparedState } from "./lib/workspace.mjs"
 
 const PLATFORM = "claude-code"
@@ -124,6 +125,8 @@ for (let run = 1; run <= runs; run += 1) {
           log(`setup adapter=${adapter.id} task=${task.id} run=${run} timeout_ms=${setupTimeoutMs}`)
           setupResults = await runSetupCommands(task.setup, workspace.repo, env, { fixturesDir: join(root, "bench", "fixtures") }, { timeoutMs: setupTimeoutMs })
           if (setupResults.some((result) => result.code !== 0)) throw new Error(commandFailureMessage(`setup failed for ${task.id}`, setupResults.find((result) => result.code !== 0)))
+          failureStage = "adapter-validation"
+          await validatePreparedClaudeAdapter(adapter, workspace)
           await writePreparedState(workspace, { clone: cloneResult, setup: setupResults, commit: actualCommit })
         }
 
@@ -147,6 +150,10 @@ for (let run = 1; run <= runs; run += 1) {
           })
           if (claudeResult.usage.isError) throw new Error("Claude Code returned an error result")
           if (claudeResult.usage.pluginErrors.length) throw new Error(`Claude Code plugin load failed: ${JSON.stringify(claudeResult.usage.pluginErrors)}`)
+          if (!hasMeasuredUsage(claudeResult.usage)) {
+            failureStage = "usage"
+            throw new Error("Claude Code completed without recording token usage")
+          }
           validateClaudeIntegration(adapter, claudeResult.usage)
 
           failureStage = "verify"
@@ -166,7 +173,8 @@ for (let run = 1; run <= runs; run += 1) {
         failureMessage = error?.stack ?? error?.message ?? String(error)
       }
 
-      await writeFile(join(resultDir, "claude.settings.json"), `${JSON.stringify(createClaudeCodeSettings(), null, 2)}\n`, "utf8")
+      const claudeSettings = await readFile(workspace.claudeSettingsPath, "utf8").catch(() => `${JSON.stringify(createClaudeCodeSettings(), null, 2)}\n`)
+      await writeFile(join(resultDir, "claude.settings.json"), claudeSettings, "utf8")
       await writeFile(join(resultDir, "prompt.md"), `${prompt}\n`, "utf8")
       await writeFile(join(resultDir, "stdout.jsonl"), claudeResult.stdout ?? "", "utf8")
       await writeFile(join(resultDir, "stderr.log"), claudeResult.stderr ?? "", "utf8")

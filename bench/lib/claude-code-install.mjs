@@ -7,6 +7,8 @@ import { runCommand } from "./process.mjs"
 export async function installClaudeCodeAdapter(adapter, workspace, options = {}) {
   const actions = []
   const pluginDirs = []
+  const commandRunner = options.commandRunner ?? runCommand
+  const installDependencies = options.installDependencies ?? installAdapterDependencies
   let version
 
   if (adapter.integration === "none") return { actions, pluginDirs }
@@ -28,7 +30,7 @@ export async function installClaudeCodeAdapter(adapter, workspace, options = {})
     const pluginDir = join(workspace.claudePluginDir, "node_modules", adapter.pluginPackage)
     actions.push({ type: "npm-plugin", package: adapter.npmPackage })
     if (!options.dryRun) {
-      const result = await runCommand("npm", ["install", "--prefix", workspace.claudePluginDir, adapter.npmPackage], {
+      const result = await commandRunner("npm", ["install", "--prefix", workspace.claudePluginDir, adapter.npmPackage], {
         env: options.env,
         timeoutMs: options.timeoutMs,
         killProcessGroup: true
@@ -55,7 +57,7 @@ export async function installClaudeCodeAdapter(adapter, workspace, options = {})
   }
 
   if (adapter.integration === "rtk-hook") {
-    actions.push(...await installAdapterDependencies(adapter, workspace, {
+    actions.push(...await installDependencies(adapter, workspace, {
       dryRun: options.dryRun,
       env: options.env,
       repoRoot: options.repoRoot,
@@ -63,13 +65,13 @@ export async function installClaudeCodeAdapter(adapter, workspace, options = {})
       utilityTimeoutMs: options.utilityTimeoutMs
     }))
     if (!options.dryRun) {
-      const result = await runCommand("rtk", ["init", "-g"], { env: options.env, timeoutMs: options.timeoutMs })
+      const result = await commandRunner("rtk", ["init", "-g", "--hook-only", "--auto-patch"], { env: options.env, timeoutMs: options.timeoutMs })
       if (result.code !== 0) throw new Error(commandFailureMessage("rtk init failed", result))
-      const versionResult = await runCommand("rtk", ["--version"], { env: options.env, timeoutMs: options.utilityTimeoutMs })
+      const versionResult = await commandRunner("rtk", ["--version"], { env: options.env, timeoutMs: options.utilityTimeoutMs })
       version = versionResult.stdout.trim() || adapter.binaries?.[0]?.tag
     }
     if (options.reusePrepared) {
-      const versionResult = await runCommand("rtk", ["--version"], { env: options.env, timeoutMs: options.utilityTimeoutMs })
+      const versionResult = await commandRunner("rtk", ["--version"], { env: options.env, timeoutMs: options.utilityTimeoutMs })
       version = versionResult.stdout.trim() || adapter.binaries?.[0]?.tag
     }
     return { actions, pluginDirs, version }

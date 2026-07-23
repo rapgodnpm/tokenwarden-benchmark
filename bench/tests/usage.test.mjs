@@ -1,6 +1,6 @@
 import test from "node:test"
 import assert from "node:assert/strict"
-import { parseUsageFromJsonLines } from "../lib/usage.mjs"
+import { hasMeasuredUsage, parseUsageFromJsonLines } from "../lib/usage.mjs"
 
 test("usage parser captures provider token fields and session IDs", () => {
   const parsed = parseUsageFromJsonLines([
@@ -77,4 +77,10 @@ test("usage parser prefers step totals over duplicate message updates", () => {
 
   assert.equal(parsed.totalTokens, 255)
   assert.equal(parsed.estimatedCostUsd, 0.002)
+})
+
+test("measured usage requires a positive total token count", () => {
+  assert.equal(hasMeasuredUsage({ totalTokens: 1 }), true)
+  assert.equal(hasMeasuredUsage({ totalTokens: 0 }), false)
+  assert.equal(hasMeasuredUsage(undefined), false)
 })

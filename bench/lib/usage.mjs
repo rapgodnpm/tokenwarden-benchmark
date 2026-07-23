@@ -41,6 +41,10 @@ export function summarizeUsage(rawUsage) {
   return usage
 }
 
+export function hasMeasuredUsage(usage) {
+  return Number(usage?.totalTokens) > 0
+}
+
 function emptyUsage() {
   return {
     inputTokens: 0,
