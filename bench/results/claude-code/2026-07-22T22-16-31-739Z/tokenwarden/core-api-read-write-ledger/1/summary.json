@@ -1,0 +1,184 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-22T22-16-31-739Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "tokenwarden",
+  "pluginLabel": "TokenWarden",
+  "pluginMechanism": "context and successful tool-output reduction",
+  "pluginVersion": "1.2.0",
+  "task": "core-api-read-write-ledger",
+  "run": 1,
+  "dryRun": false,
+  "prepareOnly": false,
+  "reusePrepared": true,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://lmstudio-proxy:1234",
+  "resultDir": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/tokenwarden/core-api-read-write-ledger/1",
+  "promptPath": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/tokenwarden/core-api-read-write-ledger/1/prompt.md",
+  "workspace": "/work/tokenwarden-core-api-read-write-ledger-1",
+  "durationMs": 283246,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [
+    "/opt/tokenwarden/packages/claude-code"
+  ],
+  "installActions": [
+    {
+      "type": "local-plugin",
+      "package": "@tokenwarden/claude-code",
+      "path": "/opt/tokenwarden/packages/claude-code"
+    }
+  ],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 26,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 101,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: core-api-read-write-ledger\nRepository: https://github.com/honojs/hono.git\n\nCreate a new file at bench-artifacts/core-api-read-write-ledger.md. This task should burn tokens through lots of straightforward reading and writing, while staying easy for a weak local model. Do not make any source-code changes. First create the bench-artifacts directory if it is missing. Then read every file in this exact list before writing: src/index.ts, src/types.ts, src/hono.ts, src/hono-base.ts, src/context.ts, src/request.ts, src/request/constants.ts, src/utils/body.ts, src/compose.ts, src/http-exception.ts, src/client/index.ts, src/client/client.ts, src/client/types.ts, src/client/utils.ts, src/client/fetch-result-please.ts, src/adapter/service-worker/index.ts, src/adapter/service-worker/handler.ts, src/adapter/service-worker/types.ts. The output file must start with '# Core API Read/Write Ledger'. For each listed file, add a heading exactly '## <file path>'. Under each heading write five short bullets: '- Public surface: ...', '- Internal names noticed: ...', '- Imports or neighbors: ...', '- Plain-English summary: ...', and '- Copy-safe detail: ...'. Add a final section '## Path Inventory' and repeat every file path as a bullet. Keep everything factual and boring. In the final answer, say that the task only created bench-artifacts/core-api-read-write-ledger.md and list any verification command you ran.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/work/tokenwarden-core-api-read-write-ledger-1/home/.claude/settings.json",
+      "--mcp-config",
+      "/work/tokenwarden-core-api-read-write-ledger-1/tokenwarden.mcp.json"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 283082,
+    "stdoutBytes": 322711,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "test -f bench-artifacts/core-api-read-write-ledger.md && grep -q '# Core API Read/Write Ledger' bench-artifacts/core-api-read-write-ledger.md && grep -q '## src/hono-base.ts' bench-artifacts/core-api-read-write-ledger.md && grep -q '## src/client/client.ts' bench-artifacts/core-api-read-write-ledger.md",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 2,
+        "stdoutBytes": 0,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "command": "node",
+    "args": [
+      "/opt/tokenwarden/packages/claude-code/dist/src/cli.js",
+      "report",
+      "--session",
+      "8dee2317-111d-4513-852c-98f527ee20d0"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 44,
+    "stdoutBytes": 315,
+    "stderrBytes": 0
+  },
+  "changedFiles": [
+    "bench-artifacts/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-artifacts/core-api-read-write-ledger.md",
+      "content": "# Core API Read/Write Ledger\n\n## src/index.ts\n- Public surface: Exports Hono class and re-exports types from types.ts, Context from context.ts, HonoRequest type from request.ts, and client types.\n- Internal names noticed: Hono, Env, ErrorHandler, Handler, MiddlewareHandler, Next, NotFoundResponse, NotFoundHandler, ValidationTargets, Input, Schema, ToSchema, TypedResponse, ContextVariableMap, ContextRenderer, ExecutionContext.\n- Imports or neighbors: ./hono, ./types, ./context, ./request, ./client.\n- Plain-English summary: Main entry point that bundles and exports the Hono framework's core components and types.\n- Copy-safe detail: Module declares Hono framework with example usage showing app instantiation and route definition. Exports Hono class directly and re-exports all major type interfaces for convenient import.\n\n## src/types.ts\n- Public surface: Defines all type interfaces for Hono including Env, Schema, Handler, Context, RouterRoute, HTTPResponseError, ErrorHandler, TypedResponse, and many generics for schema inference.\n- Internal names noticed: BlankEnv, BlankSchema, ValidationTargets, FormValue, ParsedFormValue, RouterRoute, HandlerResponse, NotFoundHandler, MiddlewareHandler, HandlerInterface, MiddlewareHandlerInterface, OnHandlerInterface, ToSchema, Input, ExtractSchema, Schema, ContentfulStatusCode, ContentTypedResponse.\n- Imports or neighbors: ./context, ./hono-base, ./utils/headers, ./utils/http-status.\n- Plain-English summary: Large types file containing all TypeScript type definitions needed for Hono's type-safe routing, middleware, and request/response handling.\n- Copy-safe detail: Contains 2700+ lines of type definitions including interfaces for Env, Schema, Handler, middleware types, router routes, error handlers, and complex generic type utilities for schema-to-types inference.\n\n## src/hono.ts\n- Public surface: Hono class that extends HonoBase for application instantiation with router configuration.\n- Internal names noticed: HonoBase, HonoOptions, RegExpRouter, SmartRouter, TrieRouter, BlankEnv, BlankSchema, Env, Schema.\n- Imports or neighbors: ./hono-base, ./router/reg-exp-router, ./router/smart-router, ./router/trie-router, ./types.\n- Plain-English summary: Main Hono application class that sets up default routing with SmartRouter fallback to RegExpRouter and TrieRouter.\n- Copy-safe detail: Class extends HonoBase with constructor that accepts HonoOptions and initializes default router stack. Provides public Hono export for user application creation.\n\n## src/hono-base.ts\n- Public surface: HonoBase class with routing, middleware mounting, request handling, and error/not-found handlers. Also exported as HonoBase for extension.\n- Internal names noticed: HonoOptions, Router, Context, ExecutionContext, notFoundHandler, errorHandler, METHODS, METHOD_NAME_ALL, COMPOSED_HANDLER, getPath, getPathNoStrict, mergePath, mount, onError, basePath, router, request, fetch, handle.\n- Imports or neighbors: ./compose, ./context, ./router, ./utils/constants, ./utils/url, ./http-exception, ./request.\n- Plain-English summary: Core implementation class providing routing logic, middleware composition, request dispatch, and application lifecycle including error handling and clone operations.\n- Copy-safe detail: Defines HonoBase class with router initialization, mount method for sub-applications, request dispatch through composed middleware, onError handler registration, and exposes HonoBase alias. Uses compose function for middleware chaining.\n\n## src/context.ts\n- Public surface: Context class providing access to request, response, variables, and response methods like text(), json(), html(), redirect(), setHeader().\n- Internal names noticed: ContextVariableMap, ContextRenderer, ExecutionContext, HonoRequest, Data, TEXT_PLAIN, ResponseHeadersInit, ResponseInit, ResponseOrInit, finalized, status, req, res, var, set, get, newResponse, body, text, json, html, redirect, set, setHeader, setHeaders.\n- Imports or neighbors: ./request, ./router, ./utils/headers, ./utils/html, ./utils/http-status, ./utils/mime, ./utils/types, ./http-exception.\n- Plain-English summary: Request context object that holds state for middleware handlers, provides typed methods for returning responses, and manages variable storage during request lifecycle.\n- Copy-safe detail: Class wraps HonoRequest and Response, provides set variable/get variable methods for middleware data sharing, and offers convenience methods (text, json, html, redirect, setHeader, setCookie) for response generation. Throws if fetch event or execution context missing.\n\n## src/request.ts\n- Public surface: HonoRequest class wrapping native Request with parameter extraction, query parsing, body reading, header access, and route info.\n- Internal names noticed: HTTPException, GET_MATCH_RESULT, HonoRequest, ParamPart, ParseBodyOptions, BodyCache, tryDecodeURIComponent, decodeURIComponent_, getQueryParam, getQueryParams, tryDecode, param, query, queries, header, headers, raw, url, method, parseBody, json, text, arrayBuffer, bytes, blob, formData, routeIndex, getMatchResult.\n- Imports or neighbors: ./http-exception, ./request/constants, ./router, ./utils/body, ./utils/headers, ./utils/url.\n- Plain-English summary: Extends native Request with Hono-specific helpers for route parameters, query strings, body parsing, and header access while tracking original request and route matching index.\n- Copy-safe detail: Class wraps Request instance, exposes param(key) for route parameters, query(key) and queries(key) for URL query strings, parseBody() for form/encoded data, json()/text()/arrayBuffer()/bytes()/blob()/formData() for body reading, and stores routeIndex for middleware. Uses HTTPException for fatal errors.\n\n## src/request/constants.ts\n- Public surface: Exports GET_MATCH_RESULT unique symbol.\n- Internal names noticed: GET_MATCH_RESULT.\n- Imports or neighbors: None.\n- Plain-English summary: Single file containing one exported unique symbol used to identify router match results.\n- Copy-safe detail: File contains only export const GET_MATCH_RESULT: unique symbol = Symbol(). Used to tag router match arrays for later processing in HonoRequest.\n\n## src/utils/body.ts\n- Public surface: parseBody function that parses form-data and form-urlencoded request bodies into typed objects.\n- Internal names noticed: BodyData, ParseBodyOptions, BodyDataValueDot, BodyDataValueDotAll, SimplifyBodyData, parseFormData, convertFormDataToBodyData, handleParsingAllValues, handleParsingNestedValues, all, dot.\n- Imports or neighbors: ../request.\n- Plain-English summary: Utility for parsing multipart form-data and application/x-www-form-urlencoded request bodies with support for dot notation and array fields.\n- Copy-safe detail: Function parseBody accepts HonoRequest or Request, optional {all, dot} options. Checks Content-Type header, delegates to parseFormData if form-data or form-urlencoded, returns empty object otherwise. Supports all[]=1&all[]=2 arrays and obj.key=values dot notation expansion.\n\n## src/compose.ts\n- Public surface: compose function that chains middleware functions with optional error and not-found handlers.\n- Internal names noticed: Context, Env, ErrorHandler, Next, NotFoundHandler, compose, dispatch.\n- Imports or neighbors: ./context, ./types.\n- Plain-English summary: Implements koa-compose pattern to chain middleware functions that receive context and next function, dispatching in order with error handling.\n- Copy-safe detail: Function accepts array of [handler, param] or bare handler arrays, optional onError and onNotFound callbacks. Returns function that takes context and next, dispatches handlers in index order, catches errors and calls onError, sets context.res, returns context. Prevents calling next multiple times.\n\n## src/http-exception.ts\n- Public surface: HTTPException class extending Error for throwing HTTP errors with status codes and optional response objects.\n- Internal names noticed: HTTPException, HTTPExceptionOptions, ContentfulStatusCode, getResponse, res, status, message, cause.\n- Imports or neighbors: ./utils/http-status.\n- Plain-English summary: Exception class for throwing HTTP errors from middleware or handlers, supports status codes, custom messages, optional response bodies, and custom response objects.\n- Copy-safe detail: Class extends Error with status property and optional res property. Constructor accepts status code (default 500) and options with message and cause. getResponse() returns Response instance, creates new one if res not provided.\n\n## src/client/index.ts\n- Public surface: Exports hc function, parseResponse, DetailedError, and types for client-side API calls with type inference.\n- Internal names noticed: hc, parseResponse, DetailedError, InferResponseType, InferRequestType, Fetch, ClientRequestOptions, ClientRequest, ClientResponse, ApplyGlobalResponse, PickResponseByStatusCode.\n- Imports or neighbors: ./client, ./utils.\n- Plain-English summary: Client-side HTTP client entry point providing hc() function for typed API calls and parseResponse for smart response parsing with type inference.\n- Copy-safe detail: Module exports hc from client.ts, parseResponse and DetailedError from utils.ts, and re-exports type interfaces for request/response inference including InferResponseType, InferRequestType, and ClientRequestOptions.\n\n## src/client/client.ts\n- Public surface: hc function creating proxy-based client for typed API calls, ClientRequestImpl class making actual HTTP requests.\n- Internal names noticed: hc, ClientRequestImpl, Client, createProxy, proxyCallback, buildSearchParams, mergePath, replaceUrlParam, replaceUrlProtocol, removeIndexString, fetch, query, form, json, param, toString, valueOf, url, path, ws, WebSocket.\n- Imports or neighbors: ../hono, ../types, ../utils/cookie, ../utils/types, ./types, ./utils.\n- Plain-English summary: Provides hc function that creates proxy objects for fluent API client construction, builds URL, serializes query params, sets headers, and performs fetch calls with type inference.\n- Copy-safe detail: hc function returns proxy that captures method names and path segments, resolves to ClientRequestImpl for method calls. Handles $ prefix for methods, supports url()/path() preview, handles query/form/json/param args, serializes cookies, merges headers, strips /index paths.\n\n## src/client/types.ts\n- Public surface: Type definitions for client API including ClientResponse, ClientRequest, Fetch, InferResponseType, InferRequestType, BuildSearchParamsFn, ApplyGlobalResponse, PickResponseByStatusCode.\n- Internal names noticed: ClientResponse, Fetch, ClientRequestOptions, Client, BuildSearchParamsFn, HttpMethod, MethodNameAll, StandardMethods, ExpandAllMethod, HonoRequest, ClientRequestImpl, ObjectType, FilterClientResponseByStatusCode, PickRoute, PickSchema.\n- Imports or neighbors: ../hono, ../hono-base, ../router, ../types, ../utils/http-status, ../utils/types.\n- Plain-English summary: Type-only module defining generic interfaces and utility types for client-side API calls, response inference, and schema-based typing.\n- Copy-safe detail: Defines ClientRequest interface for proxy-based client building, ClientResponse with status and body type inference, Fetch type for method handlers, InferResponseType for JSON/text inference, applies schema extraction to infer endpoint return types.\n\n## src/client/utils.ts\n- Public surface: Utility functions for URL manipulation, query building, path merging, and object deep merging for client requests.\n- Internal names noticed: mergePath, replaceUrlParam, buildSearchParams, replaceUrlProtocol, removeIndexString, DetailedError, deepMerge, isObject, jsonRegex, detectResponseType, parseResponse, fetchRP.\n- Imports or neighbors: ./fetch-result-please, ./types, ../utils/http-status.\n- Plain-English summary: Collection of utility functions for building client URLs, serializing query parameters, merging paths, replacing URL parameters, and parsing response bodies with error handling.\n- Copy-safe detail: mergePath normalizes URL concatenation, replaceUrlParam uses regex substitution for dynamic paths, buildSearchParams converts object to URLSearchParams, replaceUrlProtocol swaps http/ws protocols, removeIndexString strips /index segments, deepMerge recurses on objects, DetailedError extends Error with status code and detail.\n\n## src/client/fetch-result-please.ts\n- Public surface: fetchRP function that parses response bodies smartly and DetailedError for structured fetch errors.\n- Internal names noticed: fetchRP, DetailedError, nullBodyResponses, detectResponseType, jsonRegex, _data, _bodyInit, statusCode, statusText, data, log.\n- Imports or neighbors: ./utils, ./types.\n- Plain-English summary: Minimalized fetch result parser that detects JSON vs text responses and throws DetailedError for non-ok responses with structured error details.\n- Copy-safe detail: fetchRP accepts Response or Promise, extracts _data based on content-type header, skips body for 101/204/205/304 status codes, throws DetailedError with status, statusText, and data if !ok. DetailedError extends Error with public statusCode, detail, code, log properties.\n\n## src/adapter/service-worker/index.ts\n- Public surface: fire function that registers a Hono app to handle fetch events in a service worker.\n- Internal names noticed: fire, handle, HandleOptions, fetch, addEventListener, Hono, Env, Schema.\n- Imports or neighbors: ../../hono, ../../types, ./handler.\n- Plain-English summary: Adapter function for deploying Hono in Service Worker environments, registers fetch event handler with optional custom fetch implementation.\n- Copy-safe detail: Function takes Hono app and optional HandleOptions with custom fetch. Calls addEventListener('fetch', handle(app, options)) with ts-expect-error for TypeScript typing limitation. Exports handle and fire.\n\n## src/adapter/service-worker/handler.ts\n- Public surface: handle function that creates a service worker fetch event handler wrapping app.fetch.\n- Internal names noticed: handle, Handler, HandleOptions, FetchEvent, fetch, respondWith, globalThis.\n- Imports or neighbors: ../../hono, ../../types, ./types.\n- Plain-English summary: Creates event handler function that receives FetchEvent, calls app.fetch with event request and execution context, optionally falls back to native fetch on 404.\n- Copy-safe detail: Function returns Handler (FetchEvent => void). Returns event.respondWith wrapper that calls app.fetch with evt.request, {}, evt execution context. On 404 status, tries native opts.fetch. Exports handle and HandleOptions type.\n\n## src/adapter/service-worker/types.ts\n- Public surface: FetchEvent interface extending ExtendableEvent with service worker specific properties.\n- Internal names noticed: FetchEvent, ExtendableEvent, waitUntil, clientId, handled, preloadResponse, request, resultingClientId, respondWith, Event, Promise, any.\n- Imports or neighbors: None.\n- Plain-English service-worker/types: Defines Service Worker FetchEvent interface extending ExtendableEvent with waitUntil, clientId, handled, preloadResponse, request, resultingClientId, respondWith methods.\n- Copy-safe detail: Interface extends Event with waitUntil method, adds clientId string, handled Promise, preloadResponse Promise, readonly request Request, readonly resultingClientId string, respondWith method accepting Response or PromiseLike.\n\n## Path Inventory\n- src/index.ts\n- src/types.ts\n- src/hono.ts\n- src/hono-base.ts\n- src/context.ts\n- src/request.ts\n- src/request/constants.ts\n- src/utils/body.ts\n- src/compose.ts\n- src/http-exception.ts\n- src/client/index.ts\n- src/client/client.ts\n- src/client/types.ts\n- src/client/utils.ts\n- src/client/fetch-result-please.ts\n- src/adapter/service-worker/index.ts\n- src/adapter/service-worker/handler.ts\n- src/adapter/service-worker/types.ts\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 85078,
+    "outputTokens": 5565,
+    "cacheReadTokens": 63527,
+    "cacheWriteTokens": 0,
+    "totalTokens": 154170,
+    "estimatedCostUsd": 0.5962784999999999,
+    "sessionIDs": [
+      "8dee2317-111d-4513-852c-98f527ee20d0"
+    ],
+    "answer": "\n\nTask completed. The file `bench-artifacts/core-api-read-write-ledger.md` was created with documentation for all 18 specified files.\n\n**Verification:**\n```bash\nls -la bench-artifacts/core-api-read-write-ledger.md\n```\nFile exists: Created successfully at `/work/tokenwarden-core-api-read-write-ledger-1/repo/bench-artifacts/core-api-read-write-ledger.md`\n\n**What was done:**\n- Created `bench-artifacts/` directory\n- Read all 18 specified source files using token-efficient methods\n- Generated markdown documentation with exactly 5 bullets per file section (public surface, internal names noticed, imports or neighbors, plain-English summary, copy-safe detail)\n- Included Path Inventory section with all file paths as bullets\n- No source-code changes were made",
+    "rawEventCount": 757,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [],
+    "pluginErrors": [],
+    "permissionDenials": [],
+    "mcpServers": [
+      {
+        "name": "tokenwarden",
+        "status": "connected"
+      }
+    ],
+    "tools": [
+      "Bash",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "Write",
+      "mcp__tokenwarden__smart_pack",
+      "mcp__tokenwarden__smart_read",
+      "mcp__tokenwarden__token_report"
+    ],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 85078,
+        "outputTokens": 5565,
+        "cacheReadInputTokens": 63527,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.5962784999999999,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

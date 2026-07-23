@@ -1,0 +1,182 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-22T22-16-31-739Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "caveman",
+  "pluginLabel": "Caveman",
+  "pluginMechanism": "output-style compression",
+  "pluginVersion": "v1.9.1",
+  "task": "build-failure-debug",
+  "run": 3,
+  "dryRun": false,
+  "prepareOnly": false,
+  "reusePrepared": true,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://lmstudio-proxy:1234",
+  "resultDir": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/caveman/build-failure-debug/3",
+  "promptPath": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/caveman/build-failure-debug/3/prompt.md",
+  "workspace": "/work/caveman-build-failure-debug-3",
+  "durationMs": 26821,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [
+    "/work/caveman-build-failure-debug-3/claude-plugins/caveman"
+  ],
+  "installActions": [
+    {
+      "type": "git-plugin",
+      "repo": "https://github.com/JuliusBrussee/caveman.git",
+      "ref": "v1.9.1"
+    }
+  ],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 27,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/workspace/bench/fixtures'/future/create-fixture.mjs build-failure-debug",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 14,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 47,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: build-failure-debug\nRepository: https://github.com/honojs/hono.git\n\nFix the seeded build configuration failure in bench-targets/build-failure. Read bench-targets/build-failure/src/config.mjs and bench-targets/build-failure/build.mjs. Preserve the existing entry path and output directory semantics. Verify with node bench-targets/build-failure/build.mjs.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/work/caveman-build-failure-debug-3/home/.claude/settings.json",
+      "--disallowedTools",
+      "mcp__*",
+      "--plugin-dir",
+      "/work/caveman-build-failure-debug-3/claude-plugins/caveman"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 26736,
+    "stdoutBytes": 34172,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "node bench-targets/build-failure/build.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 19,
+        "stdoutBytes": 9,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "skipped": true,
+    "reason": "adapter does not use TokenWarden",
+    "stdout": "",
+    "stderr": ""
+  },
+  "changedFiles": [
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-targets/build-failure/src/config.mjs",
+      "content": "export default {\n  entryPoints: ['src/index.js'],\n  outDir: 'dist'\n}\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 22909,
+    "outputTokens": 450,
+    "cacheReadTokens": 19157,
+    "cacheWriteTokens": 0,
+    "totalTokens": 42516,
+    "estimatedCostUsd": 0.13537349999999998,
+    "sessionIDs": [
+      "20ba2e0a-1da0-4180-b7fd-fa8a8b43b323"
+    ],
+    "answer": "\n\nFixed `config.mjs` property `entries` → `entryPoints`. Build passes.\n\n**File:** `/work/caveman-build-failure-debug-3/repo/bench-targets/build-failure/src/config.mjs`  \n**Command:** `node bench-targets/build-failure/build.mjs`  \n**Status:** ✓ `build ok`",
+    "rawEventCount": 87,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [
+      "caveman"
+    ],
+    "pluginErrors": [],
+    "permissionDenials": [],
+    "mcpServers": [],
+    "tools": [
+      "Bash",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "Write"
+    ],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 22909,
+        "outputTokens": 450,
+        "cacheReadInputTokens": 19157,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.13537349999999998,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

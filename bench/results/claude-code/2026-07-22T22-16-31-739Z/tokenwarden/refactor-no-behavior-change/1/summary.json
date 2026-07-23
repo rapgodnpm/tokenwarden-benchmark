@@ -1,0 +1,205 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-22T22-16-31-739Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "tokenwarden",
+  "pluginLabel": "TokenWarden",
+  "pluginMechanism": "context and successful tool-output reduction",
+  "pluginVersion": "1.2.0",
+  "task": "refactor-no-behavior-change",
+  "run": 1,
+  "dryRun": false,
+  "prepareOnly": false,
+  "reusePrepared": true,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://lmstudio-proxy:1234",
+  "resultDir": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/tokenwarden/refactor-no-behavior-change/1",
+  "promptPath": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/tokenwarden/refactor-no-behavior-change/1/prompt.md",
+  "workspace": "/work/tokenwarden-refactor-no-behavior-change-1",
+  "durationMs": 38134,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [
+    "/opt/tokenwarden/packages/claude-code"
+  ],
+  "installActions": [
+    {
+      "type": "local-plugin",
+      "package": "@tokenwarden/claude-code",
+      "path": "/opt/tokenwarden/packages/claude-code"
+    }
+  ],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 25,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/workspace/bench/fixtures'/future/create-fixture.mjs refactor-no-behavior-change",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 11,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 44,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: refactor-no-behavior-change\nRepository: https://github.com/honojs/hono.git\n\nRefactor bench-targets/refactor/src/name-formatters.mjs to remove duplicated whitespace normalization logic without changing behavior. Read the source and bench-targets/refactor/name-formatters.test.mjs first. Introduce one small shared helper named normalizeName and keep existing public exports. Verify with node --test bench-targets/refactor/name-formatters.test.mjs.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/work/tokenwarden-refactor-no-behavior-change-1/home/.claude/settings.json",
+      "--mcp-config",
+      "/work/tokenwarden-refactor-no-behavior-change-1/tokenwarden.mcp.json"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 37996,
+    "stdoutBytes": 65309,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "node --test bench-targets/refactor/name-formatters.test.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 37,
+        "stdoutBytes": 255,
+        "stderrBytes": 0
+      },
+      {
+        "command": "grep -q 'normalizeName' bench-targets/refactor/src/name-formatters.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 1,
+        "stdoutBytes": 0,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "command": "node",
+    "args": [
+      "/opt/tokenwarden/packages/claude-code/dist/src/cli.js",
+      "report",
+      "--session",
+      "96c85a95-d1bc-4949-bb3f-46623f93d7e9"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 41,
+    "stdoutBytes": 264,
+    "stderrBytes": 0
+  },
+  "changedFiles": [
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-targets/refactor/src/name-formatters.mjs",
+      "content": "function normalizeName(value) {\n  return value.trim().replace(/\\s+/g, ' ')\n}\n\nexport function formatFirstName(value) {\n  return normalizeName(value)\n}\n\nexport function formatLastName(value) {\n  return normalizeName(value)\n}\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 22310,
+    "outputTokens": 759,
+    "cacheReadTokens": 18935,
+    "cacheWriteTokens": 0,
+    "totalTokens": 42004,
+    "estimatedCostUsd": 0.13999250000000002,
+    "sessionIDs": [
+      "96c85a95-d1bc-4949-bb3f-46623f93d7e9"
+    ],
+    "answer": "\n\nRefactoring complete. Here's a summary:\n\n**File modified:** `/work/tokenwarden-refactor-no-behavior-change-1/repo/bench-targets/refactor/src/name-formatters.mjs`\n\n**Changes made:**\n- Introduced shared helper function `normalizeName(value)` that handles: `value.trim().replace(/\\s+/g, ' ')`\n- Both `formatFirstName` and `formatLastName` now delegate to `normalizeName`\n- Existing public exports remain unchanged (`formatFirstName` and `formatLastName`)\n\n**Verification status:** ✅ **PASS**\n\nThe test `name formatters preserve behavior` passed, confirming the refactoring preserves the original behavior.",
+    "rawEventCount": 269,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [],
+    "pluginErrors": [],
+    "permissionDenials": [],
+    "mcpServers": [
+      {
+        "name": "tokenwarden",
+        "status": "connected"
+      }
+    ],
+    "tools": [
+      "Bash",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "Write",
+      "mcp__tokenwarden__smart_pack",
+      "mcp__tokenwarden__smart_read",
+      "mcp__tokenwarden__token_report"
+    ],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 22310,
+        "outputTokens": 759,
+        "cacheReadInputTokens": 18935,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.13999250000000002,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

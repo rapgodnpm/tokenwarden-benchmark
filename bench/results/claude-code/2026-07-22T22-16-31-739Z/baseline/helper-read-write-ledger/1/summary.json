@@ -1,0 +1,158 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-22T22-16-31-739Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "baseline",
+  "pluginLabel": "No plugins",
+  "pluginMechanism": "baseline",
+  "task": "helper-read-write-ledger",
+  "run": 1,
+  "dryRun": false,
+  "prepareOnly": false,
+  "reusePrepared": true,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://lmstudio-proxy:1234",
+  "resultDir": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/baseline/helper-read-write-ledger/1",
+  "promptPath": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/baseline/helper-read-write-ledger/1/prompt.md",
+  "workspace": "/work/baseline-helper-read-write-ledger-1",
+  "durationMs": 280988,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [],
+  "installActions": [],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 24,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 85,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: helper-read-write-ledger\nRepository: https://github.com/honojs/hono.git\n\nCreate a new file at bench-artifacts/helper-read-write-ledger.md. This is a long, simple read and write task for a small local model. Do not refactor or fix anything. First create the bench-artifacts directory if needed. Then read every file in this exact list before writing: src/helper/factory/index.ts, src/helper/route/index.ts, src/helper/websocket/index.ts, src/helper/cookie/index.ts, src/helper/testing/index.ts, src/helper/adapter/index.ts, src/helper/css/index.ts, src/helper/css/common.ts, src/helper/proxy/index.ts, src/helper/dev/index.ts, src/helper/html/index.ts, src/helper/ssg/index.ts, src/helper/ssg/ssg.ts, src/helper/ssg/utils.ts, src/helper/ssg/middleware.ts, src/helper/streaming/index.ts, src/helper/streaming/stream.ts, src/helper/streaming/sse.ts, src/helper/streaming/text.ts, src/helper/accepts/index.ts, src/helper/accepts/accepts.ts, src/helper/conninfo/index.ts, src/helper/conninfo/types.ts. The output file must start with '# Helper Read/Write Ledger'. For each listed file, add a heading exactly '## <file path>'. Under each heading write four short bullets: '- Main exports or names: ...', '- Reads as: ...', '- Neighbor files: ...', and '- Safe summary: ...'. Use simple wording and cite paths literally. Add a final section '## Simple Index' that repeats all file paths as a checklist. Do not edit source files. In the final answer, include the created file path and verification status.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/work/baseline-helper-read-write-ledger-1/home/.claude/settings.json",
+      "--disallowedTools",
+      "mcp__*"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 280878,
+    "stdoutBytes": 355243,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "test -f bench-artifacts/helper-read-write-ledger.md && grep -q '# Helper Read/Write Ledger' bench-artifacts/helper-read-write-ledger.md && grep -q '## src/helper/factory/index.ts' bench-artifacts/helper-read-write-ledger.md && grep -q '## src/helper/streaming/sse.ts' bench-artifacts/helper-read-write-ledger.md",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 2,
+        "stdoutBytes": 0,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "skipped": true,
+    "reason": "adapter does not use TokenWarden",
+    "stdout": "",
+    "stderr": ""
+  },
+  "changedFiles": [
+    "bench-artifacts/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-artifacts/helper-read-write-ledger.md",
+      "content": "# Helper Read/Write Ledger\n\n## src/helper/factory/index.ts\n- Main exports or names: `Factory` class, `createFactory`, `createMiddleware`\n- Reads as: TypeScript definition file with TypeScript interfaces and type definitions for factory pattern helpers\n- Neighbor files: src/hono, src/hono-base, src/types, src/utils\n- Safe summary: Provides `createFactory` function that creates a Factory class for initializing Hono apps with custom handlers and default options. Also exports `createMiddleware` wrapper that returns middleware handlers.\n\n## src/helper/route/index.ts\n- Main exports or names: `matchedRoutes`, `routePath`, `baseRoutePath`, `basePath`\n- Reads as: TypeScript utility functions for route inspection using context\n- Neighbor files: src/context, src/request/constants, src/types, src/utils/url\n- Safe summary: Provides utilities to inspect matched routes, get route paths, base paths, and compute base paths with embedded parameters cached via WeakMap for performance.\n\n## src/helper/websocket/index.ts\n- Main exports or names: `defineWebSocketHelper`, `WSContext`, `WSEvents`, `UpgradeWebSocket`\n- Reads as: TypeScript interface and class definitions for WebSocket support\n- Neighbor files: src/context, src/types\n- Safe summary: Provides `defineWebSocketHelper` to upgrade HTTP connections to WebSocket with event listeners (onOpen, onMessage, onClose, onError) and WSContext for controlling WebSocket operations.\n\n## src/helper/cookie/index.ts\n- Main exports or names: `getCookie`, `getSignedCookie`, `generateCookie`, `setCookie`, `setSignedCookie`, `generateSignedCookie`, `deleteCookie`\n- Reads as: TypeScript utility functions for cookie reading and writing\n- Neighbor files: src/context, src/utils/cookie\n- Safe support for __Secure- and __Host- prefixed cookies with secure attribute enforcement.\n\n## src/helper/testing/index.ts\n- Main exports or names: `testClient`\n- Reads as: TypeScript function to create test client for Hono apps\n- Neighbor files: src/client, src/context\n- Safe summary: Creates a test client from a Hono app that uses the app's request method as a custom fetch implementation, enabling testing without external network calls.\n\n## src/helper/adapter/index.ts\n- Main exports or names: `env`, `getRuntimeKey`, `checkUserAgentEquals`, `knownUserAgents`\n- Reads as: TypeScript runtime detection utilities\n- Neighbor files: src/context\n- Safe summary: Detects runtime environment (node, deno, bun, workerd, fastly, edge-light, other) via user agent strings or global properties and provides typed access to environment bindings.\n\n## src/helper/css/index.ts\n- Main exports or names: `createCssContext`, `css`, `cx`, `keyframes`, `viewTransition`, `Style`\n- Reads as: TypeScript CSS-in-JS helper with template string support\n- Neighbor files: src/helper/html, src/jsx/dom/css, src/utils/html, src/helper/css/common\n- Safe summary: Provides CSS-in-JS functions with class name generation, supporting async variables, `cx` for class concatenation, `keyframes` for animations, and `viewTransition` for CSS transitions.\n\n## src/helper/css/common.ts\n- Main exports or names: `cssCommon`, `cxCommon`, `keyframesCommon`, `viewTransitionCommon`, `minify`, `rawCssString`, `toHash`, `buildStyleString`\n- Reads as: TypeScript CSS utility functions for style building\n- Neighbor files: src/helper/css/index\n- Safe summary: Core CSS building utilities including class name hashing, CSS minification, template string parsing with value interpolation, and keyframe name validation with reserved keyword checks.\n\n## src/helper/proxy/index.ts\n- Main exports or names: `proxy`\n- Reads as: TypeScript Fetch API wrapper for proxying requests\n- Neighbor files: src/http-exception, src/utils/headers\n- Safe summary: Wraps fetch for proxying with hop-by-hop header filtering and optional strict RFC 9110 Connection header processing to prevent header injection attacks.\n\n## src/helper/dev/index.ts\n- Main exports or names: `inspectRoutes`, `showRoutes`, `getRouterName`\n- Reads as: TypeScript console output utilities for route debugging\n- Neighbor files: src/hono, src/types, src/utils/color, src/utils/handler\n- Safe summary: Provides route inspection utilities that list registered routes with methods and handler names, with optional colorization and verbose mode for middleware listing.\n\n## src/helper/html/index.ts\n- Main exports or names: `html`, `raw`\n- Reads as: TypeScript template string utility for HTML generation\n- Neighbor files: src/utils/html\n- Safe summary: Template literal function for generating HTML with automatic escaping and callback support for dynamic content, returning HtmlEscapedString or Promise<HtmlEscapedString>.\n\n## src/helper/ssg/index.ts\n- Main exports or names: `toSSG`, `ssgParams`, `disableSSG`, `onlySSG`, `ssgParams`, `redirectPlugin`\n- Reads as: TypeScript SSG (Static Site Generation) helper exports\n- Neighbor files: src/ssg/ssg, src/ssg/middleware, src/ssg/utils, src/ssg/plugins\n- Safe summary: Main export file re-exporting SSG utilities including static generation core functions, middleware for SSG params, and plugins for before/after hooks.\n\n## src/helper/ssg/ssg.ts\n- Main exports or names: `toSSG`, `fetchRoutesContent`, `saveContentToFile`, `defaultPlugin`\n- Reads as: TypeScript SSG implementation with concurrent file generation\n- Neighbor files: src/client/utils, src/hono, src/types, src/utils/concurrent, src/utils/mime, src/ssg/middleware, src/ssg/utils\n- Safe summary: Core SSG logic that fetches route content via concurrent parallel requests, handles dynamic routes with parameters, determines file paths and extensions, and saves to filesystem using FileSystemModule interface.\n\n## src/helper/ssg/utils.ts\n- Main exports or names: `dirname`, `joinPaths`, `isDynamicRoute`, `ensureWithinOutDir`\n- Reads as: TypeScript path utility functions for SSG\n- Neighbor files: src/ssg/ssg\n- Safe summary: Path manipulation utilities including directory name extraction, path joining with OS-compatible handling, dynamic route detection for parameterized paths, and path traversal prevention.\n\n## src/helper/ssg/middleware.ts\n- Main exports or names: `ssgParams`, `isSSGContext`, `disableSSG`, `onlySSG`\n- Reads as: TypeScript middleware functions for SSG context control\n- Neighbor files: src/ssg/ssg, src/ssg/utils\n- Safe summary: Middleware utilities for SSG context including `ssgParams` for setting parameters on dynamic routes, `disableSSG` to skip static generation, and `onlySSG` to respond only in SSG context.\n\n## src/helper/streaming/index.ts\n- Main exports or names: `stream`, `streamSSE`, `streamText`\n- Reads as: TypeScript streaming helper exports\n- Neighbor files: src/helper/streaming/stream, src/helper/streaming/sse, src/helper/streaming/text\n- Safe summary: Re-exports streaming functions: `stream` for generic streaming, `streamSSE` for Server-Sent Events, and `streamText` for plain text streaming with appropriate headers.\n\n## src/helper/streaming/stream.ts\n- Main exports or names: `stream`\n- Reads as: TypeScript generic stream response creator\n- Neighbor files: src/context, src/utils/stream, src/helper/streaming\n- Safe summary: Creates streaming responses with TransformStream, handles errors via optional callback, and manages context lifecycle including abort signal handling for old Bun versions.\n\n## src/helper/streaming/sse.ts\n- Main exports or names: `streamSSE`, `SSEStreamingApi`, `SSEMessage`\n- Reads as: TypeScript SSE (Server-Sent Events) streaming implementation\n- Neighbor files: src/context, src/utils/html, src/utils/stream, src/helper/streaming\n- Safe summary: Implements SSE streaming with proper headers (Transfer-Encoding: chunked, Content-Type: text/event-stream), message formatting with data/events/ids/retry fields, and error message reporting via SSE channel.\n\n## src/helper/streaming/text.ts\n- Main exports or names: `streamText`\n- Reads as: TypeScript plain text streaming response creator\n- Neighbor files: src/context, src/utils/stream, src/helper/streaming/stream\n- Safe summary: Wraps base stream function with Content-Type: text/plain header and X-Content-Type-Options: nosniff security header to prevent MIME type sniffing.\n\n## src/helper/accepts/index.ts\n- Main exports or names: `accepts`\n- Reads as: TypeScript export file for accepts helper\n- Neighbor files: src/helper/accepts/accepts\n- Safe summary: Single export file that re-exports the `accepts` function from accepts.ts for accept header parsing.\n\n## src/helper/accepts/accepts.ts\n- Main exports or names: `accepts`, `Accept`, `acceptsConfig`, `acceptsOptions`, `defaultMatch`, `parseAccept`\n- Reads as: TypeScript function for parsing accept headers\n- Neighbor files: src/context, src/utils/accept, src/utils/headers\n- Safe summary: Parses Accept headers to find best matching content type or language with quality value sorting, supports custom match functions, and returns default when no match found.\n\n## src/helper/conninfo/index.ts\n- Main exports or names: `GetConnInfo`, `ConnInfo`, `NetAddrInfo`, `AddressType`\n- Reads as: TypeScript export file for connection info types\n- Neighbor files: src/helper/conninfo/types\n- Safe summary: Type definitions export file that re-exports `ConnInfo`, `GetConnInfo`, `NetAddrInfo`, and `AddressType` from types.ts.\n\n## src/helper/conninfo/types.ts\n- Main exports or names: `ConnInfo`, `GetConnInfo`, `NetAddrInfo`, `AddressType`\n- Reads as: TypeScript interface definitions for connection information\n- Neighbor files: src/helper/conninfo/index\n- Safe summary: Defines types for connection info including remote address with optional transport protocol (tcp/udp), port number, address type (IPv4/IPv6), and host name information.\n\n## Simple Index\n\n- [src/helper/factory/index.ts](src/helper/factory/index.ts)\n- [src/helper/route/index.ts](src/helper/route/index.ts)\n- [src/helper/websocket/index.ts](src/helper/websocket/index.ts)\n- [src/helper/cookie/index.ts](src/helper/cookie/index.ts)\n- [src/helper/testing/index.ts](src/helper/testing/index.ts)\n- [src/helper/adapter/index.ts](src/helper/adapter/index.ts)\n- [src/helper/css/index.ts](src/helper/css/index.ts)\n- [src/helper/css/common.ts](src/helper/css/common.ts)\n- [src/helper/proxy/index.ts](src/helper/proxy/index.ts)\n- [src/helper/dev/index.ts](src/helper/dev/index.ts)\n- [src/helper/html/index.ts](src/helper/html/index.ts)\n- [src/helper/ssg/index.ts](src/helper/ssg/index.ts)\n- [src/helper/ssg/ssg.ts](src/helper/ssg/ssg.ts)\n- [src/helper/ssg/utils.ts](src/helper/ssg/utils.ts)\n- [src/helper/ssg/middleware.ts](src/helper/ssg/middleware.ts)\n- [src/helper/streaming/index.ts](src/helper/streaming/index.ts)\n- [src/helper/streaming/stream.ts](src/helper/streaming/stream.ts)\n- [src/helper/streaming/sse.ts](src/helper/streaming/sse.ts)\n- [src/helper/streaming/text.ts](src/helper/streaming/text.ts)\n- [src/helper/accepts/index.ts](src/helper/accepts/index.ts)\n- [src/helper/accepts/accepts.ts](src/helper/accepts/accepts.ts)\n- [src/helper/conninfo/index.ts](src/helper/conninfo/index.ts)\n- [src/helper/conninfo/types.ts](src/helper/conninfo/types.ts)\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 151117,
+    "outputTokens": 4537,
+    "cacheReadTokens": 119074,
+    "cacheWriteTokens": 0,
+    "totalTokens": 274728,
+    "estimatedCostUsd": 0.9285469999999999,
+    "sessionIDs": [
+      "d22b7258-351e-47c8-93d9-9cf28fe2a819"
+    ],
+    "answer": "\n\n**Task Complete**\n\n**Created file path:** `/work/baseline-helper-read-write-ledger-1/repo/bench-artifacts/helper-read-write-ledger.md`\n\n**Verification status:** ✅ Verified\n\nThe file:\n- Starts with `# Helper Read/Write Ledger`\n- Contains headings for all 24 listed files with format `## <file path>`\n- Each file has four bullet points: Main exports or names, Reads as, Neighbor files, Safe summary\n- Includes a final `## Simple Index` section with all file paths as a checklist\n- Uses simple wording with literal file paths",
+    "rawEventCount": 644,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [],
+    "pluginErrors": [],
+    "permissionDenials": [],
+    "mcpServers": [],
+    "tools": [
+      "Bash",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "Write"
+    ],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 151117,
+        "outputTokens": 4537,
+        "cacheReadInputTokens": 119074,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.9285469999999999,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

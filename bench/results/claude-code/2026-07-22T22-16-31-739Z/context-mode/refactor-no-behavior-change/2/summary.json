@@ -1,0 +1,205 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-22T22-16-31-739Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "context-mode",
+  "pluginLabel": "Context Mode",
+  "pluginMechanism": "context routing and sandboxed tool output",
+  "pluginVersion": "1.0.169",
+  "task": "refactor-no-behavior-change",
+  "run": 2,
+  "dryRun": false,
+  "prepareOnly": false,
+  "reusePrepared": true,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://lmstudio-proxy:1234",
+  "resultDir": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/context-mode/refactor-no-behavior-change/2",
+  "promptPath": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/context-mode/refactor-no-behavior-change/2/prompt.md",
+  "workspace": "/work/context-mode-refactor-no-behavior-change-2",
+  "durationMs": 41868,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [
+    "/work/context-mode-refactor-no-behavior-change-2/claude-plugins/node_modules/context-mode"
+  ],
+  "installActions": [
+    {
+      "type": "npm-plugin",
+      "package": "context-mode@1.0.169"
+    }
+  ],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 25,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/workspace/bench/fixtures'/future/create-fixture.mjs refactor-no-behavior-change",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 13,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 42,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: refactor-no-behavior-change\nRepository: https://github.com/honojs/hono.git\n\nRefactor bench-targets/refactor/src/name-formatters.mjs to remove duplicated whitespace normalization logic without changing behavior. Read the source and bench-targets/refactor/name-formatters.test.mjs first. Introduce one small shared helper named normalizeName and keep existing public exports. Verify with node --test bench-targets/refactor/name-formatters.test.mjs.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/work/context-mode-refactor-no-behavior-change-2/home/.claude/settings.json",
+      "--plugin-dir",
+      "/work/context-mode-refactor-no-behavior-change-2/claude-plugins/node_modules/context-mode"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 41766,
+    "stdoutBytes": 50314,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "node --test bench-targets/refactor/name-formatters.test.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 42,
+        "stdoutBytes": 255,
+        "stderrBytes": 0
+      },
+      {
+        "command": "grep -q 'normalizeName' bench-targets/refactor/src/name-formatters.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 1,
+        "stdoutBytes": 0,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "skipped": true,
+    "reason": "adapter does not use TokenWarden",
+    "stdout": "",
+    "stderr": ""
+  },
+  "changedFiles": [
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-targets/refactor/src/name-formatters.mjs",
+      "content": "export function normalizeName(value) {\n  return value.trim().replace(/\\s+/g, ' ')\n}\n\nexport function formatFirstName(value) {\n  return normalizeName(value)\n}\n\nexport function formatLastName(value) {\n  return normalizeName(value)\n}\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 50003,
+    "outputTokens": 703,
+    "cacheReadTokens": 44857,
+    "cacheWriteTokens": 0,
+    "totalTokens": 95563,
+    "estimatedCostUsd": 0.2900185,
+    "sessionIDs": [
+      "6c1ae244-5742-4c7b-b463-21fff751d045"
+    ],
+    "answer": "\n\n## Refactoring Complete\n\n### Changes Made\n\n**File:** `bench-targets/refactor/src/name-formatters.mjs`\n\n**Before:**\n```javascript\nexport function formatFirstName(value) {\n  return value.trim().replace(/\\s+/g, ' ')\n}\n\nexport function formatLastName(value) {\n  return value.trim().replace(/\\s+/g, ' ')\n}\n```\n\n**After:**\n```javascript\nexport function normalizeName(value) {\n  return value.trim().replace(/\\s+/g, ' ')\n}\n\nexport function formatFirstName(value) {\n  return normalizeName(value)\n}\n\nexport function formatLastName(value) {\n  return normalizeName(value)\n}\n```\n\n### Verification Status: **PASSED**\n```\n1..1\n# tests 1\n# pass 1\n# fail 0\n```\n\nThe test `name formatters preserve behavior` confirms that both public exports (`formatFirstName`, `formatLastName`) maintain the exact same behavior as before the refactoring.",
+    "rawEventCount": 137,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [
+      "context-mode"
+    ],
+    "pluginErrors": [],
+    "permissionDenials": [],
+    "mcpServers": [
+      {
+        "name": "plugin:context-mode:context-mode",
+        "status": "connected"
+      }
+    ],
+    "tools": [
+      "Bash",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "Write",
+      "mcp__plugin_context-mode_context-mode__ctx_batch_execute",
+      "mcp__plugin_context-mode_context-mode__ctx_doctor",
+      "mcp__plugin_context-mode_context-mode__ctx_execute",
+      "mcp__plugin_context-mode_context-mode__ctx_execute_file",
+      "mcp__plugin_context-mode_context-mode__ctx_fetch_and_index",
+      "mcp__plugin_context-mode_context-mode__ctx_index",
+      "mcp__plugin_context-mode_context-mode__ctx_insight",
+      "mcp__plugin_context-mode_context-mode__ctx_purge",
+      "mcp__plugin_context-mode_context-mode__ctx_search",
+      "mcp__plugin_context-mode_context-mode__ctx_stats",
+      "mcp__plugin_context-mode_context-mode__ctx_upgrade"
+    ],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 50003,
+        "outputTokens": 703,
+        "cacheReadInputTokens": 44857,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.2900185,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

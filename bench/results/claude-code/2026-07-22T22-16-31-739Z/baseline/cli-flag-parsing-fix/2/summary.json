@@ -1,0 +1,169 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-22T22-16-31-739Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "baseline",
+  "pluginLabel": "No plugins",
+  "pluginMechanism": "baseline",
+  "task": "cli-flag-parsing-fix",
+  "run": 2,
+  "dryRun": false,
+  "prepareOnly": false,
+  "reusePrepared": true,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://lmstudio-proxy:1234",
+  "resultDir": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/baseline/cli-flag-parsing-fix/2",
+  "promptPath": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/baseline/cli-flag-parsing-fix/2/prompt.md",
+  "workspace": "/work/baseline-cli-flag-parsing-fix-2",
+  "durationMs": 67373,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [],
+  "installActions": [],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 24,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/workspace/bench/fixtures'/future/create-fixture.mjs cli-flag-parsing-fix",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 13,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 43,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: cli-flag-parsing-fix\nRepository: https://github.com/honojs/hono.git\n\nFix the CLI argument parser in bench-targets/cli-flags/src/parseArgs.mjs. Read the parser and bench-targets/cli-flags/parseArgs.test.mjs first. The parser must support boolean flags, --key value pairs, --key=value syntax, and positional arguments. Keep the implementation small and dependency-free. Verify with node --test bench-targets/cli-flags/parseArgs.test.mjs.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/work/baseline-cli-flag-parsing-fix-2/home/.claude/settings.json",
+      "--disallowedTools",
+      "mcp__*"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 67264,
+    "stdoutBytes": 63562,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "node --test bench-targets/cli-flags/parseArgs.test.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 51,
+        "stdoutBytes": 321,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "skipped": true,
+    "reason": "adapter does not use TokenWarden",
+    "stdout": "",
+    "stderr": ""
+  },
+  "changedFiles": [
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-targets/cli-flags/src/parseArgs.mjs",
+      "content": "export function parseArgs(argv) {\n  const result = { _: [] }\n\n  for (let index = 0; index < argv.length; index += 1) {\n    const arg = argv[index]\n\n    if (!arg.startsWith('--')) {\n      result._.push(arg)\n    } else if (arg.startsWith('==')) {\n      result[arg.slice(2)] = true\n    } else if (arg.includes('=')) {\n      const [key, value] = arg.split('=')\n      result[key.slice(2)] = value\n    } else {\n      const key = arg.slice(2)\n      result[key] = true\n\n      // Check if next arg is a value (not a flag)\n      if (index + 1 < argv.length && !argv[index + 1].startsWith('--')) {\n        result[key] = argv[index + 1]\n        index += 1\n      }\n    }\n  }\n\n  return result\n}\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 34079,
+    "outputTokens": 1449,
+    "cacheReadTokens": 29465,
+    "cacheWriteTokens": 0,
+    "totalTokens": 64993,
+    "estimatedCostUsd": 0.22135249999999998,
+    "sessionIDs": [
+      "2d47959b-c200-4b27-996f-1f403b574200"
+    ],
+    "answer": "\n\nThe fix is complete. Here's the summary:\n\n## Summary\n\n**File modified:** `bench-targets/cli-flags/src/parseArgs.mjs`\n\n**Changes made:**\n1. Added handling for `--key value` syntax (flag followed by space-separated value)\n2. Added handling for `--key=value` syntax (equals-separated key/value)\n3. Positional arguments (non-`--` prefixed) are properly captured\n\n**Commands run:**\n```bash\nnode --test bench-targets/cli-flags/parseArgs.test.mjs\n```\n\n**Verification status:** ✅ **PASSED** - All 1 test(s) passed",
+    "rawEventCount": 210,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [],
+    "pluginErrors": [],
+    "permissionDenials": [],
+    "mcpServers": [],
+    "tools": [
+      "Bash",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "Write"
+    ],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 34079,
+        "outputTokens": 1449,
+        "cacheReadInputTokens": 29465,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.22135249999999998,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

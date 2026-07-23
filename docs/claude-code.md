@@ -50,7 +50,7 @@ The runner checks `GET /v1/models` before making model calls and stops when the 
 npm run bench:claude-code:dry
 npm run bench:claude-code:prepare
 npm run bench:claude-code -- --plugins baseline,tokenwarden --tasks react-state-bug-fix --runs 1
-npm run bench:report:claude-code -- --no-open
+npm run bench:report:claude-code
 ```
 
 The default model key is `lmstudio-qwen3.5-9b`. Claude Code receives the LM Studio model ID `qwen/qwen3.5-9b`.

@@ -5,6 +5,7 @@ import { tmpdir } from "node:os"
 import { dirname, join, relative, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 import { persistDockerResults, preserveFailedDockerResults } from "./lib/docker-results.mjs"
+import { openInDefaultBrowser, reportHtmlPath } from "./lib/report-browser.mjs"
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..")
 const composePath = join(root, "compose.yaml")
@@ -90,6 +91,14 @@ try {
     const platform = command.replace(/^report-/, "")
     composeEnv.RESULTS_STAGE = resultsRoot
     exitCode = await composeRun("report", ["node", "bench/report.mjs", "--platform", platform, "--no-open", ...reportArgs(rawArgs)], composeEnv)
+    if (exitCode === 0 && !hasOption(rawArgs, "no-open")) {
+      openInDefaultBrowser(await reportHtmlPath({
+        root,
+        resultsRoot,
+        platform,
+        requestedResults: optionValue(rawArgs, "results")
+      }))
+    }
   } else {
     throw new Error(`unknown Docker benchmark command: ${command}`)
   }

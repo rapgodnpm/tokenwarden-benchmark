@@ -1,0 +1,170 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-22T22-16-31-739Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "baseline",
+  "pluginLabel": "No plugins",
+  "pluginMechanism": "baseline",
+  "task": "docs-from-code",
+  "run": 3,
+  "dryRun": false,
+  "prepareOnly": false,
+  "reusePrepared": true,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://lmstudio-proxy:1234",
+  "resultDir": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/baseline/docs-from-code/3",
+  "promptPath": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/baseline/docs-from-code/3/prompt.md",
+  "workspace": "/work/baseline-docs-from-code-3",
+  "durationMs": 44788,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [],
+  "installActions": [],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 25,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/workspace/bench/fixtures'/future/create-fixture.mjs docs-from-code",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 14,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 43,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: docs-from-code\nRepository: https://github.com/honojs/hono.git\n\nRead bench-targets/docs/src/cache.mjs and write accurate user-facing documentation at bench-artifacts/cache-api.md. The docs must include '# Cache API', '## createCache()', '## Methods', and mention get, set, delete, and clear. Do not change source code. Keep the docs factual and based only on the implementation.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/work/baseline-docs-from-code-3/home/.claude/settings.json",
+      "--disallowedTools",
+      "mcp__*"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 44721,
+    "stdoutBytes": 60363,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "test -f bench-artifacts/cache-api.md && grep -q '# Cache API' bench-artifacts/cache-api.md && grep -q 'createCache()' bench-artifacts/cache-api.md && grep -q 'get' bench-artifacts/cache-api.md && grep -q 'set' bench-artifacts/cache-api.md && grep -q 'delete' bench-artifacts/cache-api.md && grep -q 'clear' bench-artifacts/cache-api.md",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 3,
+        "stdoutBytes": 0,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "skipped": true,
+    "reason": "adapter does not use TokenWarden",
+    "stdout": "",
+    "stderr": ""
+  },
+  "changedFiles": [
+    "bench-artifacts/",
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-artifacts/cache-api.md",
+      "content": "# Cache API\n\nA simple in-memory cache implementation that uses a Map to store key-value pairs.\n\n## createCache()\n\nCreates and returns a new cache instance with CRUD operations.\n\n```mjs\nexport function createCache() {\n  const values = new Map()\n  return {\n    get(key) { return values.get(key) },\n    set(key, value) { values.set(key, value); return value },\n    delete(key) { return values.delete(key) },\n    clear() { values.clear() }\n  }\n}\n```\n\n### Returns\n\nAn object containing cache operations: `get`, `set`, `delete`, and `clear`.\n\n## Methods\n\n### get(key)\n\nRetrieves a value associated with the given key.\n\n**Signature:** `get(key)`\n\n**Returns:** The cached value if found, otherwise `undefined`.\n\n### set(key, value)\n\nStores a value associated with the given key.\n\n**Signature:** `set(key, value)`\n\n**Returns:** The value that was set.\n\n### delete(key)\n\nRemoves a value from the cache by key.\n\n**Signature:** `delete(key)`\n\n**Returns:** `true` if the key existed and was deleted, `false` otherwise.\n\n### clear()\n\nRemoves all entries from the cache.\n\n**Signature:** `clear()`\n\n**Returns:** `undefined`\n\n---\n\n*Generated from: bench-targets/docs/src/cache.mjs*\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 20223,
+    "outputTokens": 969,
+    "cacheReadTokens": 17167,
+    "cacheWriteTokens": 0,
+    "totalTokens": 38359,
+    "estimatedCostUsd": 0.1339235,
+    "sessionIDs": [
+      "649a9357-b6b0-43bd-94a6-587ff65e48ef"
+    ],
+    "answer": "\n\nDone. Here's the verification summary:\n\n| Requirement | Status |\n|-------------|--------|\n| File path | `/work/baseline-docs-from-code-3/repo/bench-artifacts/cache-api.md` |\n| Source unchanged | ✅ No modifications to `cache.mjs` |\n| `# Cache API` heading | ✅ Line 1 |\n| `## createCache()` section | ✅ Lines 5-23 |\n| `## Methods` section | ✅ Line 25 |\n| Mentions `get` | ✅ Lines 13, 27 |\n| Mentions `set` | ✅ Lines 14, 35 |\n| Mentions `delete` | ✅ Lines 15, 43 |\n| Mentions `clear` | ✅ Lines 16, 51 |\n\n**Commands run:**\n- Read source: `bench-targets/docs/src/cache.mjs`\n- Created documentation: `bench-artifacts/cache-api.md`\n\nThe documentation is factual and based only on the implementation, including exact signatures, return values, and behavior derived from the code.",
+    "rawEventCount": 234,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [],
+    "pluginErrors": [],
+    "permissionDenials": [],
+    "mcpServers": [],
+    "tools": [
+      "Bash",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "Write"
+    ],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 20223,
+        "outputTokens": 969,
+        "cacheReadInputTokens": 17167,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.1339235,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

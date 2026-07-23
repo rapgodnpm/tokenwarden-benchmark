@@ -1,0 +1,196 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-22T22-16-31-739Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "caveman",
+  "pluginLabel": "Caveman",
+  "pluginMechanism": "output-style compression",
+  "pluginVersion": "v1.9.1",
+  "task": "multi-file-rename-migration",
+  "run": 1,
+  "dryRun": false,
+  "prepareOnly": false,
+  "reusePrepared": true,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://lmstudio-proxy:1234",
+  "resultDir": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/caveman/multi-file-rename-migration/1",
+  "promptPath": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/caveman/multi-file-rename-migration/1/prompt.md",
+  "workspace": "/work/caveman-multi-file-rename-migration-1",
+  "durationMs": 66750,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [
+    "/work/caveman-multi-file-rename-migration-1/claude-plugins/caveman"
+  ],
+  "installActions": [
+    {
+      "type": "git-plugin",
+      "repo": "https://github.com/JuliusBrussee/caveman.git",
+      "ref": "v1.9.1"
+    }
+  ],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 25,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/workspace/bench/fixtures'/future/create-fixture.mjs multi-file-rename-migration",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 13,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 48,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: multi-file-rename-migration\nRepository: https://github.com/honojs/hono.git\n\nMigrate bench-targets/rename from oldFormatUser to formatUserLabel across implementation, exports, and references. Read all files under bench-targets/rename before editing. Keep behavior identical and remove stale oldFormatUser references from source files. Verify with node --test bench-targets/rename/format-user.test.mjs and confirm grep -R oldFormatUser bench-targets/rename/src finds no matches.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/work/caveman-multi-file-rename-migration-1/home/.claude/settings.json",
+      "--disallowedTools",
+      "mcp__*",
+      "--plugin-dir",
+      "/work/caveman-multi-file-rename-migration-1/claude-plugins/caveman"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 66634,
+    "stdoutBytes": 103640,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "node --test bench-targets/rename/format-user.test.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 51,
+        "stdoutBytes": 267,
+        "stderrBytes": 0
+      },
+      {
+        "command": "! grep -R oldFormatUser bench-targets/rename/src",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 1,
+        "stdoutBytes": 0,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "skipped": true,
+    "reason": "adapter does not use TokenWarden",
+    "stdout": "",
+    "stderr": ""
+  },
+  "changedFiles": [
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-targets/rename/src/format-user.mjs",
+      "content": "export function formatUserLabel(user) {\n  return user.name + ' <' + user.email + '>'\n}\n"
+    },
+    {
+      "path": "bench-targets/rename/src/index.mjs",
+      "content": "export { formatUserLabel } from './format-user.mjs'\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 45475,
+    "outputTokens": 1409,
+    "cacheReadTokens": 40865,
+    "cacheWriteTokens": 0,
+    "totalTokens": 87749,
+    "estimatedCostUsd": 0.28303249999999996,
+    "sessionIDs": [
+      "4040ef42-c5ff-402d-9e46-0bd3bfd7d56f"
+    ],
+    "answer": "\n\nMigration complete.\n\nFiles edited:\n- `/work/caveman-multi-file-rename-migration-1/repo/bench-targets/rename/src/format-user.mjs` - renamed `oldFormatUser` to `formatUserLabel`\n- `/work/caveman-multi-file-rename-migration-1/repo/bench-targets/rename/src/index.mjs` - updated export to `formatUserLabel`\n\nTest result: 1 pass, 0 fail\n\nVerification: `grep -R oldFormatUser` returned exit code 2 (no matches found in source)",
+    "rawEventCount": 380,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [
+      "caveman"
+    ],
+    "pluginErrors": [],
+    "permissionDenials": [],
+    "mcpServers": [],
+    "tools": [
+      "Bash",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "Write"
+    ],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 45475,
+        "outputTokens": 1409,
+        "cacheReadInputTokens": 40865,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.28303249999999996,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

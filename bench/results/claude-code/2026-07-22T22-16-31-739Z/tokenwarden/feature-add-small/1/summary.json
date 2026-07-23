@@ -1,0 +1,195 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-22T22-16-31-739Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "tokenwarden",
+  "pluginLabel": "TokenWarden",
+  "pluginMechanism": "context and successful tool-output reduction",
+  "pluginVersion": "1.2.0",
+  "task": "feature-add-small",
+  "run": 1,
+  "dryRun": false,
+  "prepareOnly": false,
+  "reusePrepared": true,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://lmstudio-proxy:1234",
+  "resultDir": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/tokenwarden/feature-add-small/1",
+  "promptPath": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/tokenwarden/feature-add-small/1/prompt.md",
+  "workspace": "/work/tokenwarden-feature-add-small-1",
+  "durationMs": 41426,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [
+    "/opt/tokenwarden/packages/claude-code"
+  ],
+  "installActions": [
+    {
+      "type": "local-plugin",
+      "package": "@tokenwarden/claude-code",
+      "path": "/opt/tokenwarden/packages/claude-code"
+    }
+  ],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 25,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/workspace/bench/fixtures'/future/create-fixture.mjs feature-add-small",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 11,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 43,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: feature-add-small\nRepository: https://github.com/honojs/hono.git\n\nAdd title-case support to bench-targets/feature/src/formatTitle.mjs using the existing mode-based pattern. Read bench-targets/feature/src/formatTitle.mjs and bench-targets/feature/formatTitle.test.mjs first. Do not add dependencies. Verify with node --test bench-targets/feature/formatTitle.test.mjs.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/work/tokenwarden-feature-add-small-1/home/.claude/settings.json",
+      "--mcp-config",
+      "/work/tokenwarden-feature-add-small-1/tokenwarden.mcp.json"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 41286,
+    "stdoutBytes": 55399,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "node --test bench-targets/feature/formatTitle.test.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 37,
+        "stdoutBytes": 261,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "command": "node",
+    "args": [
+      "/opt/tokenwarden/packages/claude-code/dist/src/cli.js",
+      "report",
+      "--session",
+      "03671ceb-64fc-4244-91d5-ec9f14ee901c"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 41,
+    "stdoutBytes": 264,
+    "stderrBytes": 0
+  },
+  "changedFiles": [
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-targets/feature/src/formatTitle.mjs",
+      "content": "export function formatTitle(value, mode = 'plain') {\n  if (mode === 'upper') return value.toUpperCase()\n  if (mode === 'lower') return value.toLowerCase()\n  if (mode === 'title') {\n    return value\n      .split(' ')\n      .map((word) =>\n        word\n          .split('')\n          .map((char, i) => (i === 0 ? char.toUpperCase() : char.toLowerCase()))\n          .join('')\n      )\n      .join(' ')\n  }\n  return value\n}\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 22270,
+    "outputTokens": 819,
+    "cacheReadTokens": 18532,
+    "cacheWriteTokens": 0,
+    "totalTokens": 41621,
+    "estimatedCostUsd": 0.141091,
+    "sessionIDs": [
+      "03671ceb-64fc-4244-91d5-ec9f14ee901c"
+    ],
+    "answer": "\n\n## Summary\n\n**Files modified:**\n- `/work/tokenwarden-feature-add-small-1/repo/bench-targets/feature/src/formatTitle.mjs`\n\n**Change made:**\nAdded title-case mode support using the existing mode-based pattern. The implementation:\n1. Splits the value by spaces\n2. Maps each word to capitalize the first letter and lowercase the rest\n3. Joins back with spaces\n\n**Verification:**\n```\n$ node --test bench-targets/feature/formatTitle.test.mjs\n# Subtest: formatTitle supports title case mode\nok 1 - formatTitle supports title case mode\n1..1\n# tests 1\n# pass 1\n# fail 0\n```\n\nThe test passes successfully.",
+    "rawEventCount": 216,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [],
+    "pluginErrors": [],
+    "permissionDenials": [],
+    "mcpServers": [
+      {
+        "name": "tokenwarden",
+        "status": "connected"
+      }
+    ],
+    "tools": [
+      "Bash",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "Write",
+      "mcp__tokenwarden__smart_pack",
+      "mcp__tokenwarden__smart_read",
+      "mcp__tokenwarden__token_report"
+    ],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 22270,
+        "outputTokens": 819,
+        "cacheReadInputTokens": 18532,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.141091,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

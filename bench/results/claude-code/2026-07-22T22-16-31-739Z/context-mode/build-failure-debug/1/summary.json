@@ -1,0 +1,195 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-22T22-16-31-739Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "context-mode",
+  "pluginLabel": "Context Mode",
+  "pluginMechanism": "context routing and sandboxed tool output",
+  "pluginVersion": "1.0.169",
+  "task": "build-failure-debug",
+  "run": 1,
+  "dryRun": false,
+  "prepareOnly": false,
+  "reusePrepared": true,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://lmstudio-proxy:1234",
+  "resultDir": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/context-mode/build-failure-debug/1",
+  "promptPath": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/context-mode/build-failure-debug/1/prompt.md",
+  "workspace": "/work/context-mode-build-failure-debug-1",
+  "durationMs": 34886,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [
+    "/work/context-mode-build-failure-debug-1/claude-plugins/node_modules/context-mode"
+  ],
+  "installActions": [
+    {
+      "type": "npm-plugin",
+      "package": "context-mode@1.0.169"
+    }
+  ],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 24,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/workspace/bench/fixtures'/future/create-fixture.mjs build-failure-debug",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 13,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 42,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: build-failure-debug\nRepository: https://github.com/honojs/hono.git\n\nFix the seeded build configuration failure in bench-targets/build-failure. Read bench-targets/build-failure/src/config.mjs and bench-targets/build-failure/build.mjs. Preserve the existing entry path and output directory semantics. Verify with node bench-targets/build-failure/build.mjs.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/work/context-mode-build-failure-debug-1/home/.claude/settings.json",
+      "--plugin-dir",
+      "/work/context-mode-build-failure-debug-1/claude-plugins/node_modules/context-mode"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 34815,
+    "stdoutBytes": 40850,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "node bench-targets/build-failure/build.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 15,
+        "stdoutBytes": 9,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "skipped": true,
+    "reason": "adapter does not use TokenWarden",
+    "stdout": "",
+    "stderr": ""
+  },
+  "changedFiles": [
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-targets/build-failure/src/config.mjs",
+      "content": "export default {\n  entryPoints: ['src/index.js'],\n  outDir: 'dist'\n}\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 49558,
+    "outputTokens": 536,
+    "cacheReadTokens": 44544,
+    "cacheWriteTokens": 0,
+    "totalTokens": 94638,
+    "estimatedCostUsd": 0.283462,
+    "sessionIDs": [
+      "5207ee7e-f7ab-4c05-a6c5-55ec8530419e"
+    ],
+    "answer": "\n\n## Summary\n\n**Issue:** Build configuration property mismatch\n\n- `config.mjs` exported `entries` property\n- `build.mjs` expected `entryPoints` property\n\n**Fix:** Changed `entries: ['src/index.js']` to `entryPoints: ['src/index.js']` in `/work/context-mode-build-failure-debug-1/repo/bench-targets/build-failure/src/config.mjs`\n\n**Verification:**\n```\n$ node bench-targets/build-failure/build.mjs\nbuild ok\n```\n\nThe build script now passes. Entry path (`src/index.js`) and output directory (`dist`) semantics preserved.",
+    "rawEventCount": 101,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [
+      "context-mode"
+    ],
+    "pluginErrors": [],
+    "permissionDenials": [],
+    "mcpServers": [
+      {
+        "name": "plugin:context-mode:context-mode",
+        "status": "connected"
+      }
+    ],
+    "tools": [
+      "Bash",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "Write",
+      "mcp__plugin_context-mode_context-mode__ctx_batch_execute",
+      "mcp__plugin_context-mode_context-mode__ctx_doctor",
+      "mcp__plugin_context-mode_context-mode__ctx_execute",
+      "mcp__plugin_context-mode_context-mode__ctx_execute_file",
+      "mcp__plugin_context-mode_context-mode__ctx_fetch_and_index",
+      "mcp__plugin_context-mode_context-mode__ctx_index",
+      "mcp__plugin_context-mode_context-mode__ctx_insight",
+      "mcp__plugin_context-mode_context-mode__ctx_purge",
+      "mcp__plugin_context-mode_context-mode__ctx_search",
+      "mcp__plugin_context-mode_context-mode__ctx_stats",
+      "mcp__plugin_context-mode_context-mode__ctx_upgrade"
+    ],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 49558,
+        "outputTokens": 536,
+        "cacheReadInputTokens": 44544,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.283462,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

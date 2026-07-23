@@ -1,0 +1,195 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-22T22-16-31-739Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "context-mode",
+  "pluginLabel": "Context Mode",
+  "pluginMechanism": "context routing and sandboxed tool output",
+  "pluginVersion": "1.0.169",
+  "task": "feature-add-small",
+  "run": 2,
+  "dryRun": false,
+  "prepareOnly": false,
+  "reusePrepared": true,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://lmstudio-proxy:1234",
+  "resultDir": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/context-mode/feature-add-small/2",
+  "promptPath": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/context-mode/feature-add-small/2/prompt.md",
+  "workspace": "/work/context-mode-feature-add-small-2",
+  "durationMs": 36589,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [
+    "/work/context-mode-feature-add-small-2/claude-plugins/node_modules/context-mode"
+  ],
+  "installActions": [
+    {
+      "type": "npm-plugin",
+      "package": "context-mode@1.0.169"
+    }
+  ],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 17,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/workspace/bench/fixtures'/future/create-fixture.mjs feature-add-small",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 11,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 42,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: feature-add-small\nRepository: https://github.com/honojs/hono.git\n\nAdd title-case support to bench-targets/feature/src/formatTitle.mjs using the existing mode-based pattern. Read bench-targets/feature/src/formatTitle.mjs and bench-targets/feature/formatTitle.test.mjs first. Do not add dependencies. Verify with node --test bench-targets/feature/formatTitle.test.mjs.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/work/context-mode-feature-add-small-2/home/.claude/settings.json",
+      "--plugin-dir",
+      "/work/context-mode-feature-add-small-2/claude-plugins/node_modules/context-mode"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 36482,
+    "stdoutBytes": 43286,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "node --test bench-targets/feature/formatTitle.test.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 44,
+        "stdoutBytes": 259,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "skipped": true,
+    "reason": "adapter does not use TokenWarden",
+    "stdout": "",
+    "stderr": ""
+  },
+  "changedFiles": [
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-targets/feature/src/formatTitle.mjs",
+      "content": "export function formatTitle(value, mode = 'plain') {\n  if (mode === 'upper') return value.toUpperCase()\n  if (mode === 'lower') return value.toLowerCase()\n  if (mode === 'title') {\n    return value\n      .toLowerCase()\n      .replace(/\\b\\w/g, char => char.toUpperCase())\n  }\n  return value\n}\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 49899,
+    "outputTokens": 555,
+    "cacheReadTokens": 44544,
+    "cacheWriteTokens": 0,
+    "totalTokens": 94998,
+    "estimatedCostUsd": 0.285642,
+    "sessionIDs": [
+      "2385c80b-40fa-4bf8-b185-0954cc82190a"
+    ],
+    "answer": "\n\n**Summary:**\n\n- **File modified:** `bench-targets/feature/src/formatTitle.mjs`\n- **Change:** Added `'title'` mode that lowercases the value, then capitalizes the first character of each word using `\\b\\w` boundary match\n- **Verification:** `node --test bench-targets/feature/formatTitle.test.mjs` — **PASS** (1 test, 1 pass, 0 fail)",
+    "rawEventCount": 108,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [
+      "context-mode"
+    ],
+    "pluginErrors": [],
+    "permissionDenials": [],
+    "mcpServers": [
+      {
+        "name": "plugin:context-mode:context-mode",
+        "status": "connected"
+      }
+    ],
+    "tools": [
+      "Bash",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "Write",
+      "mcp__plugin_context-mode_context-mode__ctx_batch_execute",
+      "mcp__plugin_context-mode_context-mode__ctx_doctor",
+      "mcp__plugin_context-mode_context-mode__ctx_execute",
+      "mcp__plugin_context-mode_context-mode__ctx_execute_file",
+      "mcp__plugin_context-mode_context-mode__ctx_fetch_and_index",
+      "mcp__plugin_context-mode_context-mode__ctx_index",
+      "mcp__plugin_context-mode_context-mode__ctx_insight",
+      "mcp__plugin_context-mode_context-mode__ctx_purge",
+      "mcp__plugin_context-mode_context-mode__ctx_search",
+      "mcp__plugin_context-mode_context-mode__ctx_stats",
+      "mcp__plugin_context-mode_context-mode__ctx_upgrade"
+    ],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 49899,
+        "outputTokens": 555,
+        "cacheReadInputTokens": 44544,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.285642,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

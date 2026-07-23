@@ -1,0 +1,199 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-22T22-16-31-739Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "context-mode",
+  "pluginLabel": "Context Mode",
+  "pluginMechanism": "context routing and sandboxed tool output",
+  "pluginVersion": "1.0.169",
+  "task": "react-state-bug-fix",
+  "run": 3,
+  "dryRun": false,
+  "prepareOnly": false,
+  "reusePrepared": true,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://lmstudio-proxy:1234",
+  "resultDir": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/context-mode/react-state-bug-fix/3",
+  "promptPath": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/context-mode/react-state-bug-fix/3/prompt.md",
+  "workspace": "/work/context-mode-react-state-bug-fix-3",
+  "durationMs": 97296,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [
+    "/work/context-mode-react-state-bug-fix-3/claude-plugins/node_modules/context-mode"
+  ],
+  "installActions": [
+    {
+      "type": "npm-plugin",
+      "package": "context-mode@1.0.169"
+    }
+  ],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 26,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/workspace/bench/fixtures'/future/create-fixture.mjs react-state-bug-fix",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 14,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 42,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: react-state-bug-fix\nRepository: https://github.com/honojs/hono.git\n\nFix the state update bug in bench-targets/react-state. Read bench-targets/react-state/src/useCartState.mjs, bench-targets/react-state/src/CartPanel.jsx, and bench-targets/react-state/useCartState.test.mjs before editing. Keep the change minimal and preserve existing exports. The targeted verification command is node --test bench-targets/react-state/useCartState.test.mjs.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/work/context-mode-react-state-bug-fix-3/home/.claude/settings.json",
+      "--plugin-dir",
+      "/work/context-mode-react-state-bug-fix-3/claude-plugins/node_modules/context-mode"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 97192,
+    "stdoutBytes": 192467,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "node --test bench-targets/react-state/useCartState.test.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 42,
+        "stdoutBytes": 320,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "skipped": true,
+    "reason": "adapter does not use TokenWarden",
+    "stdout": "",
+    "stderr": ""
+  },
+  "changedFiles": [
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-targets/react-state/src/useCartState.mjs",
+      "content": "export function createCartState() {\n  return { items: [], total: 0 }\n}\n\nexport function addItem(state, item) {\n  const next = { ...state }\n  next.items = [...state.items, item]\n  next.total = next.items.length\n  return next\n}\n"
+    },
+    {
+      "path": "bench-targets/react-state/src/CartPanel.jsx",
+      "content": "import { addItem } from './useCartState.mjs'\n\nexport function CartPanel({ state, item }) {\n  const next = addItem(state, item)\n  return String(next.total)\n}\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 109993,
+    "outputTokens": 1897,
+    "cacheReadTokens": 102019,
+    "cacheWriteTokens": 0,
+    "totalTokens": 213909,
+    "estimatedCostUsd": 0.6483995,
+    "sessionIDs": [
+      "32d63e1f-3f69-4138-971f-ad1b484f6bfd"
+    ],
+    "answer": "\n\n## Summary\n\n**Bug:** `addItem` mutated the original state object and incorrectly calculated `total`.\n\n**Root causes:**\n1. `const next = state` - shared object reference\n2. `next.items.push(item)` - mutated original items array\n3. `next.total = state.items.length` - used wrong array (0 instead of 1)\n\n**Fix applied to `/work/context-mode-react-state-bug-fix-3/repo/bench-targets/react-state/src/useCartState.mjs`:**\n```javascript\nexport function addItem(state, item) {\n  const next = { ...state }          // shallow copy state\n  next.items = [...state.items, item] // new items array\n  next.total = next.items.length      // correct total\n  return next\n}\n```\n\n**Verification:**\n```\n$ node --test bench-targets/react-state/useCartState.test.mjs\n# tests 1\n# pass 1\n# fail 0\n```\n\nExports preserved: `addItem` and `createCartState`",
+    "rawEventCount": 791,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [
+      "context-mode"
+    ],
+    "pluginErrors": [],
+    "permissionDenials": [],
+    "mcpServers": [
+      {
+        "name": "plugin:context-mode:context-mode",
+        "status": "connected"
+      }
+    ],
+    "tools": [
+      "Bash",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "Write",
+      "mcp__plugin_context-mode_context-mode__ctx_batch_execute",
+      "mcp__plugin_context-mode_context-mode__ctx_doctor",
+      "mcp__plugin_context-mode_context-mode__ctx_execute",
+      "mcp__plugin_context-mode_context-mode__ctx_execute_file",
+      "mcp__plugin_context-mode_context-mode__ctx_fetch_and_index",
+      "mcp__plugin_context-mode_context-mode__ctx_index",
+      "mcp__plugin_context-mode_context-mode__ctx_insight",
+      "mcp__plugin_context-mode_context-mode__ctx_purge",
+      "mcp__plugin_context-mode_context-mode__ctx_search",
+      "mcp__plugin_context-mode_context-mode__ctx_stats",
+      "mcp__plugin_context-mode_context-mode__ctx_upgrade"
+    ],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 109993,
+        "outputTokens": 1897,
+        "cacheReadInputTokens": 102019,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.6483995,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

@@ -1,0 +1,169 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-22T22-16-31-739Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "baseline",
+  "pluginLabel": "No plugins",
+  "pluginMechanism": "baseline",
+  "task": "feature-add-small",
+  "run": 3,
+  "dryRun": false,
+  "prepareOnly": false,
+  "reusePrepared": true,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://lmstudio-proxy:1234",
+  "resultDir": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/baseline/feature-add-small/3",
+  "promptPath": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/baseline/feature-add-small/3/prompt.md",
+  "workspace": "/work/baseline-feature-add-small-3",
+  "durationMs": 56091,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [],
+  "installActions": [],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 27,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/workspace/bench/fixtures'/future/create-fixture.mjs feature-add-small",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 13,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 44,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: feature-add-small\nRepository: https://github.com/honojs/hono.git\n\nAdd title-case support to bench-targets/feature/src/formatTitle.mjs using the existing mode-based pattern. Read bench-targets/feature/src/formatTitle.mjs and bench-targets/feature/formatTitle.test.mjs first. Do not add dependencies. Verify with node --test bench-targets/feature/formatTitle.test.mjs.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/work/baseline-feature-add-small-3/home/.claude/settings.json",
+      "--disallowedTools",
+      "mcp__*"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 55979,
+    "stdoutBytes": 108283,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "node --test bench-targets/feature/formatTitle.test.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 50,
+        "stdoutBytes": 261,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "skipped": true,
+    "reason": "adapter does not use TokenWarden",
+    "stdout": "",
+    "stderr": ""
+  },
+  "changedFiles": [
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-targets/feature/src/formatTitle.mjs",
+      "content": "export function formatTitle(value, mode = 'plain') {\n  if (mode === 'upper') return value.toUpperCase()\n  if (mode === 'lower') return value.toLowerCase()\n  if (mode === 'title') {\n    return value.split(' ').map(word => word[0].toUpperCase() + word.slice(1).toLowerCase()).join(' ')\n  }\n  return value\n}\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 32516,
+    "outputTokens": 1208,
+    "cacheReadTokens": 28721,
+    "cacheWriteTokens": 0,
+    "totalTokens": 62445,
+    "estimatedCostUsd": 0.20714050000000003,
+    "sessionIDs": [
+      "81f11f58-c425-4ade-9668-34e8c5299bfc"
+    ],
+    "answer": "\n\n## Summary\n\n**File updated:** `/work/baseline-feature-add-small-3/repo/bench-targets/feature/src/formatTitle.mjs`\n\n**Change added:** Title-case mode support using the existing mode-based pattern:\n\n```javascript\nif (mode === 'title') {\n  return value.split(' ').map(word => word[0].toUpperCase() + word.slice(1).toLowerCase()).join(' ')\n}\n```\n\n**Verification:** `node --test bench-targets/feature/formatTitle.test.mjs` passed (1 test, 1 pass).",
+    "rawEventCount": 460,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [],
+    "pluginErrors": [],
+    "permissionDenials": [],
+    "mcpServers": [],
+    "tools": [
+      "Bash",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "Write"
+    ],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 32516,
+        "outputTokens": 1208,
+        "cacheReadInputTokens": 28721,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.20714050000000003,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

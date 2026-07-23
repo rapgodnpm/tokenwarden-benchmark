@@ -1,0 +1,170 @@
+{
+  "platform": "claude-code",
+  "runID": "2026-07-22T22-16-31-739Z",
+  "suite": "future.v1",
+  "repo": "https://github.com/honojs/hono.git",
+  "requestedCommit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "commit": "27b7992f821bc10c2f62ad0ad86bd94eea251862",
+  "plugin": "baseline",
+  "pluginLabel": "No plugins",
+  "pluginMechanism": "baseline",
+  "task": "docs-from-code",
+  "run": 2,
+  "dryRun": false,
+  "prepareOnly": false,
+  "reusePrepared": true,
+  "model": "qwen/qwen3.5-9b",
+  "lmStudioBaseURL": "http://lmstudio-proxy:1234",
+  "resultDir": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/baseline/docs-from-code/2",
+  "promptPath": "/workspace/bench/results/claude-code/2026-07-22T22-16-31-739Z/baseline/docs-from-code/2/prompt.md",
+  "workspace": "/work/baseline-docs-from-code-2",
+  "durationMs": 32944,
+  "failed": false,
+  "failureStage": "",
+  "failureMessage": "",
+  "aiTimeoutMs": 1800000,
+  "cloneTimeoutMs": 300000,
+  "installTimeoutMs": 600000,
+  "setupTimeoutMs": 120000,
+  "verifyTimeoutMs": 120000,
+  "utilityTimeoutMs": 60000,
+  "pluginsEnabled": [],
+  "installActions": [],
+  "clone": {
+    "command": "git",
+    "args": [
+      "checkout",
+      "--detach",
+      "FETCH_HEAD"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 24,
+    "stdoutBytes": 0,
+    "stderrBytes": 31
+  },
+  "setup": [
+    {
+      "command": "node '/workspace/bench/fixtures'/future/create-fixture.mjs docs-from-code",
+      "args": [],
+      "code": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 13,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "claudeCodeVersion": {
+    "command": "claude",
+    "args": [
+      "--version"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 46,
+    "stdoutBytes": 22,
+    "stderrBytes": 0
+  },
+  "claudeCode": {
+    "command": "claude",
+    "args": [
+      "-p",
+      "Benchmark task: docs-from-code\nRepository: https://github.com/honojs/hono.git\n\nRead bench-targets/docs/src/cache.mjs and write accurate user-facing documentation at bench-artifacts/cache-api.md. The docs must include '# Cache API', '## createCache()', '## Methods', and mention get, set, delete, and clear. Do not change source code. Keep the docs factual and based only on the implementation.\n\nConstraints:\n- Do not ask the user to write prompts or inspect files manually.\n- Prefer the smallest safe code change when edits are required.\n- Include exact file paths, commands run, and verification status in the final answer.",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "qwen/qwen3.5-9b",
+      "--permission-mode",
+      "bypassPermissions",
+      "--tools",
+      "Bash,Read,Edit,Write,Glob,Grep",
+      "--no-session-persistence",
+      "--no-chrome",
+      "--settings",
+      "/work/baseline-docs-from-code-2/home/.claude/settings.json",
+      "--disallowedTools",
+      "mcp__*"
+    ],
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 32873,
+    "stdoutBytes": 26958,
+    "stderrBytes": 0
+  },
+  "verification": {
+    "passed": true,
+    "commands": [
+      {
+        "command": "test -f bench-artifacts/cache-api.md && grep -q '# Cache API' bench-artifacts/cache-api.md && grep -q 'createCache()' bench-artifacts/cache-api.md && grep -q 'get' bench-artifacts/cache-api.md && grep -q 'set' bench-artifacts/cache-api.md && grep -q 'delete' bench-artifacts/cache-api.md && grep -q 'clear' bench-artifacts/cache-api.md",
+        "args": [],
+        "code": 0,
+        "signal": null,
+        "timedOut": false,
+        "durationMs": 3,
+        "stdoutBytes": 0,
+        "stderrBytes": 0
+      }
+    ]
+  },
+  "tokenwardenReport": {
+    "skipped": true,
+    "reason": "adapter does not use TokenWarden",
+    "stdout": "",
+    "stderr": ""
+  },
+  "changedFiles": [
+    "bench-artifacts/",
+    "bench-targets/"
+  ],
+  "artifacts": [
+    {
+      "path": "bench-artifacts/cache-api.md",
+      "content": "# Cache API\n\nThis document describes the cache API implementation.\n\n## createCache()\n\nThe `createCache()` function creates and returns a new cache instance with the following methods.\n\n```javascript\nexport function createCache() { }\n```\n\nReturns an object containing the methods described below.\n\n## Methods\n\n### get\n\nThe `get(key)` method retrieves a value from the cache by key.\n\n```javascript\nget(key) { return values.get(key) }\n```\n\n**Parameters:**\n- `key` - The key to look up in the cache\n\n**Returns:** The cached value, or `undefined` if the key does not exist.\n\n### set\n\nThe `set(key, value)` method stores a value in the cache.\n\n```javascript\nset(key, value) { values.set(key, value); return value }\n```\n\n**Parameters:**\n- `key` - The key to store the value under\n- `value` - The value to store\n\n**Returns:** The value that was set.\n\n### delete\n\nThe `delete(key)` method removes a value from the cache by key.\n\n```javascript\ndelete(key) { return values.delete(key) }\n```\n\n**Parameters:**\n- `key` - The key to delete from the cache\n\n**Returns:** `true` if the key existed and was deleted, `false` otherwise.\n\n### clear\n\nThe `clear()` method removes all entries from the cache.\n\n```javascript\nclear() { values.clear() }\n```\n\n**Returns:** `void`\n"
+    }
+  ],
+  "usage": {
+    "inputTokens": 14253,
+    "outputTokens": 694,
+    "cacheReadTokens": 11677,
+    "cacheWriteTokens": 0,
+    "totalTokens": 26624,
+    "estimatedCostUsd": 0.09445350000000001,
+    "sessionIDs": [
+      "f322eb50-c377-4d3b-ae05-f0e35a3bad7d"
+    ],
+    "answer": "\n\nCreated the documentation at `/work/baseline-docs-from-code-2/repo/bench-artifacts/cache-api.md`.\n\n**File created:**\n- `/work/baseline-docs-from-code-2/repo/bench-artifacts/cache-api.md`\n\n**Contents:**\n- `# Cache API` - main title\n- `## createCache()` - API function documentation\n- `## Methods` - section with all four methods\n  - `get` - retrieves a value by key\n  - `set` - stores a key-value pair\n  - `delete` - removes an entry by key\n  - `clear` - removes all entries\n\n**Verification status:** Documentation written based solely on the implementation in `bench-targets/docs/src/cache.mjs` - all behaviors match the source code.",
+    "rawEventCount": 87,
+    "resultEventFound": true,
+    "isError": false,
+    "loadedPlugins": [],
+    "pluginErrors": [],
+    "permissionDenials": [],
+    "mcpServers": [],
+    "tools": [
+      "Bash",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "Write"
+    ],
+    "modelUsage": {
+      "qwen/qwen3.5-9b": {
+        "inputTokens": 14253,
+        "outputTokens": 694,
+        "cacheReadInputTokens": 11677,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.09445350000000001,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    }
+  },
+  "timedOut": false
+}

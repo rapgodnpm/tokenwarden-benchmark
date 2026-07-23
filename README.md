@@ -97,7 +97,7 @@ Useful commands:
 | `npm run bench:<platform> -- --plugins <ids>` | Runs only the comma-separated plugin configurations. |
 | `npm run bench:<platform> -- --runs 1` | Runs each selected task once instead of three times. |
 | `npm run bench:<platform> -- --model <key>` | Uses a platform-compatible preset from [`bench/models.json`](bench/models.json). |
-| `npm run bench:report:<platform> -- --results <dir> --no-open` | Rebuilds reports for an existing result directory. |
+| `npm run bench:report:<platform> -- --results <dir>` | Rebuilds reports for an existing result directory and opens its HTML report. |
 
 OpenCode defaults to `baseline`, `tokenwarden`, `openslimedit`, `dcp`, and `openrtk`. Claude Code defaults to `baseline`, `tokenwarden`, `context-mode`, `rtk`, and `caveman`. Their definitions live in the platform folders under [`bench/adapters/`](bench/adapters/). Real runs automatically perform an internet-enabled preparation phase, then reuse that volume for model execution on the internal LM Studio-only network.
 
@@ -106,6 +106,8 @@ Each Claude Code configuration runs independently. Caveman shortens final respon
 ## Results
 
 Runs are saved under `bench/results/<platform>/<run-id>/`. `bench/results/latest-opencode.json` and `bench/results/latest-claude-code.json` point to the latest run for each platform.
+
+Report commands open the host-generated `report.html` by default. Pass `-- --no-open` to generate it without launching a browser.
 
 | File | Use it for |
 | --- | --- |
